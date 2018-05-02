@@ -67,25 +67,51 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
 
             var autocomplete = new Autocomplete()
             {
-                url = "/home/api",
+                url = "/home/api/getuser",
+                param_list = new List<QueryParam>()
+                {
+                     new QueryParam(){ name="customer_id",value="1" },
+                     new QueryParam(){ name="user_id",value="2"},
+                },
+                 response_formatter= new ResultFormatter()
+                 {
+                     label = "user_name",
+                     value = "user_id"
+                 }
             };
             search.autocomplete = autocomplete;
            
-
             return Json(inputs, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult Select()
+        {
+
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult Index(IList<BaseControl> controls)
         {
             return View();
         }
-        
-        public ActionResult Api()
+
+        [HttpPost]
+        public ActionResult Api(string method)
         {
-            
-            return View();
+            if (method == "getuser")
+            {
+                var user1 = new
+                {
+                    user_name = "abc",
+                    user_id = "123"
+                };
+                var list = Enumerable.Repeat(user1, 5).ToList();
+                return Json(list);
+            }
+            return Json(null);
         }
 
         
