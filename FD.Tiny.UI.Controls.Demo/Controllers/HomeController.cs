@@ -44,7 +44,7 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
         [HttpGet]
         public ActionResult Input()
         {
-            IList<BaseControl> inputs = new List<BaseControl>();
+            
             var text = new Input()
             {
                 name = "input",
@@ -80,7 +80,13 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
                  }
             };
             search.autocomplete = autocomplete;
-           
+
+            IList<BaseControl> inputs = new List<BaseControl>() {
+                text,
+                textarea,
+                search
+            };
+
             return Json(inputs, JsonRequestBehavior.AllowGet);
         }
 
