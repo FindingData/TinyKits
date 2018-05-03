@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FD.Tiny.UI.Controls;
+using FD.Tiny.Common.Utility.Json;
+using Newtonsoft.Json.Converters;
 
 namespace FD.Tiny.UI.Controls.Demo.Controllers
 {
@@ -44,7 +46,7 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
         [HttpGet]
         public ActionResult Input()
         {
-            IList<BaseControl> inputs = new List<BaseControl>();
+          
             var text = new Input()
             {
                 name = "input",
@@ -80,14 +82,20 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
                  }
             };
             search.autocomplete = autocomplete;
-           
-            return Json(inputs, JsonRequestBehavior.AllowGet);
+            IList<BaseControl> inputs = new List<BaseControl>()
+            {
+                text,
+                textarea,
+                search
+            };
+
+            var list =  JsonHelper.Instance.SerializeByConverter(inputs,new StringEnumConverter());
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Select()
         {
-
 
             return Json("", JsonRequestBehavior.AllowGet);
         }
