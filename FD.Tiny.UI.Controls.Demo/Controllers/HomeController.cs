@@ -90,7 +90,7 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
             };
 
             var list =  JsonHelper.Instance.SerializeByConverter(inputs,new StringEnumConverter());
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Content(list);
         }
 
         [HttpGet]
