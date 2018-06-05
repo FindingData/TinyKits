@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.Common.Utility", "FD.Tiny.Common.Utility\FD.Tiny.Common.Utility.csproj", "{A0DC1551-5B6D-4E9E-AD5C-F622EAB67FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.DataAccess", "FD.Tiny.DataAccess\FD.Tiny.DataAccess.csproj", "{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0DC1551-5B6D-4E9E-AD5C-F622EAB67FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DC1551-5B6D-4E9E-AD5C-F622EAB67FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DC1551-5B6D-4E9E-AD5C-F622EAB67FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DC1551-5B6D-4E9E-AD5C-F622EAB67FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F3D65E8-5D2A-4BBA-B3D1-7AB9FC5D4F1F}
+	EndGlobalSection
+EndGlobal
