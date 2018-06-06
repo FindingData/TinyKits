@@ -155,6 +155,12 @@ namespace FD.Tiny.DataAccess {
             return result;
         }
 
+		public override void BeginTran(){
+
+			CheckConnection();
+			this.Transaction = this.Connection.BeginTransaction();
+		}
+
     }//end OracleProvider
 
 }//end namespace FD.Tiny.DataAccess
