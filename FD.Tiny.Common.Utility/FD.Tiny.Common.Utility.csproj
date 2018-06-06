@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converts\UtilConvert.cs" />
     <Compile Include="Exception\UtilExceptions.cs" />
     <Compile Include="Json\JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

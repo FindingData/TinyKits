@@ -27,6 +27,11 @@ namespace FD.Tiny.DataAccess {
             this.CommandTimeOut = 30000;
 		}
 
+        public abstract string ConnectionString { get;  }
+
+        public abstract IDataParameter[] ToIDbDataParameter(params SugarParameter[] parameters);
+
+        protected List<IDataParameter> OutputParameters { get; set; }
 
         public abstract IDbCommand GetCommand(string sql, SugarParameter[] parameters);
 
@@ -57,12 +62,12 @@ namespace FD.Tiny.DataAccess {
             return base.GetParameters(parameters, propertyInfo, SqlParameterKeyWord);
 		}
 
-		public string SqlParameterKeyWord
+		public virtual string SqlParameterKeyWord
         {
             get { return ":"; } 
         }
 
-		public IDbConnection Connection{
+		public virtual IDbConnection Connection{
 			get; set;
 		}
 

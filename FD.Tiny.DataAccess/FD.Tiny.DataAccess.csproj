@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,7 +47,9 @@
     <Compile Include="AdoProvider.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="AdoAccessory.cs" />
+    <Compile Include="ErrorMessage.cs" />
     <Compile Include="IAdo.cs" />
+    <Compile Include="OracleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SugarParameter.cs" />
     <Compile Include="UtilConstants.cs" />
@@ -53,6 +59,10 @@
       <Project>{a0dc1551-5b6d-4e9e-ad5c-f622eab67fda}</Project>
       <Name>FD.Tiny.Common.Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

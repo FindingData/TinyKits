@@ -15,6 +15,7 @@ using System.Reflection;
 
 namespace FD.Tiny.DataAccess {
 	public interface IAdo  {
+        string ConnectionString { get; }
 
         string SqlParameterKeyWord { get; }
         IDbConnection Connection { get; set; }
@@ -26,6 +27,7 @@ namespace FD.Tiny.DataAccess {
         bool IsClearParameters { get; set; }
         int CommandTimeOut { get; set; }
 
+        IDataParameter[] ToIDbDataParameter(params SugarParameter[] parameters);
 
         IDataAdapter GetAdapter();
 
