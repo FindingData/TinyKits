@@ -58,7 +58,18 @@ namespace FD.Tiny.DataAccess {
         /// <param name="parameters"></param>
         int ExecuteCommand(string sql, params SugarParameter[] parameters);
 
-		void Open();
+        IDataReader GetDataReader(string sql, object parameters);
+        IDataReader GetDataReader(string sql, params SugarParameter[] parameters);
+
+        List<T> SqlQuery<T>(string sql,object parameters);
+
+        List<T> SqlQuery<T>(string sql, params SugarParameter[] parameters);
+
+        T SqlQuerySingle<T>(string sql, object parameters);
+
+        T SqlQuerySingle<T>(string sql, params SugarParameter[] parameters);
+
+        void Open();
 
 		void Close();
 

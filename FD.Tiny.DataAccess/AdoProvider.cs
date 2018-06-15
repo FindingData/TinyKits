@@ -16,6 +16,11 @@ using System.IO;
 using System.Data;
 using FD.Tiny.DataAccess;
 using System.Reflection;
+using AutoMapper;
+using System.Linq;
+using System.Linq.Expressions;
+using AutoMapper.Data;
+using AutoMapper.EquivalencyExpression;
 
 namespace FD.Tiny.DataAccess {
 	public abstract class AdoProvider : AdoAccessory, IAdo {
@@ -25,7 +30,11 @@ namespace FD.Tiny.DataAccess {
             this.CommandType = CommandType.Text;
             this.IsClearParameters = true;
             this.CommandTimeOut = 30000;
-		}
+
+            Mapper.Initialize(cfg => {
+                cfg.AddDataReaderMapping();                                
+            });
+        }
 
         public abstract string ConnectionString { get;  }
 
@@ -172,7 +181,7 @@ namespace FD.Tiny.DataAccess {
 		/// 
 		/// <param name="sql"></param>
 		/// <param name="parameters"></param>
-		public DataSet GetDataSetAll(string sql, object parameters){
+		public virtual DataSet GetDataSetAll(string sql, object parameters){
 
             return GetDataSetAll(sql, this.GetParameters(parameters));
 		}
@@ -180,7 +189,7 @@ namespace FD.Tiny.DataAccess {
 		/// 
 		/// <param name="sql"></param>
 		/// <param name="parameters"></param>
-		public DataSet GetDataSetAll(string sql, params SugarParameter[] parameters){
+		public virtual DataSet GetDataSetAll(string sql, params SugarParameter[] parameters){
             try
             {
                 IDataAdapter dataAdapter = this.GetAdapter();
@@ -203,18 +212,68 @@ namespace FD.Tiny.DataAccess {
 		/// 
 		/// <param name="sql"></param>
 		/// <param name="parameters"></param>
-		public DataTable GetDataTable(string sql, object parameters){
+		public virtual DataTable GetDataTable(string sql, object parameters){
             return this.GetDataTable(sql, this.GetParameters(parameters));			
 		}
 
-		/// 
-		/// <param name="sql"></param>
-		/// <param name="parameters"></param>
-		public virtual int ExecuteCommand(string sql, object parameters){
+
+        public virtual IDataReader GetDataReader(string sql, object parameters)
+        {
+            return GetDataReader(sql,this.GetParameters(parameters));
+        }
+
+        public virtual IDataReader GetDataReader(string sql, params SugarParameter[] parameters)
+        {
+            try
+            {
+                //var isSp = this.CommandType == CommandType.StoredProcedure;
+                IDbCommand sqlCommand = GetCommand(sql, parameters);
+                IDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                if (this.IsClearParameters)
+                {
+                    sqlCommand.Parameters.Clear();
+                }
+                return sqlDataReader;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
+        }
+        /// 
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public virtual int ExecuteCommand(string sql, object parameters){
 
             return ExecuteCommand(sql, GetParameters(parameters));
 		}
 
+        public virtual List<T> SqlQuery<T>(string sql, object parameters)
+        {
+            var sugarParameters = this.GetParameters(parameters);
+            return SqlQuery<T>(sql, sugarParameters);
+        }
+
+        public virtual List<T> SqlQuery<T>(string sql, params SugarParameter[] parameters)
+        {
+            var dataReader = this.GetDataReader(sql, parameters);
+            
+             var result = Mapper.Map<IDataReader, List<T>>(dataReader);
+            return result;
+        }
+
+        public T SqlQuerySingle<T>(string sql, object parameters)
+        {
+            var result = SqlQuery<T>(sql, parameters);
+            return result == null ? default(T) : result.FirstOrDefault();
+        }
+
+        public T SqlQuerySingle<T>(string sql, params SugarParameter[] parameters)
+        {
+            var result = SqlQuery<T>(sql, parameters);
+            return result == null ? default(T) : result.FirstOrDefault();
+        }
 
         internal CommandType OldCommandType { get; set; }
         internal bool OldClearParameters { get; set; }
@@ -228,8 +287,7 @@ namespace FD.Tiny.DataAccess {
             return this;
         }
 
-
-
+     
     }//end AdoProvider
 
 }//end namespace FD.Tiny.DataAccess

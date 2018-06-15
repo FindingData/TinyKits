@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FD.Tiny.DataAccess
+namespace FD.Tiny.DataAccess.OracleTest
 {
     public  class ProviderFactory
     {

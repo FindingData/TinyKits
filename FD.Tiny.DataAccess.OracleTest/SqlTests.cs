@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FD.Tiny.DataAccess.OracleTest
@@ -52,6 +53,37 @@ values
                 valid = 1
             });
             Assert.AreEqual(1, x);
+        }
+
+        [TestMethod]
+        public void QueryDataReaderTest()
+        {
+            var db = GetInstance();
+            var reader = db.GetDataReader("select * from t_dictionary d where d.dic_type_id =:dic_type_id",
+                new { dic_type_id = 40015 });
+            while (reader.Read())
+            {
+                Console.WriteLine(reader.GetInt32(1).ToString() + " " + reader.GetString(2).ToString());
+            }
+        }
+
+        [TestMethod]
+        public void QueryModelListTest()
+        {
+            var db = GetInstance();
+            var list = db.SqlQuery<DictionaryDTO>("select * from t_dictionary d where d.dic_type_id =:dic_type_id",
+                new { dic_type_id = 40015 });
+            Assert.IsNotNull(list);
+            Assert.AreEqual(7, list.Count());
+        }
+
+        [TestMethod]
+        public void QueryModelTest()
+        {
+            var db = GetInstance();
+            var model = db.SqlQuerySingle<DictionaryDTO>("select * from t_dictionary d where d.dic_par_id =:dic_par_id",
+                new { dic_par_id = 40015001 });
+            Assert.IsNotNull(model);
         }
     }
 }

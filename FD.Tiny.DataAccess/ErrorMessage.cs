@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FD.Tiny.DataAccess
 {
-    internal static partial class ErrorMessage
+    public static partial class ErrorMessage
     {
         internal static string CanNotNull
         {
@@ -17,7 +17,7 @@ namespace FD.Tiny.DataAccess
             }
         }
 
-        internal static string ObjNotExist
+        public static string ObjNotExist
         {
             get
             {
@@ -52,7 +52,7 @@ namespace FD.Tiny.DataAccess
             }
         }
 
-        internal static string GetThrowMessage(string enMessage, string cnMessage, params string[] args)
+        public static string GetThrowMessage(string enMessage, string cnMessage, params string[] args)
         {
             List<string> formatArgs = new List<string>() { enMessage, cnMessage };
             formatArgs.AddRange(args);
