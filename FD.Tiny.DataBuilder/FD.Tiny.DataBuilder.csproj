@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>36156152-0c60-4f62-8ea9-70a251566193</ProjectGuid>
+    <ProjectGuid>{36156152-0C60-4F62-8EA9-70A251566193}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FD.Tiny.DataBuilder</RootNamespace>
@@ -30,24 +30,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DbClient.cs" />
+    <Compile Include="Oracle\DataType.cs" />
+    <Compile Include="Data\DbColumn.cs" />
+    <Compile Include="Data\DbGeneral.cs" />
+    <Compile Include="Data\DbSequence.cs" />
+    <Compile Include="Data\DbTable.cs" />
+    <Compile Include="DbMaintenance\DbMaintenanceProvider.cs" />
+    <Compile Include="DbMaintenance\IDbMaintenance.cs" />
+    <Compile Include="Infrastructure\InstanceFactory.cs" />
+    <Compile Include="Infrastructure\DependencyManagement.cs" />
+    <Compile Include="Oracle\OracleMaintenacneProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FD.Tiny.DataAccess\FD.Tiny.DataAccess.csproj">
+      <Project>{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}</Project>
+      <Name>FD.Tiny.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

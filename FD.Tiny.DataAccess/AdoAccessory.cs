@@ -12,7 +12,7 @@ namespace FD.Tiny.DataAccess
 {
     public partial class AdoAccessory
     {
-        protected IDbConnection _DbConnection;
+        protected IDbConnection _DbConnection;      
 
         protected virtual SugarParameter[] GetParameters(object parameters, PropertyInfo[] propertyInfo, string sqlParameterKeyWord)
         {

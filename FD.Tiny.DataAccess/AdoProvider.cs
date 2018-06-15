@@ -25,15 +25,21 @@ using AutoMapper.EquivalencyExpression;
 namespace FD.Tiny.DataAccess {
 	public abstract class AdoProvider : AdoAccessory, IAdo {
 
+        static AdoProvider()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddDataReaderMapping();
+                cfg.AllowNullDestinationValues = true;
+                cfg.SourceMemberNamingConvention = new LowerUnderscoreNamingConvention();
+            });
+        }
+
 		public AdoProvider(){
             this.IsEnableLogEvent = false;
             this.CommandType = CommandType.Text;
             this.IsClearParameters = true;
-            this.CommandTimeOut = 30000;
-
-            Mapper.Initialize(cfg => {
-                cfg.AddDataReaderMapping();                                
-            });
+            this.CommandTimeOut = 30000;         
         }
 
         public abstract string ConnectionString { get;  }
@@ -258,8 +264,7 @@ namespace FD.Tiny.DataAccess {
         public virtual List<T> SqlQuery<T>(string sql, params SugarParameter[] parameters)
         {
             var dataReader = this.GetDataReader(sql, parameters);
-            
-             var result = Mapper.Map<IDataReader, List<T>>(dataReader);
+            var result = Mapper.Map<IDataReader, List<T>>(dataReader);
             return result;
         }
 
