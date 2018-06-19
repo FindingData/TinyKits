@@ -25,7 +25,7 @@ namespace FD.Tiny.DataBuilder.Data {
         }
 
 
-        public IList<DbColumn> columns{
+        public List<DbColumn> columns{
 			get;  set;
 		}
 

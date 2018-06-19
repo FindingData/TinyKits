@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using FD.Tiny.DataAccess;
+using AutoMapper;
+using AutoMapper.Data;
 
 namespace FD.Tiny.DataBuilder {
 	public class DbClient:IDisposable {
@@ -20,8 +22,8 @@ namespace FD.Tiny.DataBuilder {
         protected IAdo _Ado;
 
         protected IDbMaintenance _DbMaintenance;
+              
 
-      
         public DbClient(ConnectionConfig config)
         {
             this.CurrentConnectionConfig = config;

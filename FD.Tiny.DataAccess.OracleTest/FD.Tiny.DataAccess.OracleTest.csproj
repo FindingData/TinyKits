@@ -41,9 +41,6 @@
     <Reference Include="AutoMapper, Version=6.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.2.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Collection, Version=3.1.3.0, Culture=neutral, PublicKeyToken=e57c3f0a3d6646db, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.Collection.3.1.3\lib\net45\AutoMapper.Collection.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper.Data, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.Data.1.0.1\lib\net45\AutoMapper.Data.dll</HintPath>
     </Reference>

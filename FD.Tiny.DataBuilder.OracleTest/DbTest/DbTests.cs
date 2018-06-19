@@ -24,7 +24,9 @@ namespace FD.Tiny.DataBuilder.OracleTest.DbTest
 
         public DbTable GetTestTable()
         {
-            var tb = new DbTable(_testTableName);
+            var tb = new DbTable() {
+                 name = _testTableName
+            };
             var col = new DbColumn()
             {
                 name = "col1",

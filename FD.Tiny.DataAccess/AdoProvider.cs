@@ -29,9 +29,13 @@ namespace FD.Tiny.DataAccess {
         {
             Mapper.Initialize(cfg =>
             {
+                cfg.AddCollectionMappers();
+                cfg.AllowNullCollections = true;
                 cfg.AddDataReaderMapping();
-                cfg.AllowNullDestinationValues = true;
+                //cfg.CreateMap(typeof(List<>), typeof(IList<>));
+                cfg.AllowNullDestinationValues = true;                
                 cfg.SourceMemberNamingConvention = new LowerUnderscoreNamingConvention();
+                cfg.DisableConstructorMapping();
             });
         }
 

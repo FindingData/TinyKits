@@ -1,4 +1,6 @@
-﻿using FD.Tiny.DataAccess;
+﻿using AutoMapper;
+using AutoMapper.Data;
+using FD.Tiny.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace FD.Tiny.DataBuilder.OracleTest.DbTest
         private static string _connectionString = ConfigurationManager.ConnectionStrings["OmpdDB"].ConnectionString;
 
         public DbClient GetInstance()
-        {
+        {             
             var db = new DbClient(new ConnectionConfig() { ConnectionString = _connectionString, DbType = DBType.Oracle });
             return db;
         }
