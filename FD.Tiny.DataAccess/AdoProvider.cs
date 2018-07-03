@@ -32,6 +32,7 @@ namespace FD.Tiny.DataAccess {
                 cfg.AddCollectionMappers();
                 cfg.AllowNullCollections = true;
                 cfg.AddDataReaderMapping();
+                
                 //cfg.CreateMap(typeof(List<>), typeof(IList<>));
                 cfg.AllowNullDestinationValues = true;                
                 cfg.SourceMemberNamingConvention = new LowerUnderscoreNamingConvention();
