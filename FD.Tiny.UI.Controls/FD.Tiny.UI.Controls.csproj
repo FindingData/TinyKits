@@ -45,7 +45,7 @@
     <Compile Include="CheckBox.cs" />
     <Compile Include="ControlType.cs" />
     <Compile Include="DataSourceMode.cs" />
-    <Compile Include="DateControl.cs" />
+    <Compile Include="DatePicker.cs" />
     <Compile Include="DateMode.cs" />
     <Compile Include="InputMode.cs" />
     <Compile Include="InputNumber.cs" />
@@ -57,6 +57,9 @@
     <Compile Include="SelectItem.cs" />
     <Compile Include="SizeMode.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Slider.cs" />
+    <Compile Include="Switch.cs" />
+    <Compile Include="TimeSelect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

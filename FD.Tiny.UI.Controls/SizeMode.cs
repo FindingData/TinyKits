@@ -15,7 +15,7 @@ using System.IO;
 
 namespace FD.Tiny.UI.Controls {
 	public enum SizeMode : int {
-
+        large,
 		medium,
 		small,
 		mini

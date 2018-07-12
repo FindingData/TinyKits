@@ -298,8 +298,6 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
 
             return Json(container, JsonRequestBehavior.AllowGet);
         }
-
-
     
         [HttpGet]
         public ActionResult Select()
@@ -370,6 +368,210 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
             };
             search.autocomplete = autocomplete;
             container.Add("search,", search);
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Switch()
+        {
+            var container = new Dictionary<string, BaseControl>();
+            var basic = new Switch()
+            {
+                name = "value",
+                is_checked = true,
+            };
+            container.Add("basic", basic);
+
+            var desc = new Switch()
+            {
+                name = "desc",
+                active_text = "按月付费",
+                inactive_text = "按月付费"
+            };
+            container.Add("desc", desc);
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Slider()
+        {
+            var container = new Dictionary<string, BaseControl>();
+
+            var basic = new Slider()
+            {
+                name = "basic",
+            };
+            container.Add("basic", basic);
+
+            var step = new Slider()
+            {
+                name = "step",
+                step = 10,
+                show_stops = true,
+            };
+
+            container.Add("step", step);
+
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult TimePicker()
+        {
+            var container = new Dictionary<string, BaseControl>();
+
+            var basic = new DatePicker()
+            {
+                name = "basic",
+                options = new TimeSelect()
+                {
+                    start = "08:30",
+                    step = "00:15",
+                    end = "18:30"
+                },
+                placeholder = "选择时间"
+            };
+            container.Add("basic", basic);
+
+            var anytime = new DatePicker()
+            {
+                name = "anytime",
+                options = new TimeSelect()
+                {
+                    selectableRange=new string[] { "18:30:00 - 20:30:00"},                                        
+                },
+                placeholder ="任意时间点",
+            };
+            container.Add("anytime", anytime);
+
+            var starttime = new DatePicker()
+            {
+                name = "starttime",
+                options = new TimeSelect()
+                {
+                    start = "08:30",
+                    step = "00:15",
+                    end = "18:30",
+                },
+
+            };
+            container.Add("starttime", starttime);
+            var endtime = new DatePicker()
+            {
+                name = "endtime",
+                options = new TimeSelect()
+                {
+                    start = "08:30",
+                    step = "00:15",
+                    end = "18:30",
+                    minTime = "startTime"
+                },
+            };
+            container.Add("endtime", endtime);
+
+            var range = new DatePicker()
+            {
+                is_range = true,
+                range_separator="至",
+                start_placeholder = "开始时间",
+                end_placeholder ="结束时间",
+                placeholder = "选择时间范围"
+            };
+            container.Add("range", range);
+
+
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult DatePicker()
+        {
+            var container = new Dictionary<string, BaseControl>();
+            var day = new DatePicker()
+            {
+                name = "day",
+                type = DateMode.date,
+                placeholder = "选择日期",
+            };
+            container.Add("day", day);
+
+            var week = new DatePicker()
+            {
+                name= "week",
+                type = DateMode.week,
+                format = "yyyy 第 WW 周",
+                placeholder = "选择周",
+            };
+            container.Add("week", week);
+
+            var month = new DatePicker()
+            {
+                name= "month",
+                type = DateMode.month,
+                placeholder = "选择月"
+            };
+            container.Add("month", month);
+
+            var year = new DatePicker()
+            {
+                type = DateMode.year,
+                placeholder = "选择年",
+            };
+            container.Add("year", year);
+
+            var multiple = new DatePicker()
+            {
+                name= "multiple",
+                type = DateMode.dates,
+            };
+            container.Add("multiple", multiple);
+
+            var range = new DatePicker()
+            {
+                name = "range",
+                type = DateMode.daterange,
+                start_placeholder = "开始日期",
+                end_placeholder = "结束日期"
+            };
+            container.Add("range", range);
+
+            var vauleFormat = new DatePicker()
+            {
+                name = "vauleFormat",
+                type = DateMode.date,
+                format = "yyyy 年 MM 月 dd 日",
+                value_format = "yyyy-MM-dd"
+            };
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult DateTime()
+        {
+            var container = new Dictionary<string, BaseControl>();
+
+            var basic = new DatePicker()
+            {
+                name = "basic",
+                type = DateMode.datetime,
+                placeholder="选择日期时间",
+            };
+            container.Add("basic", basic);
+
+            var range = new DatePicker()
+            {
+                name = "range",
+                type = DateMode.datetimerange,
+                range_separator = "至",
+                start_placeholder = "开始日期",
+                end_placeholder = "结束日期"
+            };
+            container.Add("range", range);
 
             return Json(container, JsonRequestBehavior.AllowGet);
         }

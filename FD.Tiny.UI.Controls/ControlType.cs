@@ -39,8 +39,15 @@ namespace FD.Tiny.UI.Controls {
 		/// <summary>
 		/// 单选框
 		/// </summary>
-		radio
-
+		radio,
+        /// <summary>
+        /// 开关
+        /// </summary>
+        @switch,
+        /// <summary>
+        /// 滑块
+        /// </summary>
+        slider,
 	}//end ControlType
 
 }//end namespace FD.Tiny.UI.Controls
