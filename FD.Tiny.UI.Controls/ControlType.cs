@@ -20,6 +20,13 @@ namespace FD.Tiny.UI.Controls {
 		/// 输入框
 		/// </summary>
 		input,
+        /// <summary>
+        /// 数值输入框
+        /// </summary>
+        inputNumber,
+        /// <summary>
+        /// 时间框
+        /// </summary>
 		datePicker,
 		/// <summary>
 		/// 选择器

@@ -18,7 +18,7 @@ namespace FD.Tiny.UI.Controls {
 	public class Select : BaseControl {
 
 		public Select(){
-
+            this.control_type = ControlType.select;
 		}
 
 		public bool multiple{
@@ -29,7 +29,9 @@ namespace FD.Tiny.UI.Controls {
 			get;  set;
 		}
 
-		public string placeholder{
+        public bool clearable { get; set; } = false;
+
+        public string placeholder{
 			get;
 			set;
 		}

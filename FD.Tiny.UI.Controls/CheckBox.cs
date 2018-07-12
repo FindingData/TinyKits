@@ -18,14 +18,24 @@ namespace FD.Tiny.UI.Controls {
 	public class CheckBox : BaseControl {
 
 		public CheckBox(){
-
+            this.control_type = ControlType.checkbox;
 		}
 
-		public bool is_checked{
-			get;
-			set;
-		}
+        public string label
+        {
+            get { return value; }
+            set { this.value = value; }
+        }
 
-	}//end CheckBox
+        public bool is_checked
+        {
+            get;
+            set;
+        } = false;
+
+        public string text { get; set; }
+
+        public bool indeterminate { get; set; } = false;
+    }//end CheckBox
 
 }//end namespace FD.Tiny.UI.Controls

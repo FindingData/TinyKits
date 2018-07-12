@@ -19,14 +19,24 @@ namespace FD.Tiny.UI.Controls {
 
 		public Autocomplete(){
 
-		}
+		}      
 
-		public string url{
+        public string url{
 			get;
 			set;
 		}
 
-		public IList<QueryParam> param_list{
+        public bool remote { get; set; } = false;
+
+        public string value_key { get; set; }
+
+        public bool trigger_on_focus { get; set; } = true;
+
+        public bool select_when_unmatched { get; set; } = false;
+
+        public string label { get; set; }
+
+        public IList<QueryParam> param_list{
 			get;
 			set;
 		}
@@ -35,6 +45,8 @@ namespace FD.Tiny.UI.Controls {
 			get;
 			set;
 		}
+
+        public dynamic data { get; set; }
 
 	}//end Autocomplete
 

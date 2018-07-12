@@ -21,6 +21,8 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
             {
                 name = "radio",                
             };
+
+            ctls.Add(radio);
              
             var checkexbox = new CheckBox()
             {
@@ -28,76 +30,348 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
                 is_checked = true,
             };
 
+            ctls.Add(checkexbox);
+
             var uncheckedbox = new CheckBox() {
                 name = "chexkbox",                
             };
 
+            ctls.Add(uncheckedbox);
+
             var datePicker = new DatePicker()
             {
-
+                 name="datepicker"
             };
+            ctls.Add(datePicker);
 
 
             
             return Json(ctls, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult Radio()
+        {
+            var container = new Dictionary<string, List<BaseControl>>();
+
+            var basic = new List<BaseControl>();
+            var b1 = new Radio()
+            {
+                name = "radio",
+                value = "1",
+                text = "备选项",
+                is_checked = false,
+            };
+            basic.Add(b1);
+            var b2 = new Radio()
+            {
+                name = "radio",
+                label = "2",
+                text = "备选项",
+                is_checked = true
+            };
+            basic.Add(b2);
+            container.Add("basic", basic);
+            var disabled = new List<BaseControl>();
+            var b3 = new Radio()
+            {
+                name = "radio1",
+                disabled = true,
+                text = "备选项",
+                value = "禁用",
+            };
+            disabled.Add(b3);
+            var b4 = new Radio()
+            {
+                name = "radio1",
+                disabled = true,
+                text = "备选项",
+                value = "选中且禁用",
+            };
+            disabled.Add(b4);
+            container.Add("disabled", disabled);
+
+
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Check()
+        {
+            var container = new Dictionary<string, List<BaseControl>>();
+
+            var basic = new List<BaseControl>();
+            var chk1 = new CheckBox()
+            {
+                name = "check",
+                is_checked = true,    
+                text = "备选项",
+            };
+            basic.Add(chk1);
+
+            container.Add("basic", basic);
+
+            var disabled = new List<BaseControl>();
+            var chk2 = new CheckBox()
+            {
+                name = "check1",
+                is_checked = false,
+                text = "备选项1",
+                disabled = true,
+            };
+            disabled.Add(chk2);
+            var chk3 = new CheckBox()
+            {
+                name = "check2",
+                is_checked = false,
+                text = "备选项",
+                disabled = true,
+            };
+            disabled.Add(chk3);
+
+            var group = new List<BaseControl>();
+            var chk4 = new CheckBox()
+            {
+                name = "checkList",
+                label = "复选框 A",
+                text= "复选框 A",
+                is_checked = true,
+            };
+            group.Add(chk4);
+            var chk5 = new CheckBox()
+            {
+                name = "checkList",
+                label = "复选框 B",
+                text = "复选框 B",                
+            };
+            group.Add(chk5);
+            var chk6 = new CheckBox()
+            {
+                name = "checkList",
+                label = "复选框 C",
+                text = "复选框 C",
+            };
+            group.Add(chk6);
+            var chk7 = new CheckBox()
+            {
+                name = "checkList",
+                label = "禁用",
+                text = "禁用",
+                disabled = true,
+            };
+            group.Add(chk7);
+            var chk8 = new CheckBox()
+            {
+                name = "checkList",
+                label = "选中禁用",
+                text = "选中禁用",
+                is_checked = true,
+                disabled = true,
+            };
+            group.Add(chk8);
+
+            container.Add("disabled", disabled);
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ActionResult Input()
         {
-          
-            var text = new Input()
+            var container = new Dictionary<string, BaseControl>();
+
+            var basic = new Input()
             {
                 name = "input",
-                mode = InputMode.text,
+                type = InputMode.text,
                 placeholder = "文本"
             };
-
+            container.Add("basic", basic);
+            var disabled = new Input()
+            {
+                name = "input1",
+                disabled = true,
+            };
+            container.Add("disabled", disabled);
             var textarea = new Input()
             {
                 name = "textarea",
                 placeholder = "文本域",
-                mode = InputMode.textarea,                 
+                type = InputMode.textarea,
             };
-
+            container.Add("textarea", textarea);
             var search = new Input()
             {
                 name = "search",
-                mode = InputMode.text,
+                type = InputMode.autocomplete,                
             };
-
             var autocomplete = new Autocomplete()
             {
+                data = MockData()
+            };
+            search.autocomplete = autocomplete;
+
+            var search2 = new Input()
+            {
+                name = "search2",
+                placeholder = "请输入内容", 
+                type = InputMode.autocomplete
+            };
+            var autocomplete2 = new Autocomplete()
+            {
+                data = MockData(),
+                response_formatter = new ResultFormatter()
+                {
+                    label = new string[]{ "name" },
+                    value = "user_name",
+                }
+            };
+            search2.autocomplete = autocomplete2;
+
+            var search3 = new Input()
+            {
+                name = "search3",
+                placeholder = "请输入内容",                
+                type = InputMode.autocomplete
+            };
+            var autocomplete3 = new Autocomplete()
+            {
                 url = "/home/api/getuser",
+                remote = true,
                 param_list = new List<QueryParam>()
                 {
                      new QueryParam(){ name="customer_id",value="1" },
                      new QueryParam(){ name="user_id",value="2"},
                 },
-                 response_formatter= new ResultFormatter()
-                 {
-                     label = "user_name",
-                     value = "user_id"
-                 }
+                response_formatter = new ResultFormatter()
+                {
+                    label = new string[] { "user_name" },
+                    value = "user_id"
+                }
             };
-            search.autocomplete = autocomplete;
-            IList<BaseControl> inputs = new List<BaseControl>()
-            {
-                text,
-                textarea,
-                search
-            };
+            search3.autocomplete = autocomplete3;
 
-            var list =  JsonHelper.Instance.SerializeByConverter(inputs,new StringEnumConverter());
-            return Content(list);
+            container.Add("search1", search3);
+            container.Add("search2", search3);
+            container.Add("search3", search3);
+
+            return Json(container, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
+        public ActionResult InputNumber()
+        {
+            var container = new Dictionary<string, BaseControl>();
+
+            var basic = new InputNumber()
+            {
+                name = "basic",
+                min = 1,
+                max = 10,
+            };
+            container.Add("basic", basic);
+
+            var disabled = new InputNumber()
+            {
+                name = "disabled",
+                disabled = true,
+            };
+            container.Add("disabled", disabled);
+
+            var step = new InputNumber()
+            {
+                name = "step",
+                step = 5,
+                value = "1",
+            };
+            container.Add("step", step);
+
+            var precision = new InputNumber()
+            {
+                name = "precision",
+                step = 0.1f,
+                max = 10,
+                precision = 2,
+            };
+
+            return Json(container, JsonRequestBehavior.AllowGet);
+        }
+
+
+    
+        [HttpGet]
         public ActionResult Select()
         {
+            var container = new Dictionary<string, BaseControl>();
 
-            return Json("", JsonRequestBehavior.AllowGet);
+            var basic = new Select()
+            {
+                name = "basic",
+                placeholder = "请选择",
+                options = MockSelectData()
+            };
+            container.Add("basic,", basic);
+
+            var diabled = new Select()
+            {
+                name = "diabled",
+                placeholder = "请选择",
+                disabled =true,
+                options = MockSelectData()
+            };
+            container.Add("diabled,", diabled);
+
+            var clearable = new Select()
+            {
+                name = "clearable",
+                placeholder = "请选择",
+                clearable = true,
+                options = MockSelectData()
+            };
+            container.Add("clearable,", clearable);
+
+            var multiple = new Select()
+            {
+                 name = "multiple",
+                 multiple = true,
+                 placeholder ="请选择",
+            };
+            container.Add("multiple,", multiple);
+
+            var filterable = new Select()
+            {
+                name = "filterable",
+                filterable = true,
+                placeholder = "请选择",
+            };
+            container.Add("filterable,", filterable);
+
+            var search = new Select()
+            {
+                name = "search",
+                remote = true,
+            };
+            var autocomplete = new Autocomplete()
+            {
+                url = "/home/api/getuser",
+                remote = true,
+                param_list = new List<QueryParam>()
+                {
+                     new QueryParam(){ name="customer_id",value="1" },
+                     new QueryParam(){ name="user_id",value="2"},
+                },
+                response_formatter = new ResultFormatter()
+                {
+                    label = new string[] { "user_name" },
+                    value = "user_id"
+                }
+            };
+            search.autocomplete = autocomplete;
+            container.Add("search,", search);
+
+            return Json(container, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -111,17 +385,43 @@ namespace FD.Tiny.UI.Controls.Demo.Controllers
         {
             if (method == "getuser")
             {
-                var user1 = new
-                {
-                    user_name = "abc",
-                    user_id = "123"
-                };
-                var list = Enumerable.Repeat(user1, 5).ToList();
+                var list = MockData();
                 return Json(list);
             }
             return Json(null);
         }
 
-        
+        private dynamic MockData()
+        {
+            var user1 = new
+            {
+                user_name = "abc",
+                value = 1,
+                user_id = "123",
+            };
+            var list = Enumerable.Repeat(user1, 5).ToList();
+            return user1;
+        }
+
+        private List<Option> MockSelectData()
+        {
+            var data1 = new Option() { value = "选项1", label = "黄金糕" };
+            var data2 = new Option() { value = "选项2", label = "双皮奶" };
+            var data3 = new Option() { value = "选项3", label = "龙须面" };
+            var data4 = new Option() { value = "选项4", label = "北京烤鸭" };
+            var data5 = new Option() { value = "选项5", label = "绿豆糕" };
+            var list = new List<Option>
+            {
+                data1,
+                data2,
+                data3,
+                data4,
+                data5,
+            };
+            return list;
+        }
+
+
+
     }
 }
