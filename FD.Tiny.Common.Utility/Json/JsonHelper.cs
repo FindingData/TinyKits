@@ -15,7 +15,9 @@ namespace FD.Tiny.Common.Utility.Json
 
         public string Serialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            return JsonConvert.SerializeObject(obj,
+             new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" },
+             new StringEnumConverter());
         }
 
         public string SerializeByConverter(object obj, params JsonConverter[] converters)

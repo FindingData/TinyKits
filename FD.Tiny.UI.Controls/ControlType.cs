@@ -13,8 +13,8 @@ using System.IO;
 
 
 
-namespace FD.Tiny.UI.Controls {
-	public enum ControlType : int {
+namespace FD.Tiny.UI.Controls {   
+    public enum ControlType : int {
 
 		/// <summary>
 		/// ÊäÈë¿ò

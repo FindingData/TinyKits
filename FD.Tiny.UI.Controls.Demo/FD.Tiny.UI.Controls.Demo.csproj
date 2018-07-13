@@ -142,6 +142,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Attributes\JsonHandlerAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -211,6 +212,10 @@
     <ProjectReference Include="..\FD.Tiny.UI.Controls\FD.Tiny.UI.Controls.csproj">
       <Project>{f6458f9a-6009-4269-a926-4951f9ddab3e}</Project>
       <Name>FD.Tiny.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FD.Tiny.Web.Mvc\FD.Tiny.Web.Mvc.csproj">
+      <Project>{a78d33df-ed0a-4b71-b510-d92e42d3c8e4}</Project>
+      <Name>FD.Tiny.Web.Mvc</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
