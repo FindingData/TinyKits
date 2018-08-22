@@ -17,10 +17,26 @@ using FD.Tiny.UI.Controls;
 namespace FD.Tiny.UI.Controls {
 	public class Radio : BaseControl {
 
-		public Radio(){
+        public Radio()
+        {
+            this.control_type = ControlType.radio;
+        }
 
+		public string label
+        {
+            get { return value; }
+            set { this.value = value; }
+        }
+
+		public bool is_checked{
+			get;
+			set;
 		}
 
-	}//end Radio
+        public string text { get; set; }        
+
+        public SizeMode size { get; set; }
+
+    }//end Radio
 
 }//end namespace FD.Tiny.UI.Controls

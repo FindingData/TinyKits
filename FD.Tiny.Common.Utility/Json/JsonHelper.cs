@@ -13,9 +13,19 @@ namespace FD.Tiny.Common.Utility.Json
         private static JsonHelper _jsonHelper = new JsonHelper();
         public static JsonHelper Instance { get { return _jsonHelper; } }
 
+        private static JsonSerializerSettings _setting = new JsonSerializerSettings();
+        public static JsonSerializerSettings Setting{ get { return _setting; } }
+
+        static JsonHelper()
+        {
+            Setting.NullValueHandling = NullValueHandling.Ignore;
+            Setting.Converters.Add(new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            Setting.Converters.Add(new StringEnumConverter());
+        }
+
         public string Serialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            return JsonConvert.SerializeObject(obj, _setting);
         }
 
         public string SerializeByConverter(object obj, params JsonConverter[] converters)

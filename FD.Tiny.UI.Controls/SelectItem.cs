@@ -37,6 +37,10 @@ namespace FD.Tiny.UI.Controls {
 			get;  set;
 		}
 
-	}//end Option
+        public bool? disabled { get; set; }
+
+        public Option[] options { get; set; }
+
+    }//end Option
 
 }//end namespace FD.Tiny.UI.Controls

@@ -17,7 +17,8 @@ namespace FD.Tiny.UI.Controls {
 	public enum InputMode : int {
 
 		text,
-		textarea
+		textarea,
+        autocomplete
 
 	}//end InputMode
 

@@ -15,16 +15,15 @@ using System.IO;
 
 namespace FD.Tiny.UI.Controls {
 	public enum DateMode : int {
-
-		year,
-		month,
-		date,
-		dates,
-		week,
-		datetime,
-		datetimerange,
-		daterange
-
+        year,
+        month,
+        day,
+        date,        
+        week,        
+        datetime,
+        dates,
+        datetimerange,
+        daterange,
 	}//end DateMode
 
 }//end namespace FD.Tiny.UI.Controls

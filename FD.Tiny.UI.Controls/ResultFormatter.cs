@@ -20,10 +20,11 @@ namespace FD.Tiny.UI.Controls {
 
 		}
 
-		public string label{
-			get;
-			set;
-		}
+		public string[] label
+        {
+            get;
+            set;
+        }
 
 		public string value{
 			get;

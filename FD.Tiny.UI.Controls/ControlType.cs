@@ -13,13 +13,20 @@ using System.IO;
 
 
 
-namespace FD.Tiny.UI.Controls {
-	public enum ControlType : int {
+namespace FD.Tiny.UI.Controls {   
+    public enum ControlType : int {
 
 		/// <summary>
 		/// 输入框
 		/// </summary>
 		input,
+        /// <summary>
+        /// 数值输入框
+        /// </summary>
+        inputNumber,
+        /// <summary>
+        /// 时间框
+        /// </summary>
 		datePicker,
 		/// <summary>
 		/// 选择器
@@ -32,8 +39,15 @@ namespace FD.Tiny.UI.Controls {
 		/// <summary>
 		/// 单选框
 		/// </summary>
-		radio
-
+		radio,
+        /// <summary>
+        /// 开关
+        /// </summary>
+        @switch,
+        /// <summary>
+        /// 滑块
+        /// </summary>
+        slider,
 	}//end ControlType
 
 }//end namespace FD.Tiny.UI.Controls

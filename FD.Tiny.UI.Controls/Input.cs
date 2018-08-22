@@ -19,7 +19,7 @@ namespace FD.Tiny.UI.Controls {
 
 		public Input(){
 
-			this.type = ControlType.input;
+			this.control_type = ControlType.input;
 		}
 
 		public string placeholder{
@@ -51,10 +51,11 @@ namespace FD.Tiny.UI.Controls {
 					set;
 		}
 
-		public InputMode mode{
-			get;
-			set;
-		}
+        public InputMode type
+        {
+            get;
+            set;
+        } = InputMode.text;
 
 	}//end Input
 

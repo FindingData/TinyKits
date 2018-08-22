@@ -28,7 +28,7 @@ namespace FD.Tiny.UI.Controls {
 			get;  set;
 		}
 
-		public ControlType type{
+		public ControlType control_type{
 			get; protected set;
 		}
 
@@ -36,9 +36,15 @@ namespace FD.Tiny.UI.Controls {
 			get;  set;
 		}
 
-		public bool disabled{
+		public bool disabled
+        {
+            get;
+            set;
+        }
+
+		public string pre_text{
 			get;
-					set;
+			set;
 		}
 
 	}//end BaseControl
