@@ -13,18 +13,12 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult FormEdit(string formKey)
         {
-            
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult FormPreview(string formKey)
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

@@ -1,0 +1,41 @@
+﻿.f-label-template .el-input.is-disabled .el-input__inner {
+    cursor: auto;
+}
+
+.f-label-template .el-textarea.is-disabled .el-textarea__inner {
+    cursor: auto;
+}
+
+.f-label-template .el-select .el-input.is-disabled .el-input__inner {
+    cursor: auto;
+}
+
+.f-label-template .el-input.is-disabled .el-input__icon {
+    cursor: auto;
+}
+
+.f-label-template .el-input-number.is-disabled .el-input-number__decrease:hover, .f-label-template .el-input-number.is-disabled .el-input-number__increase:hover {
+    cursor: auto;
+}
+
+.f-label-template .el-switch.is-disabled .el-switch__core, .f-label-template .el-switch.is-disabled .el-switch__label {
+    cursor: auto;
+}
+
+.f-label-template .el-slider__runway.disabled .el-slider__button-wrapper.dragging, .f-label-template .el-slider__runway.disabled .el-slider__button-wrapper.hover, .f-label-template .el-slider__runway.disabled .el-slider__button-wrapper:hover {
+    cursor: auto;
+}
+
+.f-label-template .el-slider__runway.disabled .el-slider__button.dragging, .f-label-template .el-slider__runway.disabled .el-slider__button.hover, .f-label-template .el-slider__runway.disabled .el-slider__button:hover {
+    cursor: auto;
+}
+
+.f-label-template .el-rate {
+    margin-top: 7px;
+}
+.f-label-template .label-map-gis {
+    border: 1px solid #dcdfe6;
+    border-radius: 5px;
+    height: 120px;
+    background-image: url('/Content/image/gis.png')
+}

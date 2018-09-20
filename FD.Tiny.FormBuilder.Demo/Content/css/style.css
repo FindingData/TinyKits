@@ -1,0 +1,104 @@
+﻿.df-index {
+    padding:30px 100px;
+}
+
+.df-index-form-add {
+    text-align:right;
+    padding:0 0 20px 0;
+}
+.f-button-icon-text span {
+    margin-left: 5px;
+}
+.f-form-preview-control {
+    text-align: right;
+    padding: 0 10px 10px 0;
+}
+.f-form-preview-set-item {
+    margin-left: 10px;
+    margin-top: 20px;
+    height:40px;
+}
+.f-form-preview-set-item label{
+    margin-right: 20px;
+}
+.dynamic-form-scrollbar {
+    max-height: 400px;
+}
+
+.scroll-me {
+    padding-right: 20px;
+}
+.form-config-left-item {
+    width: 140px;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid #bbbabb;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 3px;
+    cursor: grab;
+    float: left;
+}
+
+.form-config-center .form-config-center-row-ghost {
+    width: 538px;
+    border: 1px dashed #ff714b;
+}
+
+.form-config-center {
+    min-height: 700px;
+    padding: 10px;
+    margin: 3px;
+    border: 1px solid #bbbabb;
+}
+
+.form-config-center-row {
+    cursor: move;
+}
+
+    .form-config-center-row:hover {
+        background: #f5f7fa;
+    }
+
+    .form-config-center-row .form-config-center-label, .form-config-center-row .form-config-center-control {
+        width: 95%;
+        line-height: 36px;
+        padding: 10px 0;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .form-config-center-row .form-config-center-label {
+        width: 90%;
+        text-align: right;
+        cursor: move;
+    }
+
+.row-active {
+    background: #ecf5ff;
+}
+
+.form-config-center-setting {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+}
+
+
+
+.f-data-show-model {
+    font-size: 12px;
+    color: #606266;
+    margin: 0 10px;
+}
+
+    .f-data-show-model label {
+        margin-right: 10px;
+    }
+.f-param-set {
+    font-size: 12px;
+    color: #606266;
+    display: inline-block;
+    margin: 0 10px;
+}

@@ -1,31 +1,164 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!--引入地图样式-->
+    <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/dojo/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/esri/css/esri.css" />
+    <!-- 引入elementui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入vue2-scrollbar样式 -->
+    <link href="~/Scripts/plug/vue2-scrollbar/style/vue2-scrollbar.css" rel="stylesheet" />
+    <!-- 引入iconfont图标库 -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_3gzmkj3hlq7.css">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <!-- 引入vue -->
+    <script src="~/Scripts/plug/vue/vue.js"></script>
+    <!-- 引入elementui组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入vue2-scrollbar组件库 -->
+    <script src="~/Scripts/plug/vue2-scrollbar/vue2-scrollbar.js"></script>
+    <script src="~/Scripts/plug/axios/axios.min.js"></script>
+    <script src="~/Scripts/plug/mock/mock.js"></script>
+    <script src="~/Scripts/plug/mock/mockData.js"></script>
+    <script src="~/Scripts/common/Config.js"></script>
+    <script src="~/Scripts/common/common.js"></script>
+    <script src="~/Scripts/common/Request.js"></script>
+    <script type="text/javascript" defer="defer" src="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/init.js"></script>
+
+    <script src="~/Scripts/dynamicForm/GisMap.js"></script>
+    <script src="~/Scripts/dynamicForm/DynamicForm.js"></script>
+
+</head>
+<body>
+    <div class="df-index">
+        <div class="df-index-form-add">
+            <el-button type="primary" v-on:click="formAddVisible=true" class="f-button-icon-text">
+                <i class="iconfont icon-zengjia"></i><span>新增表单</span>
+            </el-button>
+        </div>
+        <!--表单列表-->
+        <el-table :data="formList" border>
+            <el-table-column prop="form_name"
+                             label="表单名称"
+                             width="200">
+            </el-table-column>
+            <el-table-column prop="form_type"
+                             label="所属类型"
+                             width="120">
+                <template slot-scope="scope">
+                    <span v-text="getFormTypeAttr(scope.row.form_type)"></span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="form_share"
+                             label="是否共享"
+                             width="120">
+                <template slot-scope="scope">
+                    <span v-text="scope.row.form_share?'是':'否'"></span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="form_des"
+                             label="描述">
+            </el-table-column>
+            <el-table-column label="操作"
+                             width="180">
+                <template slot-scope="scope">
+                    <el-button circle size="mini" type="primary" title="编辑" v-on:click="handleEdit(scope.$index)">
+                        <i class="iconfont icon-bianji1"></i>
+                    </el-button>
+                    <el-button circle size="mini" type="info" title="预览" v-on:click="handlePreview(scope.$index)">
+                        <i class="iconfont icon-review"></i>
+                    </el-button>
+                    <el-button circle size="mini" type="danger" title="删除" v-on:click="handleDelete(scope.$index)">
+                        <i class="iconfont icon-huishouzhan"></i>
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--新增表单-->
+        <el-dialog title="新增表单" :visible.sync="formAddVisible" v-on:close="formAddClose">
+            <el-form :model="customerForm" :rules="customerFormRules" ref="CustomerForm" label-width="100px">
+                <el-form-item label="表单名称" prop="form_name">
+                    <el-input v-model="customerForm.form_name"></el-input>
+                </el-form-item>
+                <el-form-item label="所属分类" prop="form_type">
+                    <el-select v-model="customerForm.form_type" clearable placeholder="请选择表单分类">
+                        <el-option v-for="(value,key) in FormType"
+                                   :key="value"
+                                   :label="key"
+                                   :value="value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="是否共享" prop="form_share">
+                    <el-switch v-model="customerForm.form_share"></el-switch>
+                </el-form-item>
+                <el-form-item label="描述" prop="form_des">
+                    <el-input type="textarea" v-model="customerForm.form_des"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" v-on:click="addForm">确定</el-button>
+                    <el-button v-on:click="formAddVisible = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+        <!--表单预览-->
+        <el-dialog title="表单预览"
+                   :visible.sync="formPreviewVisible"
+                   v-on:open="formPreviewOpen"
+                   v-on:close="previewFormFresh"
+                   width="70%">
+            <div class="f-form-preview-control">
+                <el-button type="primary" size="medium" v-on:click="previewFormSetVisible=true" class="f-button-icon-text">
+                    <i class="iconfont icon-jiemiansheji"></i><span>界面设置</span>
+                </el-button>
+                <el-button type="success" size="medium" v-on:click="submitPreviewForm" class="f-button-icon-text">
+                    <i class="iconfont icon-tijiao"></i><span>提交测试</span>
+                </el-button>
+            </div>
+            <el-dialog title="界面设置"
+                       :visible.sync="previewFormSetVisible"
+                       :modal="false"
+                       top="20vh"
+                       width="30%">
+                <div class="f-form-preview-set-item">
+                    <label>标签宽度</label>
+                    <el-input-number v-model="labelWidth" :min="40" :max="200" :step="10" v-on:change="previewFormFresh">
+                    </el-input-number>
+                </div>
+                <div class="f-form-preview-set-item">
+                    <label>排列样式</label>
+                    <el-radio-group v-model="column" v-on:change="previewFormFresh">
+                        <el-radio :label="1">一列</el-radio>
+                        <el-radio :label="2">两列</el-radio>
+                        <el-radio :label="3">三列</el-radio>
+                    </el-radio-group>
+                </div>
+                <div class="f-form-preview-set-item">
+                    <label>对齐方式</label>
+                    <el-radio-group v-model="align" v-on:change="previewFormFresh">
+                        <el-radio label="right">右对齐</el-radio>
+                        <el-radio label="left">左对齐</el-radio>
+                        <el-radio label="top">顶部对齐</el-radio>
+                    </el-radio-group>
+                </div>
+            </el-dialog>
+            <vue-scrollbar :on-scroll="onScroll" classes="dynamic-form-scrollbar" ref="DynamicFormScrollbar">
+                <div class="scroll-me">
+                    <dynamic-form ref="DynamicForm"
+                                  :form-key="currentFormKey"
+                                  :label-width="labelWidth"
+                                  :label-align="align"
+                                  :form-column="column"
+                                  :base-config="{userId:1,customerId:1,pcaCode:'4301'}">
+                    </dynamic-form>
+                </div>
+            </vue-scrollbar>
+        </el-dialog>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <script src="~/Scripts/Home/Index.js"></script>
+</body>
+</html>
