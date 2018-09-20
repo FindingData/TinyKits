@@ -18,7 +18,7 @@ namespace FD.Tiny.UI.Controls {
 	public class Input : BaseControl {
 
 		public Input(){
-
+            
 			this.control_type = ControlType.input;
 		}
 
