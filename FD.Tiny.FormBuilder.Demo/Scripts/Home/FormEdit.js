@@ -44,7 +44,9 @@
                     name: 'pcaCode',
                     key: 'c1003'
                 }
-            ]
+            ],
+            dateType: ['year', 'month', 'date','dates','week','datetime','datetimerange','daterange'],
+            timePickerRangeTemp:'',
         }
     },
     methods: {
@@ -179,6 +181,23 @@
             })
             result=result.concat(this.constant)
             return result
+        },
+        setTimeSelectableRange() {
+            if (this.timePickerRangeTemp) {
+                var _this = this.currentLabelData.label_option.pickerOptions.selectableRange
+                var item = this.timePickerRangeTemp[0] + ' - ' + this.timePickerRangeTemp[1]
+                if (_this !== '') {
+                    if (_this.indexOf(',') !== -1) {
+                        _this = _this.replace(']',',"'+item+'"]')
+                    } else {
+                        _this = '["' + _this+'","'+item+'"]'
+                    }
+                } else {
+                    _this=item
+                }
+                this.currentLabelData.label_option.pickerOptions.selectableRange = _this
+                this.timePickerRangeTemp=''
+            }
         },
         getForm() {
             var form = JSON.parse(localStorage.getItem(this.formKey))

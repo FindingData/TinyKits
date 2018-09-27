@@ -39,3 +39,9 @@
     height: 120px;
     background-image: url('/Content/image/gis.png')
 }
+.f-label-template .label-map-baidu {
+    border: 1px solid #dcdfe6;
+    border-radius: 5px;
+    height: 120px;
+    background-image: url('/Content/image/baidu.png')
+}

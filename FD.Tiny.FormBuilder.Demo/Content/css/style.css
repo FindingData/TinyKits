@@ -102,3 +102,9 @@
     display: inline-block;
     margin: 0 10px;
 }
+.f-form-preview-dialog .el-rate__item i {
+    font-size:26px;
+}
+.f-form-preview-dialog .el-rate {
+    margin-top:5px;
+}

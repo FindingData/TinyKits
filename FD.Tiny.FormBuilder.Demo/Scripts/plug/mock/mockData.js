@@ -98,27 +98,29 @@ var formComponents = [
                     name: '单选框',
                     primaryKey: '',
                     defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
                     readonly: false,
-                    hidden: false
+                    hidden: false,
+                    dataSourceType: 'api',
+                    customDataSource: '',
+                    dicDataSource: '',
+                    apiDataSource: '',
+                    params: [],
                 }
             },
             {
                 label_type: 'checkbox',
                 label_des: '复选框',
                 label_option: {
-                    name: '复选框',
+                    name: '单选框',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
+                    defaultValue: [],
                     readonly: false,
-                    hidden: false
+                    hidden: false,
+                    dataSourceType: 'api',
+                    customDataSource: '',
+                    dicDataSource: '',
+                    apiDataSource: '',
+                    params: [],
                 }
             },
             {
@@ -128,12 +130,21 @@ var formComponents = [
                     name: '时间选择',
                     primaryKey: '',
                     defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
                     placeholder: '请输入内容',
-                    clearable: false,
+                    clearable: true,
                     readonly: false,
-                    hidden: false
+                    hidden: false,
+                    arrowControl: false,
+                    valueFormat: '',
+                    format: '',
+                    pickerOptions: {
+                        selectableRange:''
+                    },
+                    editable: false,
+                    isRange: false,
+                    rangeSeparator: '-',
+                    startPlaceholder: '开始时间',
+                    endPlaceholder: '结束时间'
                 }
             },
             {
@@ -143,27 +154,18 @@ var formComponents = [
                     name: '日期选择',
                     primaryKey: '',
                     defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
                     placeholder: '请输入内容',
-                    clearable: false,
+                    clearable: true,
                     readonly: false,
-                    hidden: false
-                }
-            },
-            {
-                label_type: 'date_time',
-                label_des: '日期时间选择',
-                label_option: {
-                    name: '日期时间选择',
-                    primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
-                    readonly: false,
-                    hidden: false
+                    hidden: false,
+                    valueFormat: '',
+                    format: '',
+                    editable: false,
+                    align:'left',
+                    type:'date',
+                    rangeSeparator: '-',
+                    startPlaceholder: '开始时间',
+                    endPlaceholder: '结束时间'
                 }
             },
             {
@@ -172,13 +174,13 @@ var formComponents = [
                 label_option: {
                     name: '是非选项',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
+                    defaultValue: false,
                     readonly: false,
-                    hidden: false
+                    hidden: false,
+                    activeText: '',
+                    inactiveText: '',
+                    activeColor: null,
+                    inactiveColor: null
                 }
             },
             {
@@ -187,13 +189,15 @@ var formComponents = [
                 label_option: {
                     name: '数字框',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
-                    readonly: false,
-                    hidden: false
+                    defaultValue: 0,
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    precision:0,
+                    disabled: false,
+                    hidden: false,
+                    controls: true,
+                    controlsPosition: 'normal'
                 }
             },
             {
@@ -202,13 +206,16 @@ var formComponents = [
                 label_option: {
                     name: '滑块',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
-                    readonly: false,
-                    hidden: false
+                    defaultValue: 3,
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    disabled: false,
+                    hidden: false,
+                    range: false,
+                    showStops: false,
+                    showTooltip: true,
+                    formatTooltip: ''
                 }
             },
             {
@@ -217,13 +224,14 @@ var formComponents = [
                 label_option: {
                     name: '评分',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
-                    readonly: false,
-                    hidden: false
+                    defaultValue: 3,
+                    max: 5,
+                    disabled: false,
+                    hidden: false,
+                    iconClasses: 'star',
+                    allowHalf: false,
+                    showModel: 'text',
+                    texts: '["极差", "失望", "一般", "满意", "惊喜"]'
                 }
             }
         ]
@@ -261,7 +269,18 @@ var formComponents = [
             },
             {
                 label_type: 'map_baidu',
-                label_des: '百度地图'
+                label_des: '百度地图',
+                label_option: {
+                    name: '百度地图',
+                    primaryKey: '',
+                    defaultValue: '',
+                    maxlength: 100,
+                    minlength: 0,
+                    placeholder: '请输入内容',
+                    clearable: false,
+                    readonly: false,
+                    hidden: false
+                }
             }
         ]
     }

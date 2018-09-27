@@ -157,6 +157,7 @@
   <ItemGroup>
     <Content Include="Content\css\labelTemplate.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\image\baidu.png" />
     <Content Include="Content\image\gis.png" />
     <Content Include="Content\image\map2.png" />
     <Content Include="Content\image\map21.png" />
@@ -169,6 +170,7 @@
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\common\Config.js" />
     <Content Include="Scripts\common\Request.js" />
+    <Content Include="Scripts\dynamicForm\BaiduMap.js" />
     <Content Include="Scripts\dynamicForm\DynamicForm.js" />
     <Content Include="Scripts\dynamicForm\GisMap.js" />
     <Content Include="Scripts\Home\FormEdit.js" />

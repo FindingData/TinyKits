@@ -142,7 +142,9 @@
             <div v-else-if="lableType==='map_gis'" class="label-map-gis">
                 
             </div>
-
+            <div v-else-if="lableType==='map_baidu'" class="label-map-baidu">
+                
+            </div>
         </div>
         
         `
