@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.FormBuilder", "FD.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.FormBuilder.Demo", "FD.Tiny.FormBuilder.Demo\FD.Tiny.FormBuilder.Demo.csproj", "{DD18956F-C79A-4646-991C-FDCAB746F844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.DataAccess", "FD.Tiny.DataAccess\FD.Tiny.DataAccess.csproj", "{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.Tiny.FormBuilder.UTest", "FD.Tiny.FormBuilder.UTest\FD.Tiny.FormBuilder.UTest.csproj", "{B2F04E08-A265-45AD-A3F7-755E337B3B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{DD18956F-C79A-4646-991C-FDCAB746F844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD18956F-C79A-4646-991C-FDCAB746F844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD18956F-C79A-4646-991C-FDCAB746F844}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CD9061F-FBC2-4925-8E9E-E40DA2E855D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2F04E08-A265-45AD-A3F7-755E337B3B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F04E08-A265-45AD-A3F7-755E337B3B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F04E08-A265-45AD-A3F7-755E337B3B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F04E08-A265-45AD-A3F7-755E337B3B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

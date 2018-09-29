@@ -13,8 +13,8 @@ using System.IO;
 
 
 
-using FD.Tiny.FormBuilder.Database;
-namespace FD.Tiny.FormBuilder.Database {
+
+namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// 数据表描述类
 	/// </summary>
