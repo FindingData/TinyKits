@@ -1,0 +1,1000 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!--引入gis地图样式-->
+    <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/dojo/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/esri/css/esri.css" />
+    <!--引入地图样式 end-->
+    <!-- 引入elementui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入vue2-scrollbar样式 -->
+    <link href="~/Scripts/plug/vue2-scrollbar/style/vue2-scrollbar.css" rel="stylesheet" />
+    <!-- 引入iconfont图标库 -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_kcnofq04oqs.css">
+
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/labelTemplate.css" rel="stylesheet" />
+
+    <script src="~/Scripts/plug/vue/vue.js"></script>
+    <!-- 引入elementui组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入vue2-scrollbar组件库 -->
+    <script src="~/Scripts/plug/vue2-scrollbar/vue2-scrollbar.js"></script>
+    <script src="~/Scripts/plug/axios/axios.min.js"></script>
+    <script src="~/Scripts/plug/draggable/Sortable.min.js"></script>
+    <script src="~/Scripts/plug/draggable/vuedraggable.min.js"></script>
+    <script src="~/Scripts/plug/mock/mock.js"></script>
+    <script src="~/Scripts/plug/mock/mockData.js"></script>
+    <script src="~/Scripts/common/Config.js"></script>
+    <script src="~/Scripts/common/common.js"></script>
+    <script src="~/Scripts/common/Request.js"></script>
+    <!--引入gis地图-->
+    <script type="text/javascript" defer="defer" src="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/init.js"></script>
+    <!--引入百度地图V3.0-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=9xaY4e2UlCbkuvNr3rCzgsELWHcjbKeA"></script>
+    
+    <script src="~/Scripts/dynamicForm/LabelTemplate.js"></script>
+    <script src="~/Scripts/dynamicForm/GisMap.js"></script>
+    <script src="~/Scripts/dynamicForm/BaiduMap.js"></script>
+    <script src="~/Scripts/dynamicForm/DynamicForm.js"></script>
+
+</head>
+<body>
+    <div class="df-form-edit">
+        <el-row style="height:700px;">
+            <el-col :span="6">
+                <div class="form-config-left">
+                    <h4>组件库</h4>
+                    <div v-for="(group,index) in formComponents" :key="index">
+                        <h5 style="clear:both;">{{group.component_group}}</h5>
+                        <draggable v-model="group.component_list" :options="{group:{ name:'labelList',  pull:'clone', put:false },ghostClass:'form-config-center-row-ghost',sort:false,animation:300}">
+                            <div v-for="(component, _index) in group.component_list" :key="_index" class="form-config-left-item">
+                                <span v-text="component.label_des"></span>
+                            </div>
+                        </draggable>
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <h4>表单设计</h4>
+                <div style="text-align:right;">
+                    <el-button size="medium" v-on:click="formPreviewVisible=true" class="f-button-icon-text">
+                        <i class="iconfont icon-yulan"></i><span>预 览</span>
+                    </el-button>
+                    <el-button type="primary" size="medium" v-on:click="formSetVisible=true" class="f-button-icon-text">
+                        <i class="iconfont icon-shezhi"></i><span>设 置</span>
+                    </el-button>
+                    <el-button type="success" size="medium" v-on:click="saveForm" class="f-button-icon-text">
+                        <i class="iconfont icon--baocun"></i><span>保 存</span>
+                    </el-button>
+                </div>
+                <div class="form-config-center">
+                    <draggable v-model="setLableList" v-on:update="updateData" v-on:add="addData"
+                               :options="{group:{ name:'labelList',  pull:false, put:true },ghostClass:'form-config-center-row-ghost',animation:300}" style="height:500px;">
+                        <div v-for="(label,index) in setLableList" :key="index"
+                             v-on:click="settingData(index)"
+                             :class="['form-config-center-row',index===currentLabelindex?'row-active':'']">
+                            <div v-if="label.label_type==='map_gis'">
+                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            </div>
+                            <div v-else-if="label.label_type==='map_baidu'">
+                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            </div>
+                            <el-row v-else>
+                                <el-col :span="6">
+                                    <label class="form-config-center-label">{{label.label_option.name}}</label>
+                                </el-col>
+                                <el-col :span="18">
+                                    <label-template :lable-type="label.label_type" class="form-config-center-control"></label-template>
+                                </el-col>
+                            </el-row>
+                        </div>
+
+                    </draggable>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <div class="form-config-right" style="padding:10px;">
+                    <h4>组件编辑</h4>
+                    <el-form v-if="currentLabelData.label_type==='input_base'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大输入长度">
+                            <el-input-number v-model="currentLabelData.label_option.maxlength" :step="10" :min="10"></el-input-number>
+                        </el-form-item>
+                        <el-form-item label="输入框占位文本">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否可清空">
+                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='input_autocomplete'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大输入长度">
+                            <el-input-number v-model="currentLabelData.label_option.maxlength" :step="10" :min="10"></el-input-number>
+                        </el-form-item>
+                        <el-form-item label="输入框占位文本">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否可清空">
+                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="激活即列出数据">
+                            <el-switch v-model="currentLabelData.label_option.trigger_focus"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="数据源类型">
+                            <el-radio-group v-model="currentLabelData.label_option.dataSourceType">
+                                <el-radio label="api" border>api</el-radio>
+                                <el-radio label="custom" border>自定义</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='custom'" label="数据源">
+                            <el-input type="textarea" :autosize="{minRows: 3, maxRows: 6}"
+                                      v-model="currentLabelData.label_option.customDataSource"
+                                      placeholder="多项数据以','分开"></el-input>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.apiDataSource" placeholder="请选择">
+                                <el-option v-for="item in getDataSourceListByType('auto')"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api' && currentLabelData.label_option.apiDataSource!==''" label="参数设置">
+                            <div v-for="(param,index) in getDataSource(currentLabelData.label_option.apiDataSource).params" :key="index"
+                                 class="f-param-set">
+                                <span v-text="param.name"></span>
+                                <i class="iconfont icon-zhuanhuan"></i>
+                                <el-popover placement="top" width="250" v-model="paramPopover[index]">
+                                    <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               size="mini" plain style="margin:10px;"
+                                               v-on:click="paramSetting(param.name,item.key,index)"
+                                               :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
+                                    <el-button slot="reference" type="text">{{getParamSettingLableName(param.name)!==null?getParamSettingLableName(param.name):param.require?'必选':'可选'}}</el-button>
+                                </el-popover>
+                            </div>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api' && currentLabelData.label_option.apiDataSource!==''" label="显示模板">
+                            <el-radio-group v-model="currentLabelData.label_option.dataShowModel">
+                                <el-radio label="item-normal">默认</el-radio>
+                                <el-radio label="item-title-des">标题描述</el-radio>
+                                <el-radio label="item-key-value">键值对</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api'&&currentLabelData.label_option.apiDataSource!==''" label="显示字段">
+                            <div v-if="currentLabelData.label_option.dataShowModel==='item-title-des'">
+                                <div class="f-data-show-model">
+                                    <label>标题</label>
+                                    <el-select v-model="currentLabelData.label_option.filterRule[0]" placeholder="请选择字段" size="small">
+                                        <el-option v-for="(item,index) in getDataSource(currentLabelData.label_option.apiDataSource).resultFeild"
+                                                   :key="index"
+                                                   :label="item"
+                                                   :value="item">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div class="f-data-show-model">
+                                    <label>描述</label>
+                                    <el-select v-model="currentLabelData.label_option.filterRule[1]" placeholder="请选择字段" size="small">
+                                        <el-option v-for="(item,index) in getDataSource(currentLabelData.label_option.apiDataSource).resultFeild"
+                                                   :key="index"
+                                                   :label="item"
+                                                   :value="item">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </div>
+                            <div v-else-if="currentLabelData.label_option.dataShowModel==='item-key-value'">
+                                <div class="f-data-show-model">
+                                    <label>键</label>
+                                    <el-select v-model="currentLabelData.label_option.filterRule[0]" placeholder="请选择字段" size="small">
+                                        <el-option v-for="(item,index) in getDataSource(currentLabelData.label_option.apiDataSource).resultFeild"
+                                                   :key="index"
+                                                   :label="item"
+                                                   :value="item">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div class="f-data-show-model">
+                                    <label>值</label>
+                                    <el-select v-model="currentLabelData.label_option.filterRule[1]" placeholder="请选择字段" size="small">
+                                        <el-option v-for="(item,index) in getDataSource(currentLabelData.label_option.apiDataSource).resultFeild"
+                                                   :key="index"
+                                                   :label="item"
+                                                   :value="item">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <div class="f-data-show-model">
+                                    <label>标题</label>
+                                    <el-select v-model="currentLabelData.label_option.filterRule[0]" placeholder="请选择字段" size="small">
+                                        <el-option v-for="(item,index) in getDataSource(currentLabelData.label_option.apiDataSource).resultFeild"
+                                                   :key="index"
+                                                   :label="item"
+                                                   :value="item">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </div>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='input_textarea'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大输入长度">
+                            <el-input-number v-model="currentLabelData.label_option.maxlength" :step="10" :min="10"></el-input-number>
+                        </el-form-item>
+                        <el-form-item label="输入框占位文本">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="内容高度">
+                            <el-slider v-model="currentLabelData.label_option.autosize" range show-stops :min="1" :max="10"></el-slider>
+                        </el-form-item>
+                        <el-form-item label="缩放">
+                            <el-radio-group v-model="currentLabelData.label_option.resize">
+                                <el-radio label="none">无</el-radio>
+                                <el-radio label="both">二者都</el-radio>
+                                <el-radio label="horizontal">横向</el-radio>
+                                <el-radio label="vertical">纵向</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='select'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="输入框占位文本">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否可搜索">
+                            <el-radio-group v-model="currentLabelData.label_option.filterable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否可清空">
+                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="数据源类型">
+                            <el-radio-group v-model="currentLabelData.label_option.dataSourceType">
+                                <el-radio label="api" border>api</el-radio>
+                                <el-radio label="dic" border>字典</el-radio>
+                                <el-radio label="custom" border>自定义</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='custom'" label="数据源">
+                            <el-input type="textarea" :autosize="{minRows: 3, maxRows: 6}"
+                                      v-model="currentLabelData.label_option.customDataSource"
+                                      placeholder="多项数据以','分开"></el-input>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='dic'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.dicDataSource" placeholder="请选择">
+                                <el-option v-for="item in dicSource"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.apiDataSource" placeholder="请选择">
+                                <el-option v-for="item in getDataSourceListByType('dic')"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api' && currentLabelData.label_option.apiDataSource!==''" label="参数设置">
+                            <div v-for="(param,index) in getDataSource(currentLabelData.label_option.apiDataSource).params" :key="index"
+                                 class="f-param-set">
+                                <span v-text="param.name"></span>
+                                <i class="iconfont icon-zhuanhuan"></i>
+                                <el-popover placement="top" width="250" v-model="paramPopover[index]">
+                                    <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               size="mini" plain style="margin:10px;"
+                                               v-on:click="paramSetting(param.name,item.key,index)"
+                                               :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
+                                    <el-button slot="reference" type="text">{{getParamSettingLableName(param.name)!==null?getParamSettingLableName(param.name):param.require?'必选':'可选'}}</el-button>
+                                </el-popover>
+                            </div>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='radio'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="数据源类型">
+                            <el-radio-group v-model="currentLabelData.label_option.dataSourceType">
+                                <el-radio label="api" border>api</el-radio>
+                                <el-radio label="dic" border>字典</el-radio>
+                                <el-radio label="custom" border>自定义</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='custom'" label="数据源">
+                            <el-input type="textarea" :autosize="{minRows: 3, maxRows: 6}"
+                                      v-model="currentLabelData.label_option.customDataSource"
+                                      placeholder="多项数据以','分开"></el-input>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='dic'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.dicDataSource" placeholder="请选择">
+                                <el-option v-for="item in dicSource"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.apiDataSource" placeholder="请选择">
+                                <el-option v-for="item in getDataSourceListByType('dic')"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api' && currentLabelData.label_option.apiDataSource!==''" label="参数设置">
+                            <div v-for="(param,index) in getDataSource(currentLabelData.label_option.apiDataSource).params" :key="index"
+                                 class="f-param-set">
+                                <span v-text="param.name"></span>
+                                <i class="iconfont icon-zhuanhuan"></i>
+                                <el-popover placement="top" width="250" v-model="paramPopover[index]">
+                                    <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               size="mini" plain style="margin:10px;"
+                                               v-on:click="paramSetting(param.name,item.key,index)"
+                                               :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
+                                    <el-button slot="reference" type="text">{{getParamSettingLableName(param.name)!==null?getParamSettingLableName(param.name):param.require?'必选':'可选'}}</el-button>
+                                </el-popover>
+                            </div>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='checkbox'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="数据源类型">
+                            <el-radio-group v-model="currentLabelData.label_option.dataSourceType">
+                                <el-radio label="api" border>api</el-radio>
+                                <el-radio label="dic" border>字典</el-radio>
+                                <el-radio label="custom" border>自定义</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='custom'" label="数据源">
+                            <el-input type="textarea" :autosize="{minRows: 3, maxRows: 6}"
+                                      v-model="currentLabelData.label_option.customDataSource"
+                                      placeholder="多项数据以','分开"></el-input>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='dic'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.dicDataSource" placeholder="请选择">
+                                <el-option v-for="item in dicSource"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api'" label="数据源">
+                            <el-select v-model="currentLabelData.label_option.apiDataSource" placeholder="请选择">
+                                <el-option v-for="item in getDataSourceListByType('dic')"
+                                           :key="item.id"
+                                           :label="item.name"
+                                           :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item v-if="currentLabelData.label_option.dataSourceType==='api' && currentLabelData.label_option.apiDataSource!==''" label="参数设置">
+                            <div v-for="(param,index) in getDataSource(currentLabelData.label_option.apiDataSource).params" :key="index"
+                                 class="f-param-set">
+                                <span v-text="param.name"></span>
+                                <i class="iconfont icon-zhuanhuan"></i>
+                                <el-popover placement="top" width="250" v-model="paramPopover[index]">
+                                    <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               size="mini" plain style="margin:10px;"
+                                               v-on:click="paramSetting(param.name,item.key,index)"
+                                               :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
+                                    <el-button slot="reference" type="text">{{getParamSettingLableName(param.name)!==null?getParamSettingLableName(param.name):param.require?'必选':'可选'}}</el-button>
+                                </el-popover>
+                            </div>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='switch'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-radio-group v-model="currentLabelData.label_option.defaultValue">
+                                <el-radio :label="false">False</el-radio>
+                                <el-radio :label="true">True</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="文字描述(开)">
+                            <el-input v-model="currentLabelData.label_option.activeText" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="文字描述(关)">
+                            <el-input v-model="currentLabelData.label_option.inactiveText" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="状态颜色(开)">
+                            <el-color-picker v-model="currentLabelData.label_option.activeColor"></el-color-picker>
+                        </el-form-item>
+                        <el-form-item label="状态颜色(关)">
+                            <el-color-picker v-model="currentLabelData.label_option.inactiveColor"></el-color-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='rate'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model.number="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大分值">
+                            <el-input-number v-model="currentLabelData.label_option.max" :step="1" :min="3" :max="10"></el-input-number>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.disabled">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="图标类型">
+                            <el-radio-group v-model="currentLabelData.label_option.iconClasses">
+                                <el-radio label="star"><i class="el-icon-star-on" style="font-size:20px;color:#F7BA2A;"></i></el-radio>
+                                <el-radio label="face"><i class="iconfont icon-icon_xiaolian-mian" style="font-size:20px;color:#F7BA2A;"></i></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="允许半选">
+                            <el-switch v-model="currentLabelData.label_option.allowHalf"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="辅助显示模式">
+                            <el-radio-group v-model="currentLabelData.label_option.showModel">
+                                <el-radio label="text">文字</el-radio>
+                                <el-radio label="score">分数</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="辅助文字数组" v-if="currentLabelData.label_option.showModel==='text'">
+                            <el-input type="textarea"
+                                      resize="none"
+                                      :autosize="{ minRows: 2, maxRows: 4}"
+                                      placeholder="请输入内容"
+                                      v-model="currentLabelData.label_option.texts">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='slider'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model.number="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最小值">
+                            <el-input v-model.number="currentLabelData.label_option.min"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大值">
+                            <el-input v-model.number="currentLabelData.label_option.max"></el-input>
+                        </el-form-item>
+                        <el-form-item label="步长">
+                            <el-input v-model.number="currentLabelData.label_option.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.disabled">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否范围选择">
+                            <el-radio-group v-model="currentLabelData.label_option.range">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="显示间断点">
+                            <el-switch v-model="currentLabelData.label_option.showStops"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="显示tooltip">
+                            <el-switch v-model="currentLabelData.label_option.showTooltip"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="格式化tooltip">
+                            <el-input type="textarea"
+                                      resize="none"
+                                      :autosize="{ minRows: 2, maxRows: 4}"
+                                      placeholder='例:{"expression":"val/10000","unit":"万元"}'
+                                      v-model="currentLabelData.label_option.formatTooltip">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='input_number'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model.number="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最小值">
+                            <el-input v-model.number="currentLabelData.label_option.min"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最大值">
+                            <el-input v-model.number="currentLabelData.label_option.max"></el-input>
+                        </el-form-item>
+                        <el-form-item label="步长">
+                            <el-input v-model.number="currentLabelData.label_option.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="数值精度">
+                            <el-input v-model.number="currentLabelData.label_option.precision"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.disabled">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="使用控制按钮">
+                            <el-switch v-model="currentLabelData.label_option.controls"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="控制按钮位置" v-if="currentLabelData.label_option.controls">
+                            <el-radio-group v-model="currentLabelData.label_option.controlsPosition">
+                                <el-radio label="normal">默认</el-radio>
+                                <el-radio label="right">right</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='time'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="占位内容">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否显示清除">
+                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否使用箭头">
+                            <el-radio-group v-model="currentLabelData.label_option.arrowControl">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="文本框可输入">
+                            <el-switch v-model="currentLabelData.label_option.editable"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="值格式化">
+                            <el-input v-model="currentLabelData.label_option.valueFormat"></el-input>
+                        </el-form-item>
+                        <el-form-item label="显示格式化">
+                            <el-input v-model="currentLabelData.label_option.format"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否时间范围">
+                            <el-switch v-model="currentLabelData.label_option.isRange"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="可选区间值" v-if="!currentLabelData.label_option.isRange">
+                            <el-input v-model="currentLabelData.label_option.pickerOptions.selectableRange" clearable readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="设置可选区间" v-if="!currentLabelData.label_option.isRange">
+                            <el-time-picker is-range
+                                            v-model="timePickerRangeTemp"
+                                            range-separator="至"
+                                            start-placeholder="开始时间"
+                                            end-placeholder="结束时间"
+                                            value-format="HH:mm:ss">
+                            </el-time-picker>
+                            <el-button type="primary" v-on:click="setTimeSelectableRange" round>添加</el-button>
+                        </el-form-item>
+                        <el-form-item label="范围分隔符" v-if="currentLabelData.label_option.isRange">
+                            <el-input v-model="currentLabelData.label_option.rangeSeparator"></el-input>
+                        </el-form-item>
+                        <el-form-item label="开始占位内容" v-if="currentLabelData.label_option.isRange">
+                            <el-input v-model="currentLabelData.label_option.startPlaceholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="结束占位内容" v-if="currentLabelData.label_option.isRange">
+                            <el-input v-model="currentLabelData.label_option.endPlaceholder"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='date'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="默认值">
+                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                        </el-form-item>
+                        <el-form-item label="占位内容">
+                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否只读">
+                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="currentLabelData.label_option.hidden">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="对齐方式">
+                            <el-radio-group v-model="currentLabelData.label_option.align">
+                                <el-radio label="left">左对齐</el-radio>
+                                <el-radio label="center">居中</el-radio>
+                                <el-radio label="right">右对齐</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="是否显示清除">
+                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="文本框可输入">
+                            <el-switch v-model="currentLabelData.label_option.editable"
+                                       on-text="是"
+                                       off-text="否">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="值格式化">
+                            <el-input v-model="currentLabelData.label_option.valueFormat"></el-input>
+                        </el-form-item>
+                        <el-form-item label="显示格式化">
+                            <el-input v-model="currentLabelData.label_option.format"></el-input>
+                        </el-form-item>
+                        <el-form-item label="显示类型">
+                            <el-select v-model="currentLabelData.label_option.type">
+                                <el-option v-for="item in dateType"
+                                           :key="item"
+                                           :label="item"
+                                           :value="item">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="范围分隔符" v-if="currentLabelData.label_option.type==='datetimerange'||currentLabelData.label_option.type==='daterange'">
+                            <el-input v-model="currentLabelData.label_option.rangeSeparator"></el-input>
+                        </el-form-item>
+                        <el-form-item label="开始占位内容" v-if="currentLabelData.label_option.type==='datetimerange'||currentLabelData.label_option.type==='daterange'">
+                            <el-input v-model="currentLabelData.label_option.startPlaceholder"></el-input>
+                        </el-form-item>
+                        <el-form-item label="结束占位内容" v-if="currentLabelData.label_option.type==='datetimerange'||currentLabelData.label_option.type==='daterange'">
+                            <el-input v-model="currentLabelData.label_option.endPlaceholder"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <div v-else style="padding:150px 0;text-align:center;color:#808080;">
+                        请选择一个组件进行编辑
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-dialog title="设置表单" :visible.sync="formSetVisible">
+            <el-form :model="customerForm" :rules="customerFormRules" ref="CustomerForm" label-width="100px">
+                <el-form-item label="表单名称" prop="form_name">
+                    <el-input v-model="customerForm.form_name"></el-input>
+                </el-form-item>
+                <el-form-item label="所属分类" prop="form_type">
+                    <el-select v-model="customerForm.form_type" clearable placeholder="请选择表单分类">
+                        <el-option label="查勘表单" value="4005001"></el-option>
+                        <el-option label="立项表单" value="4005002"></el-option>
+                        <el-option label="询价表单" value="4005003"></el-option>
+                        <el-option label="其他表单" value="4005004"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="是否共享" prop="form_share">
+                    <el-switch v-model="customerForm.form_share"></el-switch>
+                </el-form-item>
+                <el-form-item label="描述" prop="form_des">
+                    <el-input type="textarea" v-model="customerForm.form_des"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" v-on:click="setForm">确定</el-button>
+                    <el-button v-on:click="formSetVisible = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+        <el-dialog title="表单预览"
+                   :visible.sync="formPreviewVisible"
+                   v-on:open="formPreviewOpen"
+                   v-on:close="previewFormFresh"
+                   class="f-form-preview-dialog"
+                   width="60%">
+            <div class="f-form-preview-control">
+                <el-button type="primary" size="medium" v-on:click="previewFormSetVisible=true" class="f-button-icon-text">
+                    <i class="iconfont icon-jiemiansheji"></i><span>界面设置</span>
+                </el-button>
+                <el-button type="success" size="medium" v-on:click="submitPreviewForm" class="f-button-icon-text">
+                    <i class="iconfont icon-tijiao"></i><span>提交测试</span>
+                </el-button>
+            </div>
+            <el-dialog title="界面设置"
+                       :visible.sync="previewFormSetVisible"
+                       :modal="false"
+                       top="20vh"
+                       width="30%">
+                <div class="f-form-preview-set-item">
+                    <label>标签宽度</label>
+                    <el-input-number v-model="labelWidth" :min="40" :max="200" :step="10" v-on:change="previewFormFresh">
+                    </el-input-number>
+                </div>
+                <div class="f-form-preview-set-item">
+                    <label>排列样式</label>
+                    <el-radio-group v-model="column" v-on:change="previewFormFresh">
+                        <el-radio :label="1">一列</el-radio>
+                        <el-radio :label="2">两列</el-radio>
+                        <el-radio :label="3">三列</el-radio>
+                    </el-radio-group>
+                </div>
+                <div class="f-form-preview-set-item">
+                    <label>对齐方式</label>
+                    <el-radio-group v-model="align" v-on:change="previewFormFresh">
+                        <el-radio label="right">右对齐</el-radio>
+                        <el-radio label="left">左对齐</el-radio>
+                        <el-radio label="top">顶部对齐</el-radio>
+                    </el-radio-group>
+                </div>
+            </el-dialog>
+            <vue-scrollbar :on-scroll="onScroll" classes="dynamic-form-scrollbar" ref="DynamicFormScrollbar">
+                <div class="scroll-me">
+                    <dynamic-form ref="DynamicForm"
+                                  :form-key="formKey"
+                                  :label-width="labelWidth"
+                                  :label-align="align"
+                                  :form-column="column"
+                                  :base-config="{userId:1,customerId:1,pcaCode:'4307'}">
+                    </dynamic-form>
+                </div>
+            </vue-scrollbar>
+        </el-dialog>
+    </div>
+    <script src="~/Scripts/Home/FormEdit.js"></script>
+</body>
+</html>
