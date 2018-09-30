@@ -23,7 +23,7 @@ namespace FD.Tiny.FormBuilder
 
         public DbSet<FormPO> Forms { get; set; }
 
-        public DbSet<CategoryPO> Categories { get; set; }
+       // public DbSet<CategoryPO> Categories { get; set; }
 
         public DbSet<LabelPO> Labels { get; set; }
 

@@ -18,11 +18,12 @@ using System.Data.Entity;
 using System.Linq;
 using FD.Tiny.FormBuilder;
 namespace FD.Tiny.FormBuilder {
-	public class ApiService : BaseService {
+	public class ApiService : BaseService<ApiPO> {
 
 		/// 
 		/// <param name="dbContext"></param>
-		public ApiService(FormBuilderContent dbContext): base(dbContext){
+		public ApiService(IRepository<ApiPO> repository): base(repository)
+        {
 
 		}
 
@@ -32,9 +33,7 @@ namespace FD.Tiny.FormBuilder {
         public int AddApi(Api api, int userId)
         {
             var apiPo = Mapper.Map<Api, ApiPO>(api);
-            apiPo.CREATED_BY = userId;
-            _dbContext.Apis.Add(apiPo);
-            _dbContext.SaveChanges();
+            Repository.Add(apiPo, userId);
             return (int)apiPo.API_ID;
         }
 
@@ -44,26 +43,21 @@ namespace FD.Tiny.FormBuilder {
         public void SaveApi(Api api, int userId)
         {
             var apiPo = Mapper.Map<Api, ApiPO>(api);
-            apiPo.CREATED_BY = userId;
-            _dbContext.Apis.Add(apiPo);
-            _dbContext.SaveChanges();
+            Repository.Update(apiPo, userId);
         }
 
 		/// 
 		/// <param name="apiId"></param>
 		/// <param name="userId"></param>
 		public void DelApi(int apiId, int userId){
-            var api = _dbContext.Tables.Find(apiId);
-            api.IS_DELETED = 1;
-            api.MODIFIED_BY = userId;
-            api.MODIFIED_TIME = DateTime.Now;
-            _dbContext.SaveChanges();
+            var api = Repository.FindSingle(r => r.API_ID == apiId);
+            Repository.SoftDelete(api, userId);
         }
 
         ///         
         public List<Api> QueryApi()
         {
-            var apis = _dbContext.Apis.ToList();
+            var apis = Repository.Find().ToList();
             var list = Mapper.Map<List<ApiPO>, List<Api>>(apis);
             return list;
         }
@@ -72,7 +66,7 @@ namespace FD.Tiny.FormBuilder {
         /// <param name="apiId"></param>
         public Api GetApi(int apiId)
         {
-            var apiPo = _dbContext.Apis.Find(apiId);
+            var apiPo = Repository.FindSingle(r => r.API_ID == apiId);
             var api = Mapper.Map<ApiPO, Api>(apiPo);
             return api;
         }

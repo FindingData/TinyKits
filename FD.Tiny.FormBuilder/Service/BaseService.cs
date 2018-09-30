@@ -14,14 +14,15 @@ using System.IO;
 
 
 namespace FD.Tiny.FormBuilder {
-	public class BaseService {
+	public class BaseService<T> where T : class
+    {
 
-        protected FormBuilderContent _dbContext;
+        protected IRepository<T> Repository;
 
 		/// 
 		/// <param name="dbContext"></param>
-		public BaseService(FormBuilderContent dbContext){
-            this._dbContext = dbContext;
+		public BaseService(IRepository<T> repository){
+            this.Repository = repository;
 		}
 
 	}//end BaseService

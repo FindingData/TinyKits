@@ -16,7 +16,7 @@ namespace FD.Tiny.FormBuilder.UTest
         [TestInitialize]
         public void TestInitialize()
         {
-
+            
         }
 
         [TestMethod]
@@ -57,16 +57,16 @@ namespace FD.Tiny.FormBuilder.UTest
             dbContext.SaveChanges();
         }
 
-        [TestMethod]
-        public void CategoryAddTest()
-        {
-            var cat = new CategoryPO();
-            cat.CATEGORY_NAME = "查勘表";
-            cat.CREATED_BY = 1;
-            cat.CUSTOMER_ID = 1;
-            dbContext.Categories.Add(cat);
-            dbContext.SaveChanges();
-        }
+        //[TestMethod]
+        //public void CategoryAddTest()
+        //{
+        //    var cat = new CategoryPO();
+        //    cat.CATEGORY_NAME = "查勘表";
+        //    cat.CREATED_BY = 1;
+        //    cat.CUSTOMER_ID = 1;
+        //    dbContext.Categories.Add(cat);
+        //    dbContext.SaveChanges();
+        //}
 
         [TestMethod]
         public void FormAddTest()

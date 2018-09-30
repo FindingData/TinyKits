@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicQuery\DynamicQueryable.cs" />
     <Compile Include="Converts\UtilConvert.cs" />
     <Compile Include="Exception\UtilExceptions.cs" />
     <Compile Include="Helper\EnumHelper.cs" />

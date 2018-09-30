@@ -14,7 +14,7 @@ namespace FD.Tiny.FormBuilder
         public FormMappingProfile()
         {
             //formPo to form
-            CreateMap<CategoryPO, Category>();
+           // CreateMap<CategoryPO, Category>();
             CreateMap<FormPO, Form>();
             CreateMap<FormVariablePO, FormVariable>()
                 .ForMember(dest => dest.condition_config, opt =>
@@ -43,7 +43,7 @@ namespace FD.Tiny.FormBuilder
 
 
             //form to formPo
-            CreateMap<Category, CategoryPO>();
+            //CreateMap<Category, CategoryPO>();
             CreateMap<Form, FormPO>();
             CreateMap<FormVariable, FormVariablePO>()
                 .ForMember(dest => dest.CONDITION_CONFIG, opt =>
