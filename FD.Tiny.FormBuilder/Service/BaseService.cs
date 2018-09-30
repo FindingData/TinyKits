@@ -17,7 +17,9 @@ namespace FD.Tiny.FormBuilder {
 	public class BaseService<T> where T : class
     {
 
-        protected IRepository<T> Repository;
+        public IRepository<T> Repository { get; set; }
+
+        public BaseService() { }
 
 		/// 
 		/// <param name="dbContext"></param>

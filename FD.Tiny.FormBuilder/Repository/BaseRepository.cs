@@ -16,6 +16,11 @@ namespace FD.Tiny.FormBuilder
     {
         protected FormBuilderContent Context;
 
+        public BaseRepository()
+        {
+            Context = new FormBuilderContent();
+        }
+
         public BaseRepository(FormBuilderContent contenxt)
         {
             Context = contenxt;

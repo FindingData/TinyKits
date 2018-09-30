@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FD.Tiny.FormBuilder.UTest
 {
     [TestClass]
-    public class DbServiceTests
+    public class DbServiceTests:BaseTest
     {
 
         DbTableService _dbTableService;
@@ -12,15 +12,14 @@ namespace FD.Tiny.FormBuilder.UTest
 
         public DbServiceTests()
         {
-            var dbContext = new FormBuilderContent();
-            _dbTableService = new DbTableService(new BaseRepository<DbTablePO>(dbContext));
-            _dbColService = new DbColumnService(new BaseRepository<DbColumnPO>(dbContext));
+            _dbTableService = AutofacExt.GetFromFac<DbTableService>();
+            _dbColService = AutofacExt.GetFromFac<DbColumnService>();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            AutomapperConfig.Config();
+         
         }
 
         [TestMethod]
@@ -57,6 +56,13 @@ namespace FD.Tiny.FormBuilder.UTest
             Console.WriteLine(colId);
         }
 
+        [TestMethod]
+        public void GetDbColumnTest()
+        {
+            var col = _dbColService.GetDbColumn(2);
+            Console.WriteLine(col.column_name);
+            Console.WriteLine(col.column_name_chs);
+        }
 
     }
 }

@@ -42,6 +42,12 @@ namespace FD.Tiny.FormBuilder
             Repository.SoftDelete(columnPo, userId);
         }
 
+        public DbColumn GetDbColumn(int columnId)
+        {
+            var columnPo = Repository.FindSingle(r => r.COLUMN_ID == columnId);
+            return Mapper.Map<DbColumnPO, DbColumn>(columnPo);
+        }
+
         /// 
         /// <param name="tableId"></param>
         public List<DbColumn> GetTableColumns(int tableId)
