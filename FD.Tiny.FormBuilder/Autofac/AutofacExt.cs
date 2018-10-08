@@ -14,9 +14,7 @@ namespace FD.Tiny.FormBuilder
 
         public static void InitAutofac()
         {
-            var builder = new ContainerBuilder();
-
-            //builder.RegisterInstance(new FormBuilderContent());
+            var builder = new ContainerBuilder();             
 
             //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();

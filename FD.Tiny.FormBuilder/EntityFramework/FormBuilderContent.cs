@@ -36,8 +36,5 @@ namespace FD.Tiny.FormBuilder
             modelBuilder.HasDefaultSchema("FORM");
             base.OnModelCreating(modelBuilder);
         }
-
-
-
     }
 }
