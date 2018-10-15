@@ -71,7 +71,7 @@ namespace FD.Tiny.FormBuilder {
 		/// <param name="schemal"></param>
 		public List<DbTable> QueryDbTable(string schemal){
 
-			var tables = Repository.Find(r => r.SCHEMA_NAME.Equals(schemal)).ToList();
+			var tables = Repository.Find(r => string.IsNullOrEmpty(schemal) || r.SCHEMA_NAME.Equals(schemal)).ToList();
 			var list = Mapper.Map<List<DbTablePO>, List<DbTable>>(tables);
 			return list;
 		}       

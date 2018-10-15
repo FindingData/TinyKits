@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="Api\Api.cs" />
     <Compile Include="Api\ApiParameter.cs" />
-    <Compile Include="Autofac\AutofacExt.cs" />
     <Compile Include="Automapper\AutomapperConfig.cs" />
     <Compile Include="Automapper\FormMappingProfile.cs" />
     <Compile Include="Condition\Condition.cs" />
@@ -150,6 +149,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Autofac\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
