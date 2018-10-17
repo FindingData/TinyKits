@@ -1,7 +1,9 @@
-﻿var dfFormEditVm = new Vue({
+﻿
+var dfFormEditVm = new Vue({
     el: '.df-form-edit',
     components: {
         'label-template': labelTemplate,
+        'quill-rtf': quillRtf,
         'dynamic-form': dynamicForm,
         'vue-scrollbar': Vue2Scrollbar
     },
@@ -10,7 +12,7 @@
             formComponents: [],
             setLableList: [],
             currentLabelData: {},
-            currentLabelindex:-1,
+            currentLabelindex: -1,
             formPreviewVisible: false,
             formSetVisible: false,
             formKey: getParam('formKey'),
@@ -25,7 +27,7 @@
                 form_type: [{ required: true, message: '请选择表单类型', trigger: 'change' }]
             },
             dataSource: [],
-            dicSource:[],
+            dicSource: [],
             paramPopover: [],
             labelWidth: 120,
             column: 1,
@@ -45,8 +47,8 @@
                     key: 'c1003'
                 }
             ],
-            dateType: ['year', 'month', 'date','dates','week','datetime','datetimerange','daterange'],
-            timePickerRangeTemp:'',
+            dateType: ['year', 'month', 'date', 'dates', 'week', 'datetime', 'datetimerange', 'daterange'],
+            timePickerRangeTemp: '',
         }
     },
     methods: {
@@ -72,7 +74,7 @@
             )
         },
         getDataSourceListByType(type) {
-            var result=[]
+            var result = []
             this.dataSource.forEach(item => {
                 if (item.type === type) {
                     result.push(item)
@@ -88,8 +90,9 @@
             console.log(this.setLableList)
         },
         settingData(index) {
-            this.currentLabelindex=index
+            this.currentLabelindex = index
             this.currentLabelData = this.setLableList[index]
+            console.log(this.currentLabelData)
         },
         removeData() {
             this.$confirm('此操作将移除该组件, 是否继续?', '提示', {
@@ -100,9 +103,17 @@
                 this.setLableList.splice(this.currentLabelindex, 1)
                 this.currentLabelindex = -1
                 this.currentLabelData = {}
-                }).catch(() => {
-                })
-            
+            }).catch(() => {
+            })
+        },
+        hasMapLabel() {
+            var flag = false
+            this.setLableList.forEach(item => {
+                if (item.label_type === 'map_gis' || item.label_type === 'map_baidu') {
+                    flag = true
+                }
+            })
+            return flag
         },
         getDataSource(id) {
             var obj = null
@@ -236,6 +247,9 @@
         },
         onScroll() {
             this.$refs.DynamicForm.mapResize()
+        },
+        textChange(contents) {
+            this.currentLabelData.contents = contents
         },
     },
     mounted() {

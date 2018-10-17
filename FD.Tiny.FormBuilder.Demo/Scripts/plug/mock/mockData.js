@@ -245,7 +245,8 @@ var formComponents = [
             },
             {
                 label_type: 'rtf',
-                label_des: '富文本'
+                label_des: '富文本',
+                contents:[]
             },
         ]
     },
@@ -273,13 +274,12 @@ var formComponents = [
                 label_option: {
                     name: '百度地图',
                     primaryKey: '',
-                    defaultValue: '',
-                    maxlength: 100,
-                    minlength: 0,
-                    placeholder: '请输入内容',
-                    clearable: false,
-                    readonly: false,
-                    hidden: false
+                    scaleLevel: [6,18],
+                    enableScrollWheel: true,
+                    enableDragging: true,
+                    enableMapClick: false,
+                    enableSearch: true,
+                    enableLocation: true
                 }
             }
         ]

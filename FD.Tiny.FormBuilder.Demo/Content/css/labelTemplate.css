@@ -45,3 +45,9 @@
     height: 120px;
     background-image: url('/Content/image/baidu.png')
 }
+.f-label-template .label-display-rtf {
+    border: 1px solid #dcdfe6;
+    border-radius: 5px;
+    height: 100px;
+    background-image: url('/Content/image/rtf.png')
+}
