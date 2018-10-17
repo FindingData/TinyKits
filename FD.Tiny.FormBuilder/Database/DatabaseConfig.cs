@@ -13,7 +13,7 @@ using System.IO;
 
 
 
-namespace FD.Tiny.FormBuilder.Database {
+namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// Êı¾İ¿âÅäÖÃ
 	/// </summary>

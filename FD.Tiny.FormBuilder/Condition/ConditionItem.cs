@@ -41,7 +41,7 @@ namespace FD.Tiny.FormBuilder {
 		/// <summary>
 		/// Êı¾İ¿âÅäÖÃ
 		/// </summary>
-		public FD.Tiny.FormBuilder.Database.DatabaseConfig data_base_config{
+		public DatabaseConfig data_base_config{
 			get;  set;
 		}
 
