@@ -150,6 +150,13 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 			return Json(new OkResponse());
 		}
 
+       
+        public ActionResult GetLabelList(int formId)
+        {
+            var list = _labelService.GetLabelList(formId);
+            return Json(new OkResponse(list),JsonRequestBehavior.AllowGet);
+        }
+
 	}//end FormController
 
 }//end namespace Controllers
