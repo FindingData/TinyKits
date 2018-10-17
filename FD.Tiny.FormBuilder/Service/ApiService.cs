@@ -17,6 +17,7 @@ using AutoMapper;
 using System.Data.Entity;
 using System.Linq;
 using FD.Tiny.FormBuilder;
+
 namespace FD.Tiny.FormBuilder {
 	public class ApiService : BaseService<ApiPO> {
 
@@ -55,9 +56,9 @@ namespace FD.Tiny.FormBuilder {
         }
 
         ///         
-        public List<Api> QueryApi()
+        public List<Api> QueryApi(string name)
         {
-            var apis = Repository.Find().ToList();
+            var apis = Repository.Find(a => a.API_NAME.Contains(name)).ToList();
             var list = Mapper.Map<List<ApiPO>, List<Api>>(apis);
             return list;
         }

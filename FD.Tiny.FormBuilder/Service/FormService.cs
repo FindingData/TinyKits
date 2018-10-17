@@ -15,6 +15,7 @@ using System.IO;
 
 using FD.Tiny.FormBuilder;
 using AutoMapper;
+using System.Linq;
 
 namespace FD.Tiny.FormBuilder {
 	public class FormService : BaseService<FormPO> {
@@ -58,7 +59,13 @@ namespace FD.Tiny.FormBuilder {
         {
             var formPo = Repository.FindSingle(r => r.FORM_ID == formId);
             return Mapper.Map<FormPO, Form>(formPo); ;
-        }					
+        }
+
+        public List<Form> QueryForm(string name)
+        {
+            var list = Repository.Find(r => r.FORM_NAME.Contains(name)).ToList();
+            return Mapper.Map<List<FormPO>, List<Form>>(list);
+        }
 
 	}//end FormService
 
