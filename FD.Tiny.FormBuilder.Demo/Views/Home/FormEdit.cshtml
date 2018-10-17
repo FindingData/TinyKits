@@ -8,7 +8,8 @@
     <!--引入gis地图样式-->
     <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/dojo/dijit/themes/tundra/tundra.css" />
     <link rel="stylesheet" type="text/css" href="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/js/esri/css/esri.css" />
-    <!--引入地图样式 end-->
+    <!--引入quill样式-->
+    <link href="~/Scripts/plug/quill/quill.snow.css" rel="stylesheet" />
     <!-- 引入elementui样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入vue2-scrollbar样式 -->
@@ -36,8 +37,11 @@
     <script type="text/javascript" defer="defer" src="http://www.cszfp.net:7080/arcgis_js_api/library/3.8/3.8/init.js"></script>
     <!--引入百度地图V3.0-->
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=9xaY4e2UlCbkuvNr3rCzgsELWHcjbKeA"></script>
-    
+    <!--引入quill.js-->
+    <script src="~/Scripts/plug/quill/quill.min.js"></script>
+
     <script src="~/Scripts/dynamicForm/LabelTemplate.js"></script>
+    <script src="~/Scripts/dynamicForm/QuillRtf.js"></script>
     <script src="~/Scripts/dynamicForm/GisMap.js"></script>
     <script src="~/Scripts/dynamicForm/BaiduMap.js"></script>
     <script src="~/Scripts/dynamicForm/DynamicForm.js"></script>
@@ -51,8 +55,13 @@
                     <h4>组件库</h4>
                     <div v-for="(group,index) in formComponents" :key="index">
                         <h5 style="clear:both;">{{group.component_group}}</h5>
-                        <draggable v-model="group.component_list" :options="{group:{ name:'labelList',  pull:'clone', put:false },ghostClass:'form-config-center-row-ghost',sort:false,animation:300}">
-                            <div v-for="(component, _index) in group.component_list" :key="_index" class="form-config-left-item">
+                        <draggable v-model="group.component_list" class="config-filter"
+                                   :options="{group:{ name:'labelList',  pull:'clone', put:false }, 
+                                              disabled:group.component_group==='扩展组件'&&hasMapLabel(), 
+                                              ghostClass:'form-config-center-row-ghost',
+                                              sort:false,
+                                              animation:300}">
+                            <div v-for="(component, _index) in group.component_list" :key="_index"  class="form-config-left-item">
                                 <span v-text="component.label_des"></span>
                             </div>
                         </draggable>
@@ -82,6 +91,9 @@
                                 <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
                             </div>
                             <div v-else-if="label.label_type==='map_baidu'">
+                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            </div>
+                            <div v-else-if="label.label_type==='rtf'">
                                 <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
                             </div>
                             <el-row v-else>
@@ -205,6 +217,7 @@
                                 <i class="iconfont icon-zhuanhuan"></i>
                                 <el-popover placement="top" width="250" v-model="paramPopover[index]">
                                     <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               :key="_index"
                                                size="mini" plain style="margin:10px;"
                                                v-on:click="paramSetting(param.name,item.key,index)"
                                                :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
@@ -398,6 +411,7 @@
                                 <i class="iconfont icon-zhuanhuan"></i>
                                 <el-popover placement="top" width="250" v-model="paramPopover[index]">
                                     <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               :key="_index"
                                                size="mini" plain style="margin:10px;"
                                                v-on:click="paramSetting(param.name,item.key,index)"
                                                :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
@@ -468,6 +482,7 @@
                                 <i class="iconfont icon-zhuanhuan"></i>
                                 <el-popover placement="top" width="250" v-model="paramPopover[index]">
                                     <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               :key="_index"
                                                size="mini" plain style="margin:10px;"
                                                v-on:click="paramSetting(param.name,item.key,index)"
                                                :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
@@ -538,6 +553,7 @@
                                 <i class="iconfont icon-zhuanhuan"></i>
                                 <el-popover placement="top" width="250" v-model="paramPopover[index]">
                                     <el-button v-for="(item,_index) in getLableListNameForParam()"
+                                               :key="_index"
                                                size="mini" plain style="margin:10px;"
                                                v-on:click="paramSetting(param.name,item.key,index)"
                                                :type="getParamSetting(param.name,item.key)!==null?'success':'info'">{{item.name}}</el-button>
@@ -910,6 +926,56 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
+                    <el-form v-else-if="currentLabelData.label_type==='map_baidu'" :model="currentLabelData.label_option" label-width="120px">
+                        <el-form-item label="表单项名称">
+                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="表单项主键">
+                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否滚轮缩放">
+                            <el-radio-group v-model="currentLabelData.label_option.enableScrollWheel">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否拖拽">
+                            <el-radio-group v-model="currentLabelData.label_option.enableDragging">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="默认POI点击">
+                            <el-radio-group v-model="currentLabelData.label_option.enableMapClick">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否启用搜索">
+                            <el-radio-group v-model="currentLabelData.label_option.enableSearch">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否启用定位">
+                            <el-radio-group v-model="currentLabelData.label_option.enableLocation">
+                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">是</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="地图缩放范围">
+                            <el-slider v-model="currentLabelData.label_option.scaleLevel" range show-stops :min="1" :max="18">
+                            </el-slider>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <quill-rtf v-else-if="currentLabelData.label_type==='rtf'"
+                               :eidt-enabled="true"
+                               :contents="currentLabelData.contents"
+                               v-on:text-change="textChange">
+                    </quill-rtf>
                     <div v-else style="padding:150px 0;text-align:center;color:#808080;">
                         请选择一个组件进行编辑
                     </div>

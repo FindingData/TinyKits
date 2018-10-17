@@ -108,3 +108,18 @@
 .f-form-preview-dialog .el-rate {
     margin-top:5px;
 }
+.ql-rtf-enable .ql-toolbar {
+    display:none;
+}
+.ql-rtf-enable .ql-container.ql-snow {
+    border: none;
+}
+
+/**隐藏百度地图logo*/
+.BMap_cpyCtrl {
+    display: none;
+}
+
+.anchorBL {
+    display: none;
+}  

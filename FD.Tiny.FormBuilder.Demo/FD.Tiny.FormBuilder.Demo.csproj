@@ -162,6 +162,7 @@
     <Content Include="Content\image\map2.png" />
     <Content Include="Content\image\map21.png" />
     <Content Include="Content\image\map7.png" />
+    <Content Include="Content\image\rtf.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -173,6 +174,7 @@
     <Content Include="Scripts\dynamicForm\BaiduMap.js" />
     <Content Include="Scripts\dynamicForm\DynamicForm.js" />
     <Content Include="Scripts\dynamicForm\GisMap.js" />
+    <Content Include="Scripts\dynamicForm\QuillRtf.js" />
     <Content Include="Scripts\Home\FormEdit.js" />
     <Content Include="Scripts\Home\FormPreview.js" />
     <Content Include="Scripts\Home\Index.js" />
@@ -184,6 +186,8 @@
     <Content Include="Scripts\plug\element\index.js" />
     <Content Include="Scripts\plug\mock\mock.js" />
     <Content Include="Scripts\plug\mock\mockData.js" />
+    <Content Include="Scripts\plug\quill\quill.min.js" />
+    <Content Include="Scripts\plug\quill\quill.snow.css" />
     <Content Include="Scripts\plug\vue2-scrollbar\style\vue2-scrollbar.css" />
     <Content Include="Scripts\plug\vue2-scrollbar\vue2-scrollbar.js" />
     <Content Include="Scripts\plug\vue\vue.js" />

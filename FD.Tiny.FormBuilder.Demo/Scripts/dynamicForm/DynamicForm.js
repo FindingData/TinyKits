@@ -24,7 +24,8 @@ var dynamicForm = {
     },
     components: {
         'gis-map': gisMap,
-        'baidu-map': baiduMap
+        'baidu-map': baiduMap,
+        'quill-rtf': quillRtf
     },
     data() {
         return {
@@ -346,10 +347,20 @@ var dynamicForm = {
                         :center-y="CenterY" 
                         :pca-code="pcaCode">
                 </gis-map>
-                <baidu-map v-for="(label,index) in setLableList" :key="index" v-else-if="label.label_type==='map_baidu'"
+                <baidu-map v-else-if="label.label_type==='map_baidu'"
                         ref="BaiduMap"
-                        :search-show="false">
+                        :scale-level="label.label_option.scaleLevel"
+                        :enable-scroll-wheel="label.label_option.enableScrollWheel"
+                        :enable-dragging="label.label_option.enableDragging"
+                        :enable-map-click="label.label_option.enableMapClick"
+                        :enable-search="label.label_option.enableSearch"
+                        :enable-location="label.label_option.enableLocation"
+                        :default-point="label.label_option.defaultPoint">
                 </baidu-map>
+                <quill-rtf v-else-if="label.label_type==='rtf'"
+                           :eidt-enabled="false"
+                           :contents="label.contents" >
+                </quill-rtf>
                 <el-form-item v-else
                               :label="label.label_option.name"
                               v-show="!label.label_option.hidden"

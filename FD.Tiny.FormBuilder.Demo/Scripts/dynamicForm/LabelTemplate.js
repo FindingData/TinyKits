@@ -145,6 +145,9 @@
             <div v-else-if="lableType==='map_baidu'" class="label-map-baidu">
                 
             </div>
+            <div v-else-if="lableType==='rtf'" class="label-display-rtf">
+                
+            </div>
         </div>
         
         `
