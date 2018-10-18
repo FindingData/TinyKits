@@ -12,6 +12,12 @@ namespace FD.Tiny.FormBuilder.Demo
     {
         protected void Application_Start()
         {
+            //注册容器
+            AutofacExt.InitAutofac();
+
+            //配置映射
+            AutomapperConfig.Config();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

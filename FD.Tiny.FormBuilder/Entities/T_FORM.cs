@@ -26,15 +26,7 @@ namespace FD.Tiny.FormBuilder
             get;set;
         }
 						
-		/// <summary>
-		/// 分类ID
-        /// </summary>        
-				
-        public decimal? CATEGORY_ID
-        {
-            get;set;
-        }
-						
+	 
 		/// <summary>
 		/// 表单名称
         /// </summary>        
