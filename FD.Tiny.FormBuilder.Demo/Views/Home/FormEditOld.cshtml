@@ -56,12 +56,12 @@
                     <div v-for="(group,index) in formComponents" :key="index">
                         <h5 style="clear:both;">{{group.component_group}}</h5>
                         <draggable v-model="group.component_list" class="config-filter"
-                                   :options="{group:{ name:'labelList',  pull:'clone', put:false },
-                                              disabled:group.component_group==='扩展组件'&&hasMapLabel(),
+                                   :options="{group:{ name:'labelList',  pull:'clone', put:false }, 
+                                              disabled:group.component_group==='扩展组件'&&hasMapLabel(), 
                                               ghostClass:'form-config-center-row-ghost',
                                               sort:false,
                                               animation:300}">
-                            <div v-for="(component, _index) in group.component_list" :key="_index" class="form-config-left-item">
+                            <div v-for="(component, _index) in group.component_list" :key="_index"  class="form-config-left-item">
                                 <span v-text="component.label_des"></span>
                             </div>
                         </draggable>

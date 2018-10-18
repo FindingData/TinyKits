@@ -52,37 +52,27 @@
         </div>
         <!--表单列表-->
         <el-table :data="formList" border>
+            <el-table-column prop="form_id"
+                             label="表单ID"
+                             width="120">
+            </el-table-column>
             <el-table-column prop="form_name"
                              label="表单名称"
                              width="200">
             </el-table-column>
-            <el-table-column prop="form_type"
-                             label="所属类型"
-                             width="120">
-                <template slot-scope="scope">
-                    <span v-text="getFormTypeAttr(scope.row.form_type)"></span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="form_share"
-                             label="是否共享"
-                             width="120">
-                <template slot-scope="scope">
-                    <span v-text="scope.row.form_share?'是':'否'"></span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="form_des"
+            <el-table-column prop="form_desc"
                              label="描述">
             </el-table-column>
             <el-table-column label="操作"
                              width="180">
                 <template slot-scope="scope">
-                    <el-button circle size="mini" type="primary" title="编辑" v-on:click="handleEdit(scope.$index)">
+                    <el-button circle size="mini" type="primary" title="编辑" v-on:click="handleEdit(scope.row.form_id)">
                         <i class="iconfont icon-bianji1"></i>
                     </el-button>
-                    <el-button circle size="mini" type="info" title="预览" v-on:click="handlePreview(scope.$index)">
+                    <el-button circle size="mini" type="info" title="预览" v-on:click="handlePreview(scope.row.form_id)">
                         <i class="iconfont icon-review"></i>
                     </el-button>
-                    <el-button circle size="mini" type="danger" title="删除" v-on:click="handleDelete(scope.$index)">
+                    <el-button circle size="mini" type="danger" title="删除" v-on:click="handleDelete(scope.row.form_id)">
                         <i class="iconfont icon-huishouzhan"></i>
                     </el-button>
                 </template>
@@ -94,20 +84,8 @@
                 <el-form-item label="表单名称" prop="form_name">
                     <el-input v-model="customerForm.form_name"></el-input>
                 </el-form-item>
-                <el-form-item label="所属分类" prop="form_type">
-                    <el-select v-model="customerForm.form_type" clearable placeholder="请选择表单分类">
-                        <el-option v-for="(value,key) in FormType"
-                                   :key="value"
-                                   :label="key"
-                                   :value="value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="是否共享" prop="form_share">
-                    <el-switch v-model="customerForm.form_share"></el-switch>
-                </el-form-item>
-                <el-form-item label="描述" prop="form_des">
-                    <el-input type="textarea" v-model="customerForm.form_des"></el-input>
+                <el-form-item label="描述" prop="form_desc">
+                    <el-input type="textarea" v-model="customerForm.form_desc"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" v-on:click="addForm">确定</el-button>

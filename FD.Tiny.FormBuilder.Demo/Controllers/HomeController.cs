@@ -12,8 +12,11 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers
         {
             return View();
         }
-
-        public ActionResult FormEdit(string formKey)
+        public ActionResult FormEdit(int formId)
+        {
+            return View();
+        }
+        public ActionResult FormEditOld(string formKey)
         {
             return View();
         }

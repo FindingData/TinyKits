@@ -87,11 +87,6 @@ var dfFormEditVm = new Vue({
         },
         addData(evt) {
             this.setLableList = clone(this.setLableList)
-            this.setLableList.forEach((item,index) => {
-                if (item.label_id === 0) {
-
-                }
-            })
             console.log(this.setLableList)
         },
         settingData(index) {
@@ -195,7 +190,7 @@ var dfFormEditVm = new Vue({
                     })
                 }
             })
-            result = result.concat(this.constant)
+            result=result.concat(this.constant)
             return result
         },
         setTimeSelectableRange() {
@@ -204,15 +199,15 @@ var dfFormEditVm = new Vue({
                 var item = this.timePickerRangeTemp[0] + ' - ' + this.timePickerRangeTemp[1]
                 if (_this !== '') {
                     if (_this.indexOf(',') !== -1) {
-                        _this = _this.replace(']', ',"' + item + '"]')
+                        _this = _this.replace(']',',"'+item+'"]')
                     } else {
-                        _this = '["' + _this + '","' + item + '"]'
+                        _this = '["' + _this+'","'+item+'"]'
                     }
                 } else {
-                    _this = item
+                    _this=item
                 }
                 this.currentLabelData.label_option.pickerOptions.selectableRange = _this
-                this.timePickerRangeTemp = ''
+                this.timePickerRangeTemp=''
             }
         },
         getForm() {
@@ -247,7 +242,7 @@ var dfFormEditVm = new Vue({
             if (this.$refs.DynamicForm) {
                 setTimeout(() => {
                     this.$refs.DynamicForm.refreshFrom()
-                }, 500)
+                },500)
             }
         },
         onScroll() {

@@ -12,13 +12,10 @@ var dfIndexVm = new Vue({
             formList: [],
             customerForm: {
                 form_name: '',
-                form_type: '',
-                form_share: false,
-                form_des: ''
+                form_desc: ''
             },
             customerFormRules: {
-                form_name: [{ required: true, message: '请输入表单名称', trigger: 'blur' }],
-                form_type: [{ required: true, message: '请选择表单类型', trigger: 'change' }]
+                form_name: [{ required: true, message: '请输入表单名称', trigger: 'blur' }]
             },
             formPreviewVisible: false,
             currentFormKey: '',
@@ -33,48 +30,40 @@ var dfIndexVm = new Vue({
             return getFormTypeAttr(type)
         },
         getFormList() {
-            this.formList.splice(0, this.formList.length)
-            var formKeyListStr = localStorage.getItem('formList')
-            if (formKeyListStr !== null) {
-                var formKeyList = formKeyListStr.split(',')
-                formKeyList.forEach(item => {
-                    var form = JSON.parse(localStorage.getItem(item)).formConfig
-                    form.formKey = item
-                    this.formList.push(form)
-                    console.log(form)
-                })
+            var param = {
+                name: ''
             }
+            get('/Form/Index', param).then(
+                res => {
+                    console.log('表单列表',res)
+                    this.formList = res.Result
+                }
+            )
         },
         addForm() {
             this.$refs.CustomerForm.validate((valid) => {
                 if (valid) {
-                    var formKey = 'F' + new Date().getTime()
-                    var form = {
-                        formConfig: this.customerForm,
-                        formContent:[]
+                    var param = {
+                        form: this.customerForm
                     }
-                    localStorage.setItem(formKey, JSON.stringify(form))
-                    var formKeyList=[]
-                    var formKeyListStr = localStorage.getItem('formList')
-                    if (formKeyListStr !== null) {
-                        formKeyList = formKeyListStr.split(',')
-                    }
-                    formKeyList.push(formKey)
-                    localStorage.setItem('formList', formKeyList.join(','))
-                    this.getFormList()
-                    this.formAddVisible = false
+                    post('/Form/Add', param).then(
+                        res => {
+                            console.log(res)
+                            this.getFormList()
+                            this.formAddVisible = false
+                        }
+                    )
                 }
             })
         },
         formAddClose() {
             this.$refs.CustomerForm.resetFields()
         },
-        handleEdit(index) {
-            var formKeyList = localStorage.getItem('formList').split(',')
-            var url = '/Home/FormEdit?formKey=' + formKeyList[index]
+        handleEdit(formId) {
+            var url = '/Home/FormEdit?formId=' + formId
             window.open(url, "_blank")
         },
-        handlePreview(index) {
+        handlePreview(formId) {
             var formKeyList = localStorage.getItem('formList').split(',')
             this.currentFormKey = formKeyList[index]
             setTimeout(() => {
@@ -84,20 +73,15 @@ var dfIndexVm = new Vue({
             //var url = '/DynamicForm/FormPreview?formKey=' + formKeyList[index]
             //window.open(url, "_blank")
         },
-        handleDelete(index) {
+        handleDelete(formId) {
             this.$confirm('此操作将删除该表单, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                var formKeyList = localStorage.getItem('formList').split(',')
-                localStorage.removeItem(formKeyList[index])
-                formKeyList.splice(index, 1)
-                localStorage.setItem('formList', formKeyList.join(','))
-                this.getFormList()
                 this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+                    type: 'info',
+                    message: '待开发'
                 })
             })
         },
@@ -115,21 +99,10 @@ var dfIndexVm = new Vue({
         onScroll() {
             this.$refs.DynamicForm.mapResize()
         },
-        getFormListApi() {
-            var param = {
-                name:''
-            }
-            get('/Form/Index', param).then(
-                res => {
-                    console.log(res)
-                }
-            )
-        },
 
     },
     mounted() {
         this.getFormList()
-        this.getFormListApi()
     }
 })
 
