@@ -115,9 +115,21 @@ var dfIndexVm = new Vue({
         onScroll() {
             this.$refs.DynamicForm.mapResize()
         },
+        getFormListApi() {
+            var param = {
+                name:''
+            }
+            get('/Form/Index', param).then(
+                res => {
+                    console.log(res)
+                }
+            )
+        },
+
     },
     mounted() {
         this.getFormList()
+        this.getFormListApi()
     }
 })
 
