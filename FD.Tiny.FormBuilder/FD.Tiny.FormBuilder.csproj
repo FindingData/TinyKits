@@ -109,6 +109,7 @@
     <Compile Include="FormVariable.cs" />
     <Compile Include="Label\Label.cs" />
     <Compile Include="Label\LabelConfig.cs" />
+    <Compile Include="Label\Option.cs" />
     <Compile Include="Map\ArcigisMapConfig.cs" />
     <Compile Include="Map\BaiduMapConfig.cs" />
     <Compile Include="Map\MapConfig.cs" />
