@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Api.cs" />
+    <Compile Include="Api\ApiData.cs" />
     <Compile Include="Api\ApiParameter.cs" />
     <Compile Include="Automapper\AutomapperConfig.cs" />
     <Compile Include="Automapper\FormMappingProfile.cs" />

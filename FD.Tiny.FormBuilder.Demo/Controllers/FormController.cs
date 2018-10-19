@@ -129,7 +129,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 		public ActionResult AddLabel(Label label){
 
 			var result = _labelService.AddLabel(label, 0);
-			return Json(new OkResponse(label));
+			return Json(new OkResponse(result));
 		}
 
 		/// 
