@@ -21,13 +21,33 @@ namespace FD.Tiny.FormBuilder {
 	public class FormService : BaseService<FormPO> {
 
         private FormStoreService _formStoreService;
+        private FormVariableService _formVariableService;
+        private LabelService _labelService;
 
         public FormService(IRepository<FormPO> repository,
-            FormStoreService formStoreService) : base(repository)
+            FormStoreService formStoreService,
+            FormVariableService formVariableService,
+            LabelService labelService) : base(repository)
         {
             _formStoreService = formStoreService;
+            _formVariableService = formVariableService;
+            _labelService = labelService;
         }
 
+
+        public Form BuildForm(int formId)
+        {
+            var form = GetForm(formId);
+            form.variable_list = _formVariableService.GetFormVariableList(formId);            
+            var labelList = _labelService.GetLabelList(formId);
+            //var labelGroup = labelList.GroupBy(l => l.group_name);
+            foreach (var group in form.group_list)
+            {
+                //group.label_list = labelGroup.Single(l => l.Key == group.group_name).ToList();
+                group.label_list = labelList.Where(l => l.group_name == group.group_name).ToList();
+            }                      
+            return form;
+        }
 
         public List<DbData> RetriveDbData(int storeId)
         {
@@ -35,9 +55,9 @@ namespace FD.Tiny.FormBuilder {
             var store = _formStoreService.GetFormStore(storeId);
             if (store == null)
                 return null;
-            var form = GetForm(store.form_id);
+            var variableList = _formVariableService.GetFormVariableList(store.form_id);
 
-            foreach (var dbVariable in form.variable_list.Where(v => v.database_config != null))
+            foreach (var dbVariable in variableList.Where(v => v.database_config != null))
             {
                 var value = store.form_data_list.FirstOrDefault(d => d.variable_id == dbVariable.variable_id)?.variable_value;
                 var data = new DbData()

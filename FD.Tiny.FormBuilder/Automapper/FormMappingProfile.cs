@@ -23,7 +23,7 @@ namespace FD.Tiny.FormBuilder
             })
             .ForMember(dest => dest.database_config, opt =>
             {
-                opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.DATABASE_CONFIG));
+                opt.MapFrom(src => JsonHelper.Instance.Deserialize<DatabaseConfig>(src.DATABASE_CONFIG));
             })
             .ForMember(dest => dest.data_type, opt =>
             {

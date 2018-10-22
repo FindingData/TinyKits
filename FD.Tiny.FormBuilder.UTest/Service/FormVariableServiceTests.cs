@@ -15,29 +15,30 @@ namespace FD.Tiny.FormBuilder.Tests
     {
         private FormVariableService _formVariableService;
 
-        
-        public  FormVariableServiceTests()
+
+        public FormVariableServiceTests()
         {
             _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
         }
 
         [TestMethod]
-        public void AddFormVariabel()
+        public void AddFormVariabelTest()
         {
             var variable = new FormVariable();
 
             variable.database_config = new DatabaseConfig()
             {
-                column_name = "column_name",
+                column_name = "column_value",
                 table_name = "t_col",
             };
             variable.form_id = 1;
-            variable.variable_name = "abc";
-            variable.variable_name_chs = "你";
+            variable.variable_name = "var_n";
+            variable.variable_name_chs = "我";
             variable.data_type = DataType.String;
-            variable.default_value = "column_name";
-            _formVariableService.AddFormVariabel(variable, 0);           
+            variable.default_value = "column_value";
+            _formVariableService.AddFormVariabel(variable, 0);
         }
+        
 
     }
 }
