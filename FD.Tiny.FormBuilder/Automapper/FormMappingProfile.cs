@@ -14,17 +14,22 @@ namespace FD.Tiny.FormBuilder
         public FormMappingProfile()
         {
             //formPo to form
-           // CreateMap<CategoryPO, Category>();
+            // CreateMap<CategoryPO, Category>();
             CreateMap<FormPO, Form>();
             CreateMap<FormVariablePO, FormVariable>()
-                .ForMember(dest => dest.condition_config, opt =>
-                   {
-                       opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.CONDITION_CONFIG));
-                   })
-                 .ForMember(dest => dest.data_type, opt =>
-                 {
-                     opt.MapFrom(src => (DataType)src.DATA_TYEP);
-                 });
+            .ForMember(dest => dest.condition_config, opt =>
+            {
+                opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.CONDITION_CONFIG));
+            })
+            .ForMember(dest => dest.database_config, opt =>
+            {
+                opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.DATABASE_CONFIG));
+            })
+            .ForMember(dest => dest.data_type, opt =>
+            {
+                opt.MapFrom(src => (DataType)src.DATA_TYEP);
+            });
+
             CreateMap<LabelPO, Label>()
                 .ForMember(dest => dest.label_config, opt =>
                    {
@@ -41,7 +46,6 @@ namespace FD.Tiny.FormBuilder
                 });
 
 
-
             //form to formPo
             //CreateMap<Category, CategoryPO>();
             CreateMap<Form, FormPO>();
@@ -49,6 +53,10 @@ namespace FD.Tiny.FormBuilder
                 .ForMember(dest => dest.CONDITION_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.condition_config));
+                })
+                .ForMember(dest => dest.DATABASE_CONFIG, opt =>
+                {
+                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.database_config));
                 })
                 .ForMember(dest => dest.DATA_TYEP, opt =>
                 {
@@ -62,11 +70,11 @@ namespace FD.Tiny.FormBuilder
             CreateMap<FormStore, FormStorePO>()
                 .ForMember(dest => dest.DATA_STORE_CONTENT, opt =>
                 {
-                opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_data_list));
+                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_data_list));
                 })
                 .ForMember(dest => dest.FORM_STORE_CONTENT, opt =>
                 {
-                opt.MapFrom(src => JsonHelper.Instance.Serialize(src.form_data_list));
+                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.form_data_list));
                 });
 
             //apiPo to api
@@ -78,7 +86,7 @@ namespace FD.Tiny.FormBuilder
             {
                 opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<ApiParameter>>(src.RESPONSE_PARAMETER_CONTENT));
             });
-            
+
 
             //api to apiDto
             CreateMap<Api, ApiPO>().ForMember(dest => dest.REQUEST_PARAMETER_CONTENT, opt =>

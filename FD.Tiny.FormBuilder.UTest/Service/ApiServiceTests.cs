@@ -47,7 +47,6 @@ namespace FD.Tiny.FormBuilder.Tests
                 sql_content = "select c.construction_code,c.construction_name from redas.t_construction c where rownum < 10 ",                
             };
             _apiService.AddApi(api, 0);
-
         }
 
         [TestMethod()]

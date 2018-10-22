@@ -39,14 +39,7 @@ namespace FD.Tiny.FormBuilder {
 		/// </summary>
 		public DataSource data_source_config{
 			get;  set;
-		}
-
-		/// <summary>
-		/// 数据库配置
-		/// </summary>
-		public DatabaseConfig data_base_config{
-			get;  set;
-		}
+		}		 
 
 		/// <summary>
 		/// 关联配置

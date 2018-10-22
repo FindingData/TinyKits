@@ -20,9 +20,35 @@ using System.Linq;
 namespace FD.Tiny.FormBuilder {
 	public class FormService : BaseService<FormPO> {
 
-        public FormService(IRepository<FormPO> repository) : base(repository)
-        {
+        private FormStoreService _formStoreService;
 
+        public FormService(IRepository<FormPO> repository,
+            FormStoreService formStoreService) : base(repository)
+        {
+            _formStoreService = formStoreService;
+        }
+
+
+        public List<DbData> RetriveDbData(int storeId)
+        {
+            List<DbData> dataList = new List<DbData>();
+            var store = _formStoreService.GetFormStore(storeId);
+            if (store == null)
+                return null;
+            var form = GetForm(store.form_id);
+
+            foreach (var dbVariable in form.variable_list.Where(v => v.database_config != null))
+            {
+                var value = store.form_data_list.FirstOrDefault(d => d.variable_id == dbVariable.variable_id)?.variable_value;
+                var data = new DbData()
+                {
+                    column_name = dbVariable.database_config.table_name,
+                    table_name = dbVariable.database_config.column_name,
+                    column_value = value,
+                };
+                dataList.Add(data);
+            }
+            return dataList;
         }
 
         /// 

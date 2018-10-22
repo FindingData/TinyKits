@@ -83,6 +83,7 @@
     <Compile Include="Constants\ValidatorType.cs" />
     <Compile Include="Constants\ValueMethod.cs" />
     <Compile Include="Constants\VirableType.cs" />
+    <Compile Include="Database\DbData.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="EntityFramework\DbContextConfiguration.cs" />
     <Compile Include="EntityFramework\FormBuilderContent.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Service\ApiService.cs" />
     <Compile Include="Service\BaseService.cs" />
+    <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\DbColumnService.cs" />
     <Compile Include="Service\DbTableService.cs" />
     <Compile Include="Service\FormService.cs" />

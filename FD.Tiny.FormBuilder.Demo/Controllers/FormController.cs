@@ -79,14 +79,15 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 			return null;
 		}
 
-		/// 
-		/// <param name="store"></param>
-		[HttpPost]
-		public ActionResult Submit(FormStore store){
+        /// 
+        /// <param name="store"></param>
+        [HttpPost]
+        public ActionResult Submit(FormStore store)
+        {
+            _StoreService.SaveFormStore(store, 0);
 
-			_StoreService.SaveFormStore(store, 0);
-						return Json(new OkResponse());
-		}
+            return Json(new OkResponse());
+        }
 
 		/// 
 		/// <param name="storeId"></param>

@@ -70,11 +70,16 @@ namespace FD.Tiny.FormBuilder
         {
             get;set;
         }
-						
-		/// <summary>
-		/// 数据类型
+
+        /// <summary>
+        /// 数据配置
+        /// </summary>
+        public string DATABASE_CONFIG { get; set; }
+
+        /// <summary>
+        /// 数据类型
         /// </summary>        
-				
+
         public decimal? DATA_TYEP
         {
             get;set;
