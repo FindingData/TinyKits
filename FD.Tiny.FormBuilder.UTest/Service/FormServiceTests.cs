@@ -54,6 +54,12 @@ namespace FD.Tiny.FormBuilder.Tests
             _formService.SaveForm(form, 0);            
         }
 
+        [TestMethod]
+        public void Submit()
+        {
+             
+        }
+
         [TestMethod()]
         public void DelFormTest()
         {

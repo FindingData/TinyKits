@@ -16,11 +16,7 @@ namespace FD.Tiny.FormBuilder
             //formPo to form
             // CreateMap<CategoryPO, Category>();
             CreateMap<FormPO, Form>();
-            CreateMap<FormVariablePO, FormVariable>()
-            .ForMember(dest => dest.condition_config, opt =>
-            {
-                opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.CONDITION_CONFIG));
-            })
+            CreateMap<FormVariablePO, FormVariable>()          
             .ForMember(dest => dest.database_config, opt =>
             {
                 opt.MapFrom(src => JsonHelper.Instance.Deserialize<DatabaseConfig>(src.DATABASE_CONFIG));
@@ -28,7 +24,21 @@ namespace FD.Tiny.FormBuilder
             .ForMember(dest => dest.data_type, opt =>
             {
                 opt.MapFrom(src => (DataType)src.DATA_TYEP);
-            });
+            })
+              .ForMember(dest => dest.variable_type, opt =>
+              {
+                  opt.MapFrom(src => (VariableType)src.VARIABLE_TYPE);
+              });
+
+            CreateMap<FormVariablePO, LabelVariable>()
+                .IncludeBase<FormVariablePO, FormVariable>();
+            CreateMap<FormVariablePO, ConditionVariable>()
+                  .ForMember(dest => dest.condition_list, opt =>
+                  {
+                      opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<Condition>>(src.CONDITION_CONFIG));
+                  })
+                .IncludeBase<FormVariablePO, FormVariable>();
+
 
             CreateMap<LabelPO, Label>()
                 .ForMember(dest => dest.label_config, opt =>
@@ -49,11 +59,7 @@ namespace FD.Tiny.FormBuilder
             //form to formPo
             //CreateMap<Category, CategoryPO>();
             CreateMap<Form, FormPO>();
-            CreateMap<FormVariable, FormVariablePO>()
-                .ForMember(dest => dest.CONDITION_CONFIG, opt =>
-                {
-                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.condition_config));
-                })
+            CreateMap<FormVariable, FormVariablePO>()             
                 .ForMember(dest => dest.DATABASE_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.database_config));
@@ -61,7 +67,20 @@ namespace FD.Tiny.FormBuilder
                 .ForMember(dest => dest.DATA_TYEP, opt =>
                 {
                     opt.MapFrom(src => (int)src.data_type);
-                });
+                })
+              .ForMember(dest => dest.VARIABLE_TYPE, opt =>
+               {
+                   opt.MapFrom(src => (int)src.variable_type);
+               });
+            CreateMap<LabelVariable, FormVariablePO>().IncludeBase<FormVariable, FormVariablePO>();
+
+            CreateMap<ConditionVariable, FormVariablePO>()
+                   .ForMember(dest => dest.CONDITION_CONFIG, opt =>
+                   {
+                       opt.MapFrom(src => JsonHelper.Instance.Serialize(src.condition_list));
+                   })
+                .IncludeBase<FormVariable, FormVariablePO>();
+
             CreateMap<Label, LabelPO>()
                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
                 {

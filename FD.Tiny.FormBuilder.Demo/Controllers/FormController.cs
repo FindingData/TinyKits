@@ -89,13 +89,21 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
             return Json(new OkResponse());
         }
 
-		/// 
-		/// <param name="storeId"></param>
-		public ActionResult Retrieve(int storeId){
+        /// 
+        /// <param name="storeId"></param>
+        [HttpGet]
+        public ActionResult Retrieve(int storeId){
 
 			var result = _StoreService.GetFormStore(storeId);
 			return Json(new OkResponse(result), JsonRequestBehavior.AllowGet);
 		}
+
+        [HttpGet]
+        public ActionResult RetrieveDbData(int storeId)
+        {
+            var result = _formService.RetriveDbData(storeId);
+            return Json(new OkResponse(result), JsonRequestBehavior.AllowGet);
+        }
 
 		/// 
 		/// <param name="variable"></param>

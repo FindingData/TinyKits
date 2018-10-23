@@ -33,16 +33,7 @@ namespace FD.Tiny.FormBuilder
         public decimal? FORM_ID
         {
             get;set;
-        }
-						
-		/// <summary>
-		/// 变量名称
-        /// </summary>        
-				
-        public string VARIABLE_NAME
-        {
-            get;set;
-        }
+        }								
 						
 		/// <summary>
 		/// 变量中文名称
@@ -75,6 +66,16 @@ namespace FD.Tiny.FormBuilder
         /// 数据配置
         /// </summary>
         public string DATABASE_CONFIG { get; set; }
+
+        /// <summary>
+        /// 原始值
+        /// </summary>
+        public string INNER_VALUE { get; set; }
+
+        /// <summary>
+        /// 变量类型
+        /// </summary>
+        public decimal VARIABLE_TYPE { get; set; }
 
         /// <summary>
         /// 数据类型

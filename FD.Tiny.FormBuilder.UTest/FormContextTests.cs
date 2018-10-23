@@ -84,8 +84,7 @@ namespace FD.Tiny.FormBuilder.UTest
         public void FormVariableAddTest()
         {
             var formVar = new FormVariablePO();
-            formVar.FORM_ID = 1;
-            formVar.VARIABLE_NAME = "object_name";
+            formVar.FORM_ID = 1;            
             formVar.IS_PARAMETER = 0;
             formVar.VARIABLE_NAME_CHS = "标的名称";
             formVar.DATA_TYEP = (decimal)DataType.String;

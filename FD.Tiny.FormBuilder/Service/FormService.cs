@@ -14,6 +14,7 @@ using System.IO;
 
 
 using FD.Tiny.FormBuilder;
+using FD.Tiny.Common.Utility.Dict;
 using AutoMapper;
 using System.Linq;
 
@@ -49,6 +50,22 @@ namespace FD.Tiny.FormBuilder {
             return form;
         }
 
+        public void Submit(FormStore store)
+        {
+            Dictionary<string, object> labelDataList = store.label_data_list.ToDictionary(k => k.label_name_chs, v => v.label_value);            
+            var variables = _formVariableService.GetFormVariableList(store.form_id);
+            foreach (var variable in variables)
+            {
+                var formData = new FormData()
+                {
+                    variable_id = variable.variable_id,
+                    variable_name_chs = variable.variable_name_chs,
+                    variable_value = variable.GetValue(r => labelDataList.GetOrDefault(r).ToString())
+                };                
+                store.form_data_list.Add(formData);
+            }
+        }        
+       
         public List<DbData> RetriveDbData(int storeId)
         {
             List<DbData> dataList = new List<DbData>();

@@ -31,8 +31,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 column_name = "column_value",
                 table_name = "t_col",
             };
-            variable.form_id = 1;
-            variable.variable_name = "var_n";
+            variable.form_id = 1;            
             variable.variable_name_chs = "我";
             variable.data_type = DataType.String;
             variable.default_value = "column_value";
