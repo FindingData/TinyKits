@@ -45,7 +45,7 @@ namespace FD.Tiny.FormBuilder
 
             CreateMap<LabelPO, Label>()
                 .ForMember(dest=> dest.data_type, opt => {
-                      opt.MapFrom(src=>(DataType)src.DATA_TYPE)
+                    opt.MapFrom(src => (DataType)src.DATA_TYPE);
                 })
                 .ForMember(dest => dest.label_config, opt =>
                    {
