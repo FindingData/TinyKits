@@ -23,7 +23,7 @@ var dfFormEditVm = new Vue({
                             default_value: '',
                             label_sort: 0,
                             group_name: '',
-                            label_config: '1'
+                            label_config: {}
                         },
                         {
                             label_id: 0,
@@ -246,6 +246,7 @@ var dfFormEditVm = new Vue({
             return result
         },
         updateData(evt) {
+            this.updateSort()
             console.log(this.setLableList)
         },
         addData(evt) {
@@ -258,12 +259,36 @@ var dfFormEditVm = new Vue({
                     }
                     post('/Form/AddLabel', param).then(
                         res => {
-                            console.log(res)
+                            if (res.Status) {
+                                this.setLableList[i].label_id = res.Result
+                                this.updateSort()
+                            } else {
+                                this.setLableList.splice(i, 1)
+                                this.$message({
+                                    type: 'error',
+                                    message: res.Message
+                                })
+                            }
                         }
                     )
                 }
             }
             console.log(this.setLableList)
+        },
+        updateSort() {
+            this.setLableList.forEach((item,index) => {
+                if (item.label_sort !== index) {
+                    item.label_sort = index
+                    var param = {
+                        label: item
+                    }
+                    post('/Form/SaveLabel', param).then(
+                        res => {
+                            console.log(res)
+                        }
+                    )
+                }
+            })
         },
         settingData(index) {
             this.currentLabelindex = index
@@ -386,10 +411,25 @@ var dfFormEditVm = new Vue({
                 this.timePickerRangeTemp = ''
             }
         },
+        getLabelList() {
+            var param = {
+                formId: this.formId
+            }
+            get('/Form/GetLabelList', param).then(
+                res => {
+                    console.log(res)
+                }
+            )
+        },
         getForm() {
-            var form = JSON.parse(localStorage.getItem(this.formKey))
-            this.setLableList = form.formContent
-            this.customerForm = form.formConfig
+            var param = {
+                formId: this.formId
+            }
+            get('/Form/Get', param).then(
+                res => {
+                    console.log(res)
+                }
+            )
         },
         setForm() {
             this.$refs.CustomerForm.validate((valid) => {
@@ -431,7 +471,8 @@ var dfFormEditVm = new Vue({
     mounted() {
         this.GetDataSourceList()
         this.GetDicSourceList()
-        //this.getForm()
+        this.getForm()
+        this.getLabelList()
     }
 })
 
