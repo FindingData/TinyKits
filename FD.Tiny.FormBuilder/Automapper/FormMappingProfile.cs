@@ -83,7 +83,7 @@ namespace FD.Tiny.FormBuilder
             CreateMap<LabelVariable, FormVariablePO>()
                   .ForMember(dest => dest.VALUE_METHOD, opt =>
                   {
-                      opt.MapFrom(src => (decimal)src.value_method);
+                      opt.MapFrom(src => (int)src.value_method);
                   })
               .IncludeBase<FormVariable, FormVariablePO>();
 
@@ -96,12 +96,13 @@ namespace FD.Tiny.FormBuilder
 
             CreateMap<Label, LabelPO>()
                 .ForMember(dest => dest.DATA_TYPE, opt => {
-                    opt.MapFrom(src => (decimal)src.data_type);
+                    opt.MapFrom(src => (int)src.data_type);
                 })
                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
                 });
+
             CreateMap<FormStore, FormStorePO>()
                 .ForMember(dest => dest.DATA_STORE_CONTENT, opt =>
                 {
@@ -146,7 +147,7 @@ namespace FD.Tiny.FormBuilder
             CreateMap<DbColumn, DbColumnPO>()
                 .ForMember(dest => dest.DATA_TYPE, opt =>
                 {
-                    opt.MapFrom(src => (decimal)src.data_type);
+                    opt.MapFrom(src => (int)src.data_type);
                 });
         }
     }

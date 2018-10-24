@@ -31,7 +31,6 @@ namespace FD.Tiny.FormBuilder {
 		/// 数据源转换
 		/// </summary>
 		DataSource
-
 	}//end FormatType
 
 }//end namespace FD.Tiny.FormBuilder

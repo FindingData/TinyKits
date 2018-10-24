@@ -29,7 +29,7 @@ namespace FD.Tiny.FormBuilder.Tests
             {
                 form_id = 1,
                 label_name_chs = "文本测试",
-                data_type = DataType.Number,
+                data_type = DataType.String,
                 control_type = "input",
                 label_config = new LabelConfig() { },
                 label_sort = 1,
