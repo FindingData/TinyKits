@@ -41,11 +41,12 @@ namespace FD.Tiny.FormBuilder
                   .ForMember(dest => dest.condition_list, opt =>
                   {
                       opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<Condition>>(src.CONDITION_CONFIG));
-                  });
-                
-
+                  });                
 
             CreateMap<LabelPO, Label>()
+                .ForMember(dest=> dest.data_type, opt => {
+                      opt.MapFrom(src=>(DataType)src.DATA_TYPE)
+                })
                 .ForMember(dest => dest.label_config, opt =>
                    {
                        opt.MapFrom(src => JsonHelper.Instance.Deserialize<LabelConfig>(src.LABEL_CONFIG));
@@ -94,6 +95,9 @@ namespace FD.Tiny.FormBuilder
                 .IncludeBase<FormVariable, FormVariablePO>();
 
             CreateMap<Label, LabelPO>()
+                .ForMember(dest => dest.DATA_TYPE, opt => {
+                    opt.MapFrom(src => (decimal)src.data_type);
+                })
                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
