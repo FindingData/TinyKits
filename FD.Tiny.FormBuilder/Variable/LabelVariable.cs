@@ -19,6 +19,11 @@ using FD.Tiny.Common.Utility.Calc;
 namespace FD.Tiny.FormBuilder {
 	public class LabelVariable : FormVariable {
 
+        public LabelVariable()
+        {
+            this.variable_type = VariableType.Label;
+        }
+
 		public ValueMethod value_method{
 			get;
 			set;

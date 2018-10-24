@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FD.Tiny.Common.Utility.Dict
+namespace FD.Tiny.Common.Utility.Extensions
 {
     public static class IDictionaryExtensions
     {

@@ -71,6 +71,11 @@ namespace FD.Tiny.FormBuilder {
 			set;
 		}
 
+        public FormVariable()
+        {
+            this.variable_type = VariableType.Variable;
+        }
+
         /// <summary>
         /// ªÒ»°÷µ
         /// </summary>

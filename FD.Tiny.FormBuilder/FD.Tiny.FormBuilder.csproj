@@ -82,7 +82,6 @@
     <Compile Include="Constants\ValidatorType.cs" />
     <Compile Include="Constants\ValueMethod.cs" />
     <Compile Include="Constants\VariableType.cs" />
-    <Compile Include="Constants\VirableType.cs" />
     <Compile Include="Database\DbData.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="EntityFramework\DbContextConfiguration.cs" />

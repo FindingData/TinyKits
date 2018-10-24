@@ -15,7 +15,7 @@ using System.IO;
 
 namespace FD.Tiny.FormBuilder {
 	public enum VariableType : int {
-
+        Variable,
 		Label,
 		Condition
 

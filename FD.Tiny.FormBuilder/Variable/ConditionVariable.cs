@@ -16,6 +16,12 @@ using System.IO;
 namespace FD.Tiny.FormBuilder {
 	public class ConditionVariable : FormVariable {
 
+
+        public ConditionVariable()
+        {
+            this.variable_type = VariableType.Condition;
+        }
+
 		public List<Condition> condition_list{
 			get;
 			set;

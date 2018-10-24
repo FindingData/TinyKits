@@ -72,7 +72,8 @@ namespace FD.Tiny.FormBuilder
                {
                    opt.MapFrom(src => (int)src.variable_type);
                });
-            CreateMap<LabelVariable, FormVariablePO>().IncludeBase<FormVariable, FormVariablePO>();
+            CreateMap<LabelVariable, FormVariablePO>()
+                .IncludeBase<FormVariable, FormVariablePO>();
 
             CreateMap<ConditionVariable, FormVariablePO>()
                    .ForMember(dest => dest.CONDITION_CONFIG, opt =>

@@ -75,11 +75,12 @@
   <ItemGroup>
     <Compile Include="Autofac\LoggingAroundAdvice.cs" />
     <Compile Include="Calc\CalcStringExpression.cs" />
-    <Compile Include="Dict\IDictionaryExtensions.cs" />
+    <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="DynamicQuery\DynamicQueryable.cs" />
     <Compile Include="Converts\UtilConvert.cs" />
     <Compile Include="EntityFramework\EFExtensions.cs" />
     <Compile Include="Exception\UtilExceptions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Json\JsonContentNegotiator.cs" />
     <Compile Include="Json\JsonHelper.cs" />
@@ -89,7 +90,9 @@
     <Compile Include="Reflections\ReflectionExtensions.cs" />
     <Compile Include="Validates\ValidateExtensions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dict\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

@@ -48,5 +48,11 @@ namespace FD.Tiny.FormBuilder
             var list = Repository.Find(r => r.FORM_ID == formId).ToList();
             return Mapper.Map<List<FormVariablePO>,List<FormVariable>>(list);
         }
+
+        public FormVariable GetFormVariable(int variableId)
+        {
+            var variable = Repository.FindSingle(r => r.VARIABLE_ID == variableId);
+            return Mapper.Map<FormVariablePO, FormVariable>(variable);
+        }
     }
 }
