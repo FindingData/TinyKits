@@ -57,7 +57,7 @@ namespace FD.Tiny.FormBuilder
 		/// 控件类型
         /// </summary>        
 				
-        public decimal? CONTROL_TYPE
+        public string CONTROL_TYPE
         {
             get;set;
         }
