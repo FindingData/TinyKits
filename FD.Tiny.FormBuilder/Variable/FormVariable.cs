@@ -17,10 +17,12 @@ using FD.Tiny.FormBuilder;
 namespace FD.Tiny.FormBuilder {
 	public class FormVariable {
 
-		/// <summary>
-		/// 变量Id
-		/// </summary>
-		public int variable_id{
+        protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
+
+        /// <summary>
+        /// 变量Id
+        /// </summary>
+        public int variable_id{
 			get;  set;
 		}
 
@@ -83,8 +85,10 @@ namespace FD.Tiny.FormBuilder {
         public virtual string GetValue(Func<string,string> getVal)
         {
             return this.default_value;
-        }         
+        }
 
-	}//end FormVariable
+      
+
+    }//end FormVariable
 
 }//end namespace Variable

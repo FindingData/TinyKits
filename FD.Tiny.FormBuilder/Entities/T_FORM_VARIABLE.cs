@@ -85,11 +85,16 @@ namespace FD.Tiny.FormBuilder
         {
             get;set;
         }
-						
-		/// <summary>
-		/// 是否参数
+
+        /// <summary>
+        /// 取值方式
+        /// </summary>
+        public decimal? VALUE_METHOD { get; set; }
+
+        /// <summary>
+        /// 是否参数
         /// </summary>        
-				
+
         public decimal? IS_PARAMETER
         {
             get;set;
