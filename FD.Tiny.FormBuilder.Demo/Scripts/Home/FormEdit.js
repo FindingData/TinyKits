@@ -1,4 +1,5 @@
-﻿
+﻿var DataType = { Number:0,String:1,Date:2}
+
 var dfFormEditVm = new Vue({
     el: '.df-form-edit',
     components: {
@@ -9,13 +10,182 @@ var dfFormEditVm = new Vue({
     },
     data() {
         return {
-            formComponents: [],
+            formComponents: [
+                {
+                    component_group: '表单组件',
+                    component_list: [
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '普通文本',
+                            control_type: 'input_base',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: '1'
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '远程文本',
+                            control_type: 'input_autocomplete',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '多行文本',
+                            control_type: 'input_textarea',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '下拉选择',
+                            control_type: 'select',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '单选框',
+                            control_type: 'radio',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '复选框',
+                            control_type: 'checkbox',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '时间选择',
+                            control_type: 'time',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '日期选择',
+                            control_type: 'date',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '是非选项',
+                            control_type: 'switch',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '数字框',
+                            control_type: 'input_number',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '滑块',
+                            control_type: 'slider',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        },
+                        {
+                            label_id: 0,
+                            form_id: 0,
+                            data_type: DataType.String,
+                            label_name_chs: '评分',
+                            control_type: 'rate',
+                            default_value: '',
+                            label_sort: 0,
+                            group_name: '',
+                            label_config: {}
+                        }
+                    ]
+                },
+                {
+                    component_group: '展示组件',
+                    component_list: [
+                        {
+                            control_type: 'html',
+                            label_name_chs: 'HTML',
+                            label_id: 0
+                        },
+                        {
+                            control_type: 'rtf',
+                            label_name_chs: '富文本',
+                            label_id: 0
+                        },
+                    ]
+                },
+                {
+                    component_group: '扩展组件',
+                    component_list: [
+                        {
+                            control_type: 'map_gis',
+                            label_name_chs: 'GIS地图',
+                            label_id: 0
+                        },
+                        {
+                            control_type: 'map_baidu',
+                            label_name_chs: '百度地图',
+                            label_id: 0
+                        }
+                    ]
+                }
+            ],
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
             formPreviewVisible: false,
             formSetVisible: false,
             formKey: getParam('formKey'),
+            formId: getParam('formId'),
             customerForm: {
                 form_name: '',
                 form_type: '',
@@ -52,13 +222,6 @@ var dfFormEditVm = new Vue({
         }
     },
     methods: {
-        GetFormComponents() {
-            get('/DataSource/GetFormComponents').then(
-                res => {
-                    this.formComponents = res
-                }
-            )
-        },
         GetDataSourceList() {
             get('/DataSource/GetDataSourceList').then(
                 res => {
@@ -87,11 +250,19 @@ var dfFormEditVm = new Vue({
         },
         addData(evt) {
             this.setLableList = clone(this.setLableList)
-            this.setLableList.forEach((item,index) => {
-                if (item.label_id === 0) {
-
+            for (let i = 0; i < this.setLableList.length; i++) {
+                if (this.setLableList[i].label_id === 0) {
+                    this.setLableList[i].form_id = this.formId
+                    var param = {
+                        label: this.setLableList[i]
+                    }
+                    post('/Form/AddLabel', param).then(
+                        res => {
+                            console.log(res)
+                        }
+                    )
                 }
-            })
+            }
             console.log(this.setLableList)
         },
         settingData(index) {
@@ -258,10 +429,9 @@ var dfFormEditVm = new Vue({
         },
     },
     mounted() {
-        this.GetFormComponents()
         this.GetDataSourceList()
         this.GetDicSourceList()
-        this.getForm()
+        //this.getForm()
     }
 })
 

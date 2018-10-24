@@ -62,7 +62,7 @@
                                               sort:false,
                                               animation:300}">
                             <div v-for="(component, _index) in group.component_list" :key="_index" class="form-config-left-item">
-                                <span v-text="component.label_des"></span>
+                                <span v-text="component.label_name_chs"></span>
                             </div>
                         </draggable>
                     </div>
@@ -87,21 +87,21 @@
                         <div v-for="(label,index) in setLableList" :key="index"
                              v-on:click="settingData(index)"
                              :class="['form-config-center-row',index===currentLabelindex?'row-active':'']">
-                            <div v-if="label.label_type==='map_gis'">
-                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            <div v-if="label.control_type==='map_gis'">
+                                <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
                             </div>
-                            <div v-else-if="label.label_type==='map_baidu'">
-                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            <div v-else-if="label.control_type==='map_baidu'">
+                                <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
                             </div>
-                            <div v-else-if="label.label_type==='rtf'">
-                                <label-template :lable-type="label.label_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+                            <div v-else-if="label.control_type==='rtf'">
+                                <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
                             </div>
                             <el-row v-else>
                                 <el-col :span="6">
-                                    <label class="form-config-center-label">{{label.label_option.name}}</label>
+                                    <label class="form-config-center-label">{{label.label_name_chs}}</label>
                                 </el-col>
                                 <el-col :span="18">
-                                    <label-template :lable-type="label.label_type" class="form-config-center-control"></label-template>
+                                    <label-template :lable-type="label.control_type" class="form-config-center-control"></label-template>
                                 </el-col>
                             </el-row>
                         </div>
@@ -112,7 +112,7 @@
             <el-col :span="8">
                 <div class="form-config-right" style="padding:10px;">
                     <h4>组件编辑</h4>
-                    <el-form v-if="currentLabelData.label_type==='input_base'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-if="currentLabelData.control_type==='input_base'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -150,7 +150,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='input_autocomplete'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='input_autocomplete'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -294,7 +294,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='input_textarea'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='input_textarea'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -337,7 +337,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='select'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='select'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -423,7 +423,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='radio'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='radio'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -494,7 +494,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='checkbox'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='checkbox'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -565,7 +565,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='switch'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='switch'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -606,7 +606,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='rate'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='rate'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -661,7 +661,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='slider'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='slider'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -722,7 +722,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='input_number'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='input_number'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -772,7 +772,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='time'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='time'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -853,7 +853,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='date'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='date'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -926,7 +926,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-else-if="currentLabelData.label_type==='map_baidu'" :model="currentLabelData.label_option" label-width="120px">
+                    <el-form v-else-if="currentLabelData.control_type==='map_baidu'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
                             <el-input v-model="currentLabelData.label_option.name"></el-input>
                         </el-form-item>
@@ -971,7 +971,7 @@
                             <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
                         </el-form-item>
                     </el-form>
-                    <quill-rtf v-else-if="currentLabelData.label_type==='rtf'"
+                    <quill-rtf v-else-if="currentLabelData.control_type==='rtf'"
                                :eidt-enabled="true"
                                :contents="currentLabelData.contents"
                                v-on:text-change="textChange">

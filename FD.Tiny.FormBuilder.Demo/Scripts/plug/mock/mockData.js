@@ -15,6 +15,7 @@ function getFormTypeAttr(type) {
     }
 }
 
+
 var formComponents = [
     {
         component_group: '表单组件',
