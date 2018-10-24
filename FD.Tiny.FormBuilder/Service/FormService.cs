@@ -14,15 +14,78 @@ using System.IO;
 
 
 using FD.Tiny.FormBuilder;
+using FD.Tiny.Common.Utility.Dict;
 using AutoMapper;
 using System.Linq;
 
 namespace FD.Tiny.FormBuilder {
 	public class FormService : BaseService<FormPO> {
 
-        public FormService(IRepository<FormPO> repository) : base(repository)
-        {
+        private FormStoreService _formStoreService;
+        private FormVariableService _formVariableService;
+        private LabelService _labelService;
 
+        public FormService(IRepository<FormPO> repository,
+            FormStoreService formStoreService,
+            FormVariableService formVariableService,
+            LabelService labelService) : base(repository)
+        {
+            _formStoreService = formStoreService;
+            _formVariableService = formVariableService;
+            _labelService = labelService;
+        }
+
+
+        public Form BuildForm(int formId)
+        {
+            var form = GetForm(formId);
+            form.variable_list = _formVariableService.GetFormVariableList(formId);            
+            var labelList = _labelService.GetLabelList(formId);
+            //var labelGroup = labelList.GroupBy(l => l.group_name);
+            foreach (var group in form.group_list)
+            {
+                //group.label_list = labelGroup.Single(l => l.Key == group.group_name).ToList();
+                group.label_list = labelList.Where(l => l.group_name == group.group_name).ToList();
+            }                      
+            return form;
+        }
+
+        public void Submit(FormStore store)
+        {
+            Dictionary<string, object> labelDataList = store.label_data_list.ToDictionary(k => k.label_name_chs, v => v.label_value);            
+            var variables = _formVariableService.GetFormVariableList(store.form_id);
+            foreach (var variable in variables)
+            {
+                var formData = new FormData()
+                {
+                    variable_id = variable.variable_id,
+                    variable_name_chs = variable.variable_name_chs,
+                    variable_value = variable.GetValue(r => labelDataList.GetOrDefault(r).ToString())
+                };                
+                store.form_data_list.Add(formData);
+            }
+        }        
+       
+        public List<DbData> RetriveDbData(int storeId)
+        {
+            List<DbData> dataList = new List<DbData>();
+            var store = _formStoreService.GetFormStore(storeId);
+            if (store == null)
+                return null;
+            var variableList = _formVariableService.GetFormVariableList(store.form_id);
+
+            foreach (var dbVariable in variableList.Where(v => v.database_config != null))
+            {
+                var value = store.form_data_list.FirstOrDefault(d => d.variable_id == dbVariable.variable_id)?.variable_value;
+                var data = new DbData()
+                {
+                    column_name = dbVariable.database_config.table_name,
+                    table_name = dbVariable.database_config.column_name,
+                    column_value = value,
+                };
+                dataList.Add(data);
+            }
+            return dataList;
         }
 
         /// 

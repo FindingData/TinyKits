@@ -20,6 +20,7 @@ using FD.Tiny.FormBuilder;
 
 namespace FD.Tiny.FormBuilder {
 	public class ApiService : BaseService<ApiPO> {
+                
 
 		/// 
 		/// <param name="dbContext"></param>
@@ -27,6 +28,21 @@ namespace FD.Tiny.FormBuilder {
         {
 
 		}
+
+
+        public dynamic GetApiData(int apiId, List<ApiData> request)
+        {
+            var api = GetApi(apiId);
+            Dictionary<string, object> dict = request.ToDictionary(r => r.parameter_name, r => (object)r.value);
+            return Repository.DynamicFromSql(api.sql_content, dict);
+        }
+
+        public List<dynamic> GetApiListData(int apiId, List<ApiData> request)
+        {
+            var api = GetApi(apiId);
+            Dictionary<string, object> dict = request.ToDictionary(r => r.parameter_name, r => (object)r.value);
+            return Repository.DynamicListFromSql(api.sql_content, dict);
+        }      
 
         /// 
         /// <param name="api"></param>

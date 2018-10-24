@@ -39,7 +39,10 @@ namespace FD.Tiny.FormBuilder.Demo
                 .InterceptedBy(typeof(LoggingAroundAdvice))
                 .PropertiesAutowired();
 
-            builder.RegisterApiControllers(controller).PropertiesAutowired();
+            builder.RegisterApiControllers(controller)
+                .EnableClassInterceptors()
+                .InterceptedBy(typeof(LoggingAroundAdvice))
+                .PropertiesAutowired();
 
             // 注册所有的Attribute
             builder.RegisterFilterProvider();

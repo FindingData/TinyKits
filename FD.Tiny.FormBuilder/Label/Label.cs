@@ -82,10 +82,7 @@ namespace FD.Tiny.FormBuilder {
 			set;
 		}
 
-		public BaseControl label_control{
-			get;
-			set;
-		}
+	 
 
 	}//end Label
 

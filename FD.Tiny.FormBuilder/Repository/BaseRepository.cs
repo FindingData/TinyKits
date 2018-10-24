@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using FD.Tiny.Common.Utility;
+using FD.Tiny.Common.Utility.EntityFramework;
 
 namespace FD.Tiny.FormBuilder
 {
@@ -63,7 +64,16 @@ namespace FD.Tiny.FormBuilder
             return Context.Set<T>().AsNoTracking().FirstOrDefault(exp);
         }
 
-       
+        public dynamic DynamicFromSql(string sql, Dictionary<string, object> parameters)
+        {
+            return DynamicListFromSql(sql,parameters).FirstOrDefault();
+        }
+
+        public List<dynamic> DynamicListFromSql(string sql, Dictionary<string, object> parameters)
+        {
+            return Context.DynamicListFromSql(sql, parameters).ToList();
+        }
+
         /// <summary>
         /// 根据过滤条件获取记录数
         /// </summary>
@@ -131,5 +141,6 @@ namespace FD.Tiny.FormBuilder
         {
             return Context.Database.ExecuteSqlCommand(sql);
         }
+        
     }
 }

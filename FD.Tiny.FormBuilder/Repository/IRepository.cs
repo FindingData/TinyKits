@@ -10,8 +10,15 @@ namespace FD.Tiny.FormBuilder
     public interface IRepository<T> where T : class
     {
         T FindSingle(Expression<Func<T, bool>> exp = null);
-        
+
+        dynamic DynamicFromSql(string sql, Dictionary<string, object> parameters);
+
+        List<dynamic> DynamicListFromSql(string sql, Dictionary<string, object> parameters);
+
+
         IQueryable<T> Find(Expression<Func<T, bool>> exp = null);
+
+
 
         IQueryable<T> Find(int pageindex, int pagesize, string orderby = "", Expression<Func<T, bool>> exp = null);
 
@@ -31,5 +38,7 @@ namespace FD.Tiny.FormBuilder
         void Save();
 
         int ExecuteSql(string sql);
+
+        
     }
 }
