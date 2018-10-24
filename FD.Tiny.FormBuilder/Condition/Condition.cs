@@ -41,7 +41,7 @@ namespace FD.Tiny.FormBuilder {
        
         public IEnumerable<string> ExtractAllOperand()
         {
-            var matchs = Regex.Matches(this.condition_expr, @"(?<=@)[\w\W]+?(?=[\W])");
+            var matchs = Regex.Matches(this.condition_expr, CONDTION_PATTERN);
             foreach (Match match in matchs)
             {
                 yield return match.Value;

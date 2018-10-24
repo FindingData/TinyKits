@@ -22,7 +22,34 @@ namespace FD.Tiny.FormBuilder.Tests
             _labelService = AutofacExt.GetFromFac<LabelService>();
         }
 
-      
+        [TestMethod()]
+        public void LabelPropertyTest()
+        {
+            var lb = new Label()
+            {
+                form_id = 1,
+                label_name_chs = "文本测试",
+                data_type = DataType.String,
+                control_type = "input",
+                label_config = new LabelConfig() { },
+                label_sort = 1,
+                group_name = "基础"
+            };
+            _labelService.AddLabel(lb, 0);
+        }
+
+        [TestMethod()]
+        public void AddCodeLabelTest()
+        {
+            var lb1 = new Label()
+            {
+                form_id = 1,
+                label_name_chs = "楼盘编码",
+                data_type = DataType.String,
+                label_config = new LabelConfig() { }
+            };
+            _labelService.AddLabel(lb1, 0);
+        }
 
         [TestMethod()]
         public void AddNameLabelTest()

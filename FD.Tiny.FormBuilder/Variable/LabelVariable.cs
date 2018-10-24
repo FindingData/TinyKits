@@ -15,6 +15,7 @@ using System.IO;
 
 using FD.Tiny.FormBuilder;
 using FD.Tiny.Common.Utility.Calc;
+using System.Text.RegularExpressions;
 
 namespace FD.Tiny.FormBuilder {
 	public class LabelVariable : FormVariable {
@@ -34,15 +35,33 @@ namespace FD.Tiny.FormBuilder {
 			set;
 		}
 
+        public virtual IEnumerable<string> ExtractAllOperand()
+        {
+            var matchs = Regex.Matches(this.inner_value, EXPR_PATTERN);
+            foreach (Match match in matchs)
+            {
+                yield return match.Value;
+            }
+        }
+
         public override string GetValue(Func<string, string> getVal)
         {
-            if (value_method== ValueMethod.Const)
+            if (value_method == ValueMethod.Const)
             {
                 return inner_value;
             }
             else
             {
-                return getVal(inner_value);
+                var expr = inner_value;
+                var operands = ExtractAllOperand();
+                foreach (var operand in operands)
+                {
+                    var val = getVal(operand);
+                    expr = expr.Replace($"@{operand}", Regex.IsMatch(val, @"^\d+$") ? val : $"'{val}'");
+                }
+
+                inner_value = CalcStringExpression.CalcByJs(expr);
+                return inner_value;
             }
             
         }

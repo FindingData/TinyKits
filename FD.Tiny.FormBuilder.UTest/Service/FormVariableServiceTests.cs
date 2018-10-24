@@ -87,6 +87,7 @@ namespace FD.Tiny.FormBuilder.Tests
             _formVariableService.AddFormVariabel(var1, 0);
         }
 
+       
         [TestMethod]
         public void GetConditionLabelTest()
         {

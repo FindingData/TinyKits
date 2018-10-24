@@ -16,7 +16,7 @@ namespace FD.Tiny.FormBuilder
             //formPo to form
             // CreateMap<CategoryPO, Category>();
             CreateMap<FormPO, Form>();
-            CreateMap<FormVariablePO, FormVariable>()          
+            CreateMap<FormVariablePO, FormVariable>()                            
             .ForMember(dest => dest.database_config, opt =>
             {
                 opt.MapFrom(src => JsonHelper.Instance.Deserialize<DatabaseConfig>(src.DATABASE_CONFIG));
@@ -28,19 +28,25 @@ namespace FD.Tiny.FormBuilder
               .ForMember(dest => dest.variable_type, opt =>
               {
                   opt.MapFrom(src => (VariableType)src.VARIABLE_TYPE);
-              });
+              }).ConvertUsing<FormVariableDtoConvert>();
 
             CreateMap<FormVariablePO, LabelVariable>()
-                .IncludeBase<FormVariablePO, FormVariable>();
-            CreateMap<FormVariablePO, ConditionVariable>()
+                  .ForMember(dest => dest.value_method, opt =>
+                  {
+                      opt.MapFrom(src => (ValueMethod)src.VALUE_METHOD);
+                  })
+                .IncludeBase<FormVariablePO,FormVariable>();
+            CreateMap<FormVariablePO, ConditionVariable>()                
+                .IncludeBase<FormVariablePO, FormVariable>()
                   .ForMember(dest => dest.condition_list, opt =>
                   {
                       opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<Condition>>(src.CONDITION_CONFIG));
-                  })
-                .IncludeBase<FormVariablePO, FormVariable>();
-
+                  });                
 
             CreateMap<LabelPO, Label>()
+                .ForMember(dest=> dest.data_type, opt => {
+                    opt.MapFrom(src => (DataType)src.DATA_TYPE);
+                })
                 .ForMember(dest => dest.label_config, opt =>
                    {
                        opt.MapFrom(src => JsonHelper.Instance.Deserialize<LabelConfig>(src.LABEL_CONFIG));
@@ -59,7 +65,7 @@ namespace FD.Tiny.FormBuilder
             //form to formPo
             //CreateMap<Category, CategoryPO>();
             CreateMap<Form, FormPO>();
-            CreateMap<FormVariable, FormVariablePO>()             
+            CreateMap<FormVariable, FormVariablePO>()
                 .ForMember(dest => dest.DATABASE_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.database_config));
@@ -72,8 +78,14 @@ namespace FD.Tiny.FormBuilder
                {
                    opt.MapFrom(src => (int)src.variable_type);
                });
+
+
             CreateMap<LabelVariable, FormVariablePO>()
-                .IncludeBase<FormVariable, FormVariablePO>();
+                  .ForMember(dest => dest.VALUE_METHOD, opt =>
+                  {
+                      opt.MapFrom(src => (int)src.value_method);
+                  })
+              .IncludeBase<FormVariable, FormVariablePO>();
 
             CreateMap<ConditionVariable, FormVariablePO>()
                    .ForMember(dest => dest.CONDITION_CONFIG, opt =>
@@ -83,10 +95,14 @@ namespace FD.Tiny.FormBuilder
                 .IncludeBase<FormVariable, FormVariablePO>();
 
             CreateMap<Label, LabelPO>()
+                .ForMember(dest => dest.DATA_TYPE, opt => {
+                    opt.MapFrom(src => (int)src.data_type);
+                })
                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
                 });
+
             CreateMap<FormStore, FormStorePO>()
                 .ForMember(dest => dest.DATA_STORE_CONTENT, opt =>
                 {
@@ -131,7 +147,7 @@ namespace FD.Tiny.FormBuilder
             CreateMap<DbColumn, DbColumnPO>()
                 .ForMember(dest => dest.DATA_TYPE, opt =>
                 {
-                    opt.MapFrom(src => (decimal)src.data_type);
+                    opt.MapFrom(src => (int)src.data_type);
                 });
         }
     }

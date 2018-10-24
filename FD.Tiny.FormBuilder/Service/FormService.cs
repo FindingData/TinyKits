@@ -54,6 +54,7 @@ namespace FD.Tiny.FormBuilder {
         {
             Dictionary<string, object> labelDataList = store.label_data_list.ToDictionary(k => k.label_name_chs, v => v.label_value);            
             var variables = _formVariableService.GetFormVariableList(store.form_id);
+            store.form_data_list = store.form_data_list ?? new List<FormData>();
             foreach (var variable in variables)
             {
                 var formData = new FormData()
