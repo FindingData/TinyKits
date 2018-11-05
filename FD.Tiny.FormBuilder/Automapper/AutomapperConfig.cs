@@ -13,7 +13,7 @@ namespace FD.Tiny.FormBuilder
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfile<FormMappingProfile>();
+                cfg.AddProfile<FormMappingProfile>();                
             });
         }
     }

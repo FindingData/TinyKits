@@ -57,7 +57,7 @@ namespace FD.Tiny.FormBuilder {
                 foreach (var operand in operands)
                 {
                     var val = getVal(operand);
-                    expr = expr.Replace($"@{operand}", Regex.IsMatch(val, @"^\d+$") ? val : $"'{val}'");
+                    expr = expr.Replace($"@{operand}", val);
                 }
 
                 inner_value = CalcStringExpression.CalcByJs(expr);
