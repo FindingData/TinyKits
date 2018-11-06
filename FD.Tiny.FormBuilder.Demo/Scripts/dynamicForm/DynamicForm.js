@@ -117,7 +117,7 @@ var dynamicForm = {
                 }
                 post('/Form/Submit', param).then(
                     res => {
-                        console.log(res)
+                        console.log('提交表单',res)
                         if (typeof (fn) === 'function') {
                             fn()
                         }

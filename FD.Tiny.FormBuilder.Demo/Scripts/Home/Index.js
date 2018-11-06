@@ -29,6 +29,7 @@ var dfIndexVm = new Vue({
         getFormTypeAttr(type) {
             return getFormTypeAttr(type)
         },
+        //获取表单列表
         getFormList() {
             var param = {
                 name: ''
@@ -40,6 +41,7 @@ var dfIndexVm = new Vue({
                 }
             )
         },
+        //新增表单
         addForm() {
             this.$refs.CustomerForm.validate((valid) => {
                 if (valid) {
@@ -48,7 +50,7 @@ var dfIndexVm = new Vue({
                     }
                     post('/Form/Add', param).then(
                         res => {
-                            console.log(res)
+                            console.log('新增表单',res)
                             this.getFormList()
                             this.formAddVisible = false
                         }

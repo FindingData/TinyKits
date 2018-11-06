@@ -226,18 +226,12 @@ var dfFormEditVm = new Vue({
                     var param = {
                         label: this.setLableList[i]
                     }
-                    post('/Form/AddLabel', param).then(
+                    post('/Form/AddLabel', param, () => {
+                        this.setLableList.splice(i, 1)
+                    }).then(
                         res => {
-                            if (res.Status) {
-                                this.setLableList[i].label_id = res.Result
-                                this.updateSort()
-                            } else {
-                                this.setLableList.splice(i, 1)
-                                this.$message({
-                                    type: 'error',
-                                    message: res.Message
-                                })
-                            }
+                            this.setLableList[i].label_id = res.Result
+                            this.updateSort()   
                         }
                     )
                 }
@@ -260,6 +254,7 @@ var dfFormEditVm = new Vue({
             }
             post('/Form/SaveLabel', param).then(
                 res => {
+                    console.log('保存Label',res)
                     this.oldLabelData = clone(label)
                 }
             )
@@ -320,12 +315,10 @@ var dfFormEditVm = new Vue({
                 }
                 post('/Form/DelLabel', param).then(
                     res => {
-                        console.log(res)
-                        if (res.Status) {
-                            this.currentLabelindex = -1
-                            this.currentLabelData = {}
-                            this.getLabelList()
-                        }
+                        console.log('删除标签',res)
+                        this.currentLabelindex = -1
+                        this.currentLabelData = {}
+                        this.getLabelList()
                     }
                 )
             }).catch(() => {
