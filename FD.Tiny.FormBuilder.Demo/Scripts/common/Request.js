@@ -11,7 +11,7 @@ axios.interceptors.request.use(
         return config
     },
     err => {
-        errHandle({ msg: '错误的请求', errType: ErrType.请求错误 })
+        console.log('URL错误')
     }
 )
 //响应拦截
@@ -20,7 +20,14 @@ axios.interceptors.response.use(
         return response
     },
     err => {
-        errHandle(errorResponseHandle(err.response))
+        console.log(err.response)
+        return {
+            data: {
+                Status: false,
+                Message: errHandle(errorResponseHandle(err.response)),
+                Result: null
+            }
+        }
     }
 ) 
 /**
@@ -68,7 +75,13 @@ function errorResponseHandle(response) {
  * @param {object} err
  */
 function errHandle(err) {
-    ErrorMsg(err.errType+':'+err.msg)
+    var errType=''
+    for (var pro in ErrType) {
+        if (ErrType[pro] === err.errType) {
+            errType = pro
+        }
+    }
+    return errType + ':' + err.msg
 }
 /**
  * GET请求
@@ -107,10 +120,10 @@ function post(action, params, aborted) {
  */
 function resCheck(data, aborted) {
     return new Promise((resolve, reject) => {
-        if (data) {
-            resolve(data)
+        if (data.Status) {
+            resolve(data.Result)
         } else {
-            errHandle({ msg: '没有数据', errType: ErrType.接口返回错误 })
+            ErrorMsg(data.Message)
             if (typeof (aborted) === 'function') {
                 aborted()
             }

@@ -14,7 +14,7 @@ var dynamicForm = {
             default: 1
         },
         formId: {
-            type: String,
+            type: Number,
             require:true
         },
         baseConfig: {
@@ -44,7 +44,7 @@ var dynamicForm = {
             }
             get('/Form/Get', param).then(
                 res => {
-                    console.log(res)
+                    console.log('获取Form',res)
                     this.getLabelList()
                 }
             )
@@ -56,18 +56,14 @@ var dynamicForm = {
             }
             get('/Form/GetLabelList', param).then(
                 res => {
-                    console.log(res)
-                    if (res.Result.length > 0) {
-                        this.initLabelData(res.Result)
-                        this.onSuccess()
-                    } else {
-                        this.onEmpty()
-                    }
+                    console.log('获取LabelList',res)
+                    this.initLabelData(res)
                 }
             )
         },
         //初始化LabelData
         initLabelData(lableList) {
+            this.labelData.splice(0, this.labelData.length)
             lableList.forEach(item => {
                 var data = {
                     label_id: item.label_id,
@@ -77,6 +73,11 @@ var dynamicForm = {
                 }
                 this.labelData.push(data)
             })
+            if (this.labelData.length > 0) {
+                this.onSuccess()
+            } else {
+                this.onEmpty()
+            }
         },
         //获取LabelDataList
         getLabelDataList() {
@@ -105,6 +106,7 @@ var dynamicForm = {
         validate() {
             return true
         },
+        //提交表单
         submitForm(fn) {
             if (this.validate()) {
                 var param = {

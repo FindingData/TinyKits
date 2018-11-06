@@ -84,9 +84,9 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         [HttpPost]
         public ActionResult Submit(FormStore store)
         {
-            _StoreService.SaveFormStore(store, 0);
+            var result = _StoreService.AddFormStore(store, 0);
 
-            return Json(new OkResponse());
+            return Json(new OkResponse(result));
         }
 
         /// 

@@ -18,7 +18,7 @@ var dfIndexVm = new Vue({
                 form_name: [{ required: true, message: '请输入表单名称', trigger: 'blur' }]
             },
             formPreviewVisible: false,
-            currentFormKey: '',
+            currentFormId: '',
             labelWidth:120,
             column: 1,
             align: 'right',
@@ -36,7 +36,7 @@ var dfIndexVm = new Vue({
             get('/Form/Index', param).then(
                 res => {
                     console.log('表单列表',res)
-                    this.formList = res.Result
+                    this.formList = res
                 }
             )
         },
@@ -59,20 +59,17 @@ var dfIndexVm = new Vue({
         formAddClose() {
             this.$refs.CustomerForm.resetFields()
         },
+        //编辑表单
         handleEdit(formId) {
             var url = '/Home/FormEdit?formId=' + formId
             window.open(url, "_blank")
         },
+        //表单预览
         handlePreview(formId) {
-            var formKeyList = localStorage.getItem('formList').split(',')
-            this.currentFormKey = formKeyList[index]
-            setTimeout(() => {
-                this.formPreviewVisible = true
-            },0)
-            //var formKeyList = localStorage.getItem('formList').split(',')
-            //var url = '/DynamicForm/FormPreview?formKey=' + formKeyList[index]
-            //window.open(url, "_blank")
+            this.currentFormId = formId
+            this.formPreviewVisible = true
         },
+        //删除表单
         handleDelete(formId) {
             this.$confirm('此操作将删除该表单, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -85,20 +82,36 @@ var dfIndexVm = new Vue({
                 })
             })
         },
+        //提交表单
         submitPreviewForm() {
-
+            this.$refs.DynamicForm.submitForm(() => {
+                InfoMsg('表单提交完成')
+            })
         },
+        //刷新表单
         previewFormFresh() {
             this.$refs.DynamicFormScrollbar.scrollToY(0)
         },
+        //表单dialog打开回调
         formPreviewOpen() {
             if (this.$refs.DynamicForm) {
-                this.$refs.DynamicForm.refreshFrom()
+                setTimeout(() => {
+                    this.$refs.DynamicForm.refreshFrom()
+                }, 0)
             }
         },
-        onScroll() {
-            this.$refs.DynamicForm.mapResize()
+        //表单加载完成回调
+        onSuccess() {
+            console.log('加载成功')
         },
+        //表单加载错误回调
+        onError(err) {
+            console.log(err)
+        },
+        //空表单回调
+        onEmpty() {
+            console.log('空表单')
+        }
 
     },
     mounted() {

@@ -134,14 +134,17 @@
                     </el-radio-group>
                 </div>
             </el-dialog>
-            <vue-scrollbar :on-scroll="onScroll" classes="dynamic-form-scrollbar" ref="DynamicFormScrollbar">
+            <vue-scrollbar classes="dynamic-form-scrollbar" ref="DynamicFormScrollbar">
                 <div class="scroll-me">
                     <dynamic-form ref="DynamicForm"
-                                  :form-key="currentFormKey"
+                                  :form-id="currentFormId"
                                   :label-width="labelWidth"
                                   :label-align="align"
                                   :form-column="column"
-                                  :base-config="{userId:1,customerId:1,pcaCode:'4301'}">
+                                  :base-config="{userId:1,customerId:1,pcaCode:'4307'}"
+                                  :on-success="onSuccess"
+                                  :on-error="onError"
+                                  :on-empty="onEmpty">
                     </dynamic-form>
                 </div>
             </vue-scrollbar>
