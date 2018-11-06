@@ -44,7 +44,7 @@ namespace FD.Tiny.FormBuilder
         /// <param name="formId"></param>
         public List<Label> GetLabelList(int formId)
         {
-            var list = Repository.Find(r => r.FORM_ID == formId).ToList();
+            var list = Repository.Find(r => r.FORM_ID == formId && r.IS_DELETED != 1).OrderBy(r=>r.LABEL_SORT).ToList();
             return Mapper.Map<List<LabelPO>, List<Label>>(list); ;
         }
     }

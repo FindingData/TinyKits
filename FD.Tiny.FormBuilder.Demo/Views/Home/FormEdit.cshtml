@@ -112,43 +112,45 @@
             <el-col :span="8">
                 <div class="form-config-right" style="padding:10px;">
                     <h4>组件编辑</h4>
-                    <el-form v-if="currentLabelData.control_type==='input_base'" :model="currentLabelData.label_option" label-width="120px">
-                        <el-form-item label="表单项名称">
-                            <el-input v-model="currentLabelData.label_option.name"></el-input>
+                    <el-form v-if="currentLabelData.control_type==='input_base'" :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                        
+                        <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                            <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                         </el-form-item>
-                        <el-form-item label="表单项主键">
-                            <el-input v-model="currentLabelData.label_option.primaryKey"></el-input>
+                        <el-form-item label="分组名称">
+                            <el-input v-model="currentLabelData.group_name" placeholder="请输入分组名称"></el-input>
                         </el-form-item>
                         <el-form-item label="默认值">
-                            <el-input v-model="currentLabelData.label_option.defaultValue"></el-input>
+                            <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                         </el-form-item>
-                        <el-form-item label="最大输入长度">
-                            <el-input-number v-model="currentLabelData.label_option.maxlength" :step="10" :min="10"></el-input-number>
+                        <el-form-item label="数据类型">
+                            <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                <el-option v-for="(value,key) in DataType" :key="value"
+                                           :label="key" :value="value"></el-option>
+                            </el-select>
                         </el-form-item>
-                        <el-form-item label="输入框占位文本">
-                            <el-input v-model="currentLabelData.label_option.placeholder"></el-input>
+
+                        <el-form-item label="占位文本">
+                            <el-input v-model="getLableConfigItem('placeholder').value" placeholder="请输入占位文本"></el-input>
                         </el-form-item>
                         <el-form-item label="是否可清空">
-                            <el-radio-group v-model="currentLabelData.label_option.clearable">
+                            <el-radio-group v-model="getLableConfigItem('clearable').value">
                                 <el-radio :label="false">否</el-radio>
                                 <el-radio :label="true">是</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="是否只读">
-                            <el-radio-group v-model="currentLabelData.label_option.readonly">
+                            <el-radio-group v-model="getLableConfigItem('readonly').value">
                                 <el-radio :label="false">否</el-radio>
                                 <el-radio :label="true">是</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label="是否隐藏">
-                            <el-radio-group v-model="currentLabelData.label_option.hidden">
-                                <el-radio :label="false">否</el-radio>
-                                <el-radio :label="true">是</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
+
                         <el-form-item>
-                            <el-button type="danger" v-on:click="removeData()">删除组件</el-button>
+                            <el-button type="primary" v-on:click="saveLabelConfig">保存组件</el-button>
+                            <el-button type="danger" v-on:click="removeConfig">删除组件</el-button>
                         </el-form-item>
+
                     </el-form>
                     <el-form v-else-if="currentLabelData.control_type==='input_autocomplete'" :model="currentLabelData.label_option" label-width="120px">
                         <el-form-item label="表单项名称">
@@ -1051,11 +1053,14 @@
             <vue-scrollbar :on-scroll="onScroll" classes="dynamic-form-scrollbar" ref="DynamicFormScrollbar">
                 <div class="scroll-me">
                     <dynamic-form ref="DynamicForm"
-                                  :form-key="formKey"
+                                  :form-id="formId"
                                   :label-width="labelWidth"
                                   :label-align="align"
                                   :form-column="column"
-                                  :base-config="{userId:1,customerId:1,pcaCode:'4307'}">
+                                  :base-config="{userId:1,customerId:1,pcaCode:'4307'}"
+                                  :on-success="onSuccess"
+                                  :on-error="onError"
+                                  :on-empty="onEmpty">
                     </dynamic-form>
                 </div>
             </vue-scrollbar>

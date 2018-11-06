@@ -10,6 +10,7 @@ var dfFormEditVm = new Vue({
     },
     data() {
         return {
+            DataType: DataType,
             formComponents: [
                 {
                     component_group: '表单组件',
@@ -23,7 +24,13 @@ var dfFormEditVm = new Vue({
                             default_value: '',
                             label_sort: 0,
                             group_name: '',
-                            label_config: {}
+                            label_config: {
+                                control_options: [
+                                    { key: 'placeholder', value: '' },
+                                    { key: 'clearable', value: true },
+                                    { key: 'readonly', value: false }
+                                ]
+                            }
                         },
                         {
                             label_id: 0,
@@ -182,6 +189,8 @@ var dfFormEditVm = new Vue({
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
+            oldLabelData: {},
+            oldIndex: -1,
             formPreviewVisible: false,
             formSetVisible: false,
             formKey: getParam('formKey'),
@@ -245,10 +254,12 @@ var dfFormEditVm = new Vue({
             })
             return result
         },
+        //更新Label
         updateData(evt) {
             this.updateSort()
             console.log(this.setLableList)
         },
+        //新增Label
         addData(evt) {
             this.setLableList = clone(this.setLableList)
             for (let i = 0; i < this.setLableList.length; i++) {
@@ -275,35 +286,86 @@ var dfFormEditVm = new Vue({
             }
             console.log(this.setLableList)
         },
+        //更新排序
         updateSort() {
             this.setLableList.forEach((item,index) => {
                 if (item.label_sort !== index) {
                     item.label_sort = index
-                    var param = {
-                        label: item
-                    }
-                    post('/Form/SaveLabel', param).then(
-                        res => {
-                            console.log(res)
-                        }
-                    )
+                    this.saveLabel(item)
                 }
             })
         },
-        settingData(index) {
-            this.currentLabelindex = index
-            this.currentLabelData = this.setLableList[index]
-            console.log(this.currentLabelData)
+        //保存Label
+        saveLabel(label) {
+            var param = {
+                label: label
+            }
+            post('/Form/SaveLabel', param).then(
+                res => {
+                    this.oldLabelData = clone(label)
+                }
+            )
         },
-        removeData() {
+        //选择Label
+        settingData(index) {
+            if (this.currentLabelindex !== -1 && JSON.stringify(this.oldLabelData) !== JSON.stringify(this.currentLabelData)) {
+                this.$confirm('未保存, 继续将不会保存更改！', '提示', {
+                    confirmButtonText: '继续',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.setLableList[this.oldIndex] = this.oldLabelData
+                    this.currentLabelindex = index
+                    this.currentLabelData = this.setLableList[index]
+                    this.oldIndex = index
+                    this.oldLabelData = clone(this.currentLabelData)    
+                }).catch(() => {
+                })
+            } else {
+                this.currentLabelindex = index
+                this.currentLabelData = this.setLableList[index]
+                this.oldIndex = index
+                this.oldLabelData = clone(this.currentLabelData)    
+            }
+        },
+        //获取标签项
+        getLableConfigItem(attr) {
+            var option = null
+            this.currentLabelData.label_config.control_options.forEach(item => {
+                if (item.key === attr) {
+                    option = item
+                }
+            })
+            return option
+        },
+        //保存标签配置
+        saveLabelConfig() {
+            this.$refs['Form' + this.currentLabelData.label_id].validate((valid) => {
+                if (valid) {
+                    this.saveLabel(this.currentLabelData)
+                }
+            })
+        },
+        //删除标签
+        removeConfig() {
             this.$confirm('此操作将移除该组件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.setLableList.splice(this.currentLabelindex, 1)
-                this.currentLabelindex = -1
-                this.currentLabelData = {}
+                var param = {
+                    labelId: this.currentLabelData.label_id
+                }
+                post('/Form/DelLabel', param).then(
+                    res => {
+                        console.log(res)
+                        if (res.Status) {
+                            this.currentLabelindex = -1
+                            this.currentLabelData = {}
+                            this.getLabelList()
+                        }
+                    }
+                )
             }).catch(() => {
             })
         },
@@ -411,6 +473,7 @@ var dfFormEditVm = new Vue({
                 this.timePickerRangeTemp = ''
             }
         },
+        //获取LabelList
         getLabelList() {
             var param = {
                 formId: this.formId
@@ -418,9 +481,11 @@ var dfFormEditVm = new Vue({
             get('/Form/GetLabelList', param).then(
                 res => {
                     console.log(res)
+                    this.setLableList=res.Result
                 }
             )
         },
+        //获取Form
         getForm() {
             var param = {
                 formId: this.formId
@@ -449,7 +514,7 @@ var dfFormEditVm = new Vue({
             localStorage.setItem(this.formKey, JSON.stringify(form))
         },
         submitPreviewForm() {
-
+            this.$refs.DynamicForm.submitForm()
         },
         previewFormFresh() {
             this.$refs.DynamicFormScrollbar.scrollToY(0)
@@ -460,6 +525,15 @@ var dfFormEditVm = new Vue({
                     this.$refs.DynamicForm.refreshFrom()
                 }, 500)
             }
+        },
+        onSuccess() {
+            console.log('加载成功')
+        },
+        onError(err) {
+            console.log(err)
+        },
+        onEmpty() {
+            console.log('空表单')
         },
         onScroll() {
             this.$refs.DynamicForm.mapResize()
