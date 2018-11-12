@@ -2,7 +2,11 @@
  * 获取homeIndexVm
  */
 function getVm() {
-    return dfIndexVm
+    if (typeof (dfIndexVm) !== 'undefined') {
+        return dfIndexVm
+    } else {
+        return dfFormEditVm
+    }
 }
 
 //==================================message=================================

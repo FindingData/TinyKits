@@ -23,7 +23,7 @@ namespace FD.Tiny.FormBuilder {
 		/// <summary>
 		/// ±Í«©Id
 		/// </summary>
-		public int lable_id{
+		public int label_id{
 			get;  set;
 		}
 

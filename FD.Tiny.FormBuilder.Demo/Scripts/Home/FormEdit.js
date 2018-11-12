@@ -10,6 +10,7 @@ var dfFormEditVm = new Vue({
     },
     data() {
         return {
+            DataType: DataType,
             formComponents: [
                 {
                     component_group: '表单组件',
@@ -23,7 +24,13 @@ var dfFormEditVm = new Vue({
                             default_value: '',
                             label_sort: 0,
                             group_name: '',
-                            label_config: '1'
+                            label_config: {
+                                control_options: [
+                                    { key: 'placeholder', value: '' },
+                                    { key: 'clearable', value: true },
+                                    { key: 'readonly', value: false }
+                                ]
+                            }
                         },
                         {
                             label_id: 0,
@@ -182,10 +189,12 @@ var dfFormEditVm = new Vue({
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
+            oldLabelData: {},
+            oldIndex: -1,
+            labelEditChange: true,
             formPreviewVisible: false,
             formSetVisible: false,
-            formKey: getParam('formKey'),
-            formId: getParam('formId'),
+            formId: parseInt(getParam('formId')),
             customerForm: {
                 form_name: '',
                 form_type: '',
@@ -196,58 +205,19 @@ var dfFormEditVm = new Vue({
                 form_name: [{ required: true, message: '请输入表单名称', trigger: 'blur' }],
                 form_type: [{ required: true, message: '请选择表单类型', trigger: 'change' }]
             },
-            dataSource: [],
-            dicSource: [],
-            paramPopover: [],
             labelWidth: 120,
             column: 1,
             align: 'right',
-            previewFormSetVisible: false,
-            constant: [
-                {
-                    name: 'userId',
-                    key: 'c1001'
-                },
-                {
-                    name: 'customerId',
-                    key: 'c1002'
-                },
-                {
-                    name: 'pcaCode',
-                    key: 'c1003'
-                }
-            ],
-            dateType: ['year', 'month', 'date', 'dates', 'week', 'datetime', 'datetimerange', 'daterange'],
-            timePickerRangeTemp: '',
+            previewFormSetVisible: false
         }
     },
     methods: {
-        GetDataSourceList() {
-            get('/DataSource/GetDataSourceList').then(
-                res => {
-                    this.dataSource = res
-                }
-            )
-        },
-        GetDicSourceList() {
-            get('/DataSource/GetDicSourceList').then(
-                res => {
-                    this.dicSource = res
-                }
-            )
-        },
-        getDataSourceListByType(type) {
-            var result = []
-            this.dataSource.forEach(item => {
-                if (item.type === type) {
-                    result.push(item)
-                }
-            })
-            return result
-        },
+        //更新Label
         updateData(evt) {
+            this.updateSort()
             console.log(this.setLableList)
         },
+        //新增Label
         addData(evt) {
             this.setLableList = clone(this.setLableList)
             for (let i = 0; i < this.setLableList.length; i++) {
@@ -256,182 +226,171 @@ var dfFormEditVm = new Vue({
                     var param = {
                         label: this.setLableList[i]
                     }
-                    post('/Form/AddLabel', param).then(
+                    post('/Form/AddLabel', param, () => {
+                        this.setLableList.splice(i, 1)
+                    }).then(
                         res => {
-                            console.log(res)
+                            this.setLableList[i].label_id = res.Result
+                            this.updateSort()   
                         }
                     )
                 }
             }
             console.log(this.setLableList)
         },
-        settingData(index) {
-            this.currentLabelindex = index
-            this.currentLabelData = this.setLableList[index]
-            console.log(this.currentLabelData)
+        //更新排序
+        updateSort() {
+            this.setLableList.forEach((item,index) => {
+                if (item.label_sort !== index) {
+                    item.label_sort = index
+                    this.saveLabel(item)
+                }
+            })
         },
-        removeData() {
+        //保存Label
+        saveLabel(label) {
+            var param = {
+                label: label
+            }
+            post('/Form/SaveLabel', param).then(
+                res => {
+                    console.log('保存Label',res)
+                    this.oldLabelData = clone(label)
+                }
+            )
+        },
+        //选择Label
+        settingData(index) {
+            if (this.currentLabelindex !== -1 && JSON.stringify(this.oldLabelData) !== JSON.stringify(this.currentLabelData)) {
+                this.$confirm('未保存, 继续将不会保存更改！', '提示', {
+                    confirmButtonText: '继续',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.setLableList[this.oldIndex] = this.oldLabelData
+                    this.currentLabelindex = index
+                    this.currentLabelData = this.setLableList[index]
+                    this.oldIndex = index
+                    this.oldLabelData = clone(this.currentLabelData)
+                    this.labelEditChange = false
+                    setTimeout(() => { this.labelEditChange = true }, 0)
+                }).catch(() => {
+                })
+            } else {
+                this.currentLabelindex = index
+                this.currentLabelData = this.setLableList[index]
+                this.oldIndex = index
+                this.oldLabelData = clone(this.currentLabelData)
+                this.labelEditChange = false
+                setTimeout(() => { this.labelEditChange = true }, 0)
+            }
+        },
+        //获取标签项
+        getLableConfigItem(attr) {
+            var option = null
+            this.currentLabelData.label_config.control_options.forEach(item => {
+                if (item.key === attr) {
+                    option = item
+                }
+            })
+            return option
+        },
+        //保存标签配置
+        saveLabelConfig() {
+            this.$refs['Form' + this.currentLabelData.label_id].validate((valid) => {
+                if (valid) {
+                    this.saveLabel(this.currentLabelData)
+                }
+            })
+        },
+        //删除标签
+        removeConfig() {
             this.$confirm('此操作将移除该组件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.setLableList.splice(this.currentLabelindex, 1)
-                this.currentLabelindex = -1
-                this.currentLabelData = {}
+                var param = {
+                    labelId: this.currentLabelData.label_id
+                }
+                post('/Form/DelLabel', param).then(
+                    res => {
+                        console.log('删除标签',res)
+                        this.currentLabelindex = -1
+                        this.currentLabelData = {}
+                        this.getLabelList()
+                    }
+                )
             }).catch(() => {
             })
         },
-        hasMapLabel() {
-            var flag = false
-            this.setLableList.forEach(item => {
-                if (item.label_type === 'map_gis' || item.label_type === 'map_baidu') {
-                    flag = true
-                }
-            })
-            return flag
-        },
-        getDataSource(id) {
-            var obj = null
-            this.dataSource.forEach(item => {
-                if (id === item.id) {
-                    obj = item
-                }
-            })
-            return obj
-        },
-        paramSetting(name, key, index) {
-            var addFlag = true
-            this.currentLabelData.label_option.params.forEach(item => {
-                if (item.paramName === name) {
-                    item.relationLabel = key
-                    addFlag = false
-                }
-            })
-            if (addFlag) {
-                this.currentLabelData.label_option.params.push({
-                    paramName: name,
-                    relationLabel: key
-                })
+        //获取LabelList
+        getLabelList() {
+            var param = {
+                formId: this.formId
             }
-            this.paramPopover[index] = false
-        },
-        getParamSetting(name, key) {
-            var result = null
-            this.currentLabelData.label_option.params.forEach(item => {
-                if (item.paramName === name && item.relationLabel === key) {
-                    result = item
+            get('/Form/GetLabelList', param).then(
+                res => {
+                    console.log('获取LabelList',res)
+                    this.setLableList=res
                 }
-            })
-            return result
+            )
         },
-        getParamSettingLableName(name) {
-            var result = null
-            this.currentLabelData.label_option.params.forEach(item => {
-                if (item.paramName === name) {
-                    if (this.getLableByConstantKey(item.relationLabel)) {
-                        result = this.getLableByConstantKey(item.relationLabel).name
-                    } else {
-                        result = this.getLableByPrimaryKey(item.relationLabel).label_option.name
-                    }
-                }
-            })
-            return result
-        },
-        getLableByConstantKey(key) {
-            var result = null
-            this.constant.forEach(item => {
-                if (item.key === key) {
-                    result = item
-                }
-            })
-            return result
-        },
-        getLableByPrimaryKey(primaryKey) {
-            var result = null
-            this.setLableList.forEach(item => {
-                if (item.label_option.primaryKey === primaryKey) {
-                    result = item
-                }
-            })
-            return result
-        },
-        getLableListNameForParam() {
-            var result = []
-            this.setLableList.forEach(item => {
-                if (item.label_option.primaryKey !== this.currentLabelData.label_option.primaryKey) {
-                    result.push({
-                        name: item.label_option.name,
-                        key: item.label_option.primaryKey
-                    })
-                }
-            })
-            result = result.concat(this.constant)
-            return result
-        },
-        setTimeSelectableRange() {
-            if (this.timePickerRangeTemp) {
-                var _this = this.currentLabelData.label_option.pickerOptions.selectableRange
-                var item = this.timePickerRangeTemp[0] + ' - ' + this.timePickerRangeTemp[1]
-                if (_this !== '') {
-                    if (_this.indexOf(',') !== -1) {
-                        _this = _this.replace(']', ',"' + item + '"]')
-                    } else {
-                        _this = '["' + _this + '","' + item + '"]'
-                    }
-                } else {
-                    _this = item
-                }
-                this.currentLabelData.label_option.pickerOptions.selectableRange = _this
-                this.timePickerRangeTemp = ''
-            }
-        },
+        //获取Form
         getForm() {
-            var form = JSON.parse(localStorage.getItem(this.formKey))
-            this.setLableList = form.formContent
-            this.customerForm = form.formConfig
-        },
-        setForm() {
-            this.$refs.CustomerForm.validate((valid) => {
-                if (valid) {
-                    var form = JSON.parse(localStorage.getItem(this.formKey))
-                    form.formConfig = this.customerForm
-                    localStorage.setItem(this.formKey, JSON.stringify(form))
-                    this.formSetVisible = false
-                }
-            })
-        },
-        saveForm() {
-            var form = {
-                formConfig: this.customerForm,
-                formContent: this.setLableList
+            var param = {
+                formId: this.formId
             }
-            localStorage.setItem(this.formKey, JSON.stringify(form))
+            get('/Form/Get', param).then(
+                res => {
+                    console.log('获取Form',res)
+                }
+            )
         },
+        //测试取回
+        getRetrieve() {
+            var param = {
+                storeId: 43
+            }
+            get('/Form/Retrieve', param).then(
+                res => {
+                    console.log('form取回',res)
+                }
+            )
+        },
+        //提交表单
         submitPreviewForm() {
-
+            this.$refs.DynamicForm.submitForm()
         },
+        //刷新表单
         previewFormFresh() {
             this.$refs.DynamicFormScrollbar.scrollToY(0)
         },
+        //表单dialog打开回调
         formPreviewOpen() {
             if (this.$refs.DynamicForm) {
                 setTimeout(() => {
                     this.$refs.DynamicForm.refreshFrom()
-                }, 500)
+                }, 0)
             }
         },
-        onScroll() {
-            this.$refs.DynamicForm.mapResize()
+        //表单加载完成回调
+        onSuccess() {
+            console.log('加载成功')
         },
-        textChange(contents) {
-            this.currentLabelData.contents = contents
+        //表单加载错误回调
+        onError(err) {
+            console.log(err)
         },
+        //空表单回调
+        onEmpty() {
+            console.log('空表单')
+        }
     },
     mounted() {
-        this.GetDataSourceList()
-        this.GetDicSourceList()
-        //this.getForm()
+        this.getForm()
+        this.getLabelList()
+        this.getRetrieve()
     }
 })
 

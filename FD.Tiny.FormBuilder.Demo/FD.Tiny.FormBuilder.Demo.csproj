@@ -282,7 +282,6 @@
     <Content Include="Scripts\dynamicForm\GisMap.js" />
     <Content Include="Scripts\dynamicForm\QuillRtf.js" />
     <Content Include="Scripts\Home\FormEdit.js" />
-    <Content Include="Scripts\Home\FormEditOld.js" />
     <Content Include="Scripts\Home\FormPreview.js" />
     <Content Include="Scripts\Home\Index.js" />
     <Content Include="Scripts\dynamicForm\LabelTemplate.js" />
@@ -324,7 +323,6 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\FormEditOld.cshtml" />
     <Content Include="Views\Home\FormEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
