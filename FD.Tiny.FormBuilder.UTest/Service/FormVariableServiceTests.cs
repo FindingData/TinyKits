@@ -48,10 +48,18 @@ namespace FD.Tiny.FormBuilder.Tests
                 data_type = DataType.String,
                 default_value = "标的名称",
                 value_method = ValueMethod.Formula,
-                inner_value = "@楼盘名称 + @楼栋名称 + @房号名称"
+                inner_value = "'@楼盘名称' + '@楼栋名称' + '@房号名称'"
             };
 
             _formVariableService.AddFormVariabel(var1, 0);
+        }
+
+        [TestMethod]
+        public void UpdateVariableTest()
+        {
+            var var1 = _formVariableService.GetFormVariable(23) as LabelVariable;
+            var1.inner_value = "'@楼盘名称' + '@楼栋名称' + '@房号名称'";
+            _formVariableService.SaveFormVariable(var1, 0);
         }
 
         [TestMethod]
@@ -67,18 +75,18 @@ namespace FD.Tiny.FormBuilder.Tests
                 {
                       new Condition{ condition_expr = "@楼盘编码 != ''", condition_item = new ConditionItem()
                         {
-                             inner_value = "@楼盘编码",
+                             inner_value = "@楼盘编码 ",
                               value_method = ValueMethod.Formula,
                         }
                       },
                        new Condition(){ condition_expr = "@楼栋编码 != ''", condition_item = new ConditionItem()
                         {
-                             inner_value = "@楼栋编码",
+                             inner_value = "@楼栋编码 ",
                               value_method = ValueMethod.Formula,
                         } },
                         new Condition(){ condition_expr = "@房号编码 != ''", condition_item = new ConditionItem()
                         {
-                             inner_value = "@房号编码",
+                             inner_value = "@房号编码 ",
                               value_method = ValueMethod.Formula,
                         } }
                 }
@@ -87,6 +95,32 @@ namespace FD.Tiny.FormBuilder.Tests
             _formVariableService.AddFormVariabel(var1, 0);
         }
 
+
+        [TestMethod]
+        public void UpdateConditionVariableTest()
+        {
+            var var1 = _formVariableService.GetFormVariable(24) as ConditionVariable;
+            var1.condition_list = new List<Condition>()
+                {
+                  new Condition(){ condition_expr = "'@房号编码' != ''", condition_item = new ConditionItem()
+                        {
+                             inner_value = "@房号编码 ",
+                              value_method = ValueMethod.Formula,
+                        } },
+                    new Condition(){ condition_expr = "'@楼栋编码' != ''", condition_item = new ConditionItem()
+                        {
+                             inner_value = "@楼栋编码 ",
+                              value_method = ValueMethod.Formula,
+                        } },
+                      new Condition{ condition_expr = "'@楼盘编码' != ''", condition_item = new ConditionItem()
+                        {
+                             inner_value = "@楼盘编码 ",
+                              value_method = ValueMethod.Formula,
+                        }
+                      },
+                };
+            _formVariableService.SaveFormVariable(var1, 0);
+        }
        
         [TestMethod]
         public void GetConditionLabelTest()

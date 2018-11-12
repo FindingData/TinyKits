@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
-
+using System.Text.RegularExpressions;
+using FD.Tiny.Common.Utility.Calc;
 
 namespace FD.Tiny.FormBuilder {
 	public class ConditionVariable : FormVariable {
@@ -25,13 +25,15 @@ namespace FD.Tiny.FormBuilder {
 		public List<Condition> condition_list{
 			get;
 			set;
-		}
+		}             
 
-        public override string GetValue(Func<string, string> getVal)
+        public override string GetValue(Func<string, string> val)
         {
             foreach (var condition in condition_list)
             {
-                if (condition.ExecuteExpression(getVal))
+                this.inner_value = condition.condition_expr;
+
+                if (BoolExpression(val))
                 {
                     if (condition.condition_item.value_method == ValueMethod.Const)
                     {
@@ -39,7 +41,9 @@ namespace FD.Tiny.FormBuilder {
                     }
                     else
                     {
-                        return getVal(condition.condition_item.inner_value);
+                        this.inner_value = condition.condition_item.inner_value;
+                        
+                        return CalcExpression(val);
                     }
                 }
             }

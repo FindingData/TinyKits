@@ -20,6 +20,11 @@ namespace FD.Tiny.FormBuilder {
 	/// </summary>
 	public class Form {
 
+        public Form()
+        {
+            this.group_list = new List<FormGroup>();
+        }
+
 		/// <summary>
 		/// ±íµ¥Id
 		/// </summary>

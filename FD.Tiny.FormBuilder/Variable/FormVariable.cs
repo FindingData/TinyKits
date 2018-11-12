@@ -14,10 +14,14 @@ using System.IO;
 
 
 using FD.Tiny.FormBuilder;
+using System.Text.RegularExpressions;
+using FD.Tiny.Common.Utility.Calc;
+using System.Linq.Expressions;
+
 namespace FD.Tiny.FormBuilder {
 	public class FormVariable {
 
-        protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
+        protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";        
 
         /// <summary>
         /// 变量Id
@@ -73,11 +77,19 @@ namespace FD.Tiny.FormBuilder {
 			set;
 		}
 
+        public string inner_value
+        {
+            get;
+            set;
+        }
+
+
         public FormVariable()
         {
             this.variable_type = VariableType.Variable;
         }
 
+      
         /// <summary>
         /// 获取值
         /// </summary>
@@ -85,9 +97,35 @@ namespace FD.Tiny.FormBuilder {
         public virtual string GetValue(Func<string,string> getVal)
         {
             return this.default_value;
+        }      
+
+        /// <summary>
+        /// 计算表达式
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public virtual string CalcExpression(Func<string, string> val)
+        {
+            var expr = this.inner_value;
+            var matchs = Regex.Matches(expr, EXPR_PATTERN);
+            foreach (Match match in matchs)
+            {
+                var operand = match.Value;
+                expr = expr.Replace($"@{operand}", val(operand));
+            }
+            this.inner_value = CalcStringExpression.CalcByJs(expr);
+            return this.inner_value;
         }
 
-      
+        public virtual bool BoolExpression(Func<string, string> val)
+        {
+            var expr = CalcExpression(val);
+            if (expr.Contains("@"))
+                return false;
+            bool.TryParse(expr, out var result);
+            return result;
+        }
+
 
     }//end FormVariable
 
