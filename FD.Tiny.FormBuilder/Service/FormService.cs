@@ -39,18 +39,17 @@ namespace FD.Tiny.FormBuilder {
         public Form BuildForm(int formId)
         {
             var form = GetForm(formId);
-            form.variable_list = _formVariableService.GetFormVariableList(formId);            
+            form.variable_list = _formVariableService.GetFormVariableList(formId);
             var labelList = _labelService.GetLabelList(formId);
             //var labelGroup = labelList.GroupBy(l => l.group_name);
             foreach (var group in form.group_list)
-            {
-                //group.label_list = labelGroup.Single(l => l.Key == group.group_name).ToList();
+            {                
                 group.label_list = labelList.Where(l => l.group_name == group.group_name).ToList();
-            }                      
+            }
             return form;
         }
 
-        public void Submit(FormStore store)
+        public int Submit(FormStore store,int userId)
         {
             Dictionary<string, object> labelDataList = store.label_data_list.ToDictionary(k => k.label_name_chs, v => v.label_value);            
             var variables = _formVariableService.GetFormVariableList(store.form_id);
@@ -61,10 +60,11 @@ namespace FD.Tiny.FormBuilder {
                 {
                     variable_id = variable.variable_id,
                     variable_name_chs = variable.variable_name_chs,
-                    variable_value = variable.GetValue(r => labelDataList.GetOrDefault(r).ToString())
+                    variable_value = variable.GetValue(r => labelDataList.GetOrDefault(r,""))
                 };                
                 store.form_data_list.Add(formData);
             }
+           return  _formStoreService.AddFormStore(store, userId);
         }        
        
         public List<DbData> RetriveDbData(int storeId)
@@ -103,7 +103,7 @@ namespace FD.Tiny.FormBuilder {
         /// <param name="form"></param>
         /// <param name="userId"></param>
         public void SaveForm(Form form, int userId)
-        {
+        {            
             var formPo = Mapper.Map<Form, FormPO>(form);
             Repository.Update(formPo, userId);            
         }

@@ -49,6 +49,24 @@ namespace FD.Tiny.FormBuilder.Tests
                 label_config = new LabelConfig() { }
             };
             _labelService.AddLabel(lb1, 0);
+
+            var lb2 = new Label()
+            {
+                form_id = 1,
+                label_name_chs = "楼栋编码",
+                data_type = DataType.String,
+                label_config = new LabelConfig() { }
+            };
+            _labelService.AddLabel(lb2, 0);
+
+            var lb3 = new Label()
+            {
+                form_id = 1,
+                label_name_chs = "房号编码",
+                data_type = DataType.String,
+                label_config = new LabelConfig() { }
+            };
+            _labelService.AddLabel(lb3, 0);
         }
 
         [TestMethod()]

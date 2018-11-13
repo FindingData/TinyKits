@@ -11,7 +11,7 @@ using FD.Tiny.FormBuilder.Demo;
 namespace FD.Tiny.FormBuilder.Tests
 {
     [TestClass()]
-    public class FormServiceTests:BaseTest
+    public class FormServiceTests : BaseTest
     {
         private FormService _formService;
         private FormVariableService _formVariableService;
@@ -21,12 +21,7 @@ namespace FD.Tiny.FormBuilder.Tests
             _formService = AutofacExt.GetFromFac<FormService>();
             _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
         }
-
-        [TestMethod()]
-        public void FormServiceTest()
-        {
-            Assert.Fail();
-        }
+ 
 
         [TestMethod()]
         public void RetriveDbDataTest()
@@ -42,7 +37,13 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void AddFormTest()
         {
-            Assert.Fail();
+            var form = new Form()
+            {
+                form_desc = "一个测试表单",
+                form_name = "测试表单",                 
+            };
+            var formId = _formService.AddForm(form, 0);
+            Assert.IsTrue(formId > 0);
         }
 
         [TestMethod()]
@@ -51,7 +52,7 @@ namespace FD.Tiny.FormBuilder.Tests
             var form = _formService.GetForm(1);
             form.variable_list = _formVariableService.GetFormVariableList(1);
             form.group_list = new List<FormGroup>();
-            _formService.SaveForm(form, 0);            
+            _formService.SaveForm(form, 0);
         }
 
         [TestMethod]
@@ -61,29 +62,41 @@ namespace FD.Tiny.FormBuilder.Tests
             store.form_id = 1;
             store.customer_id = 3;
             store.label_data_list = new List<LabelData> {
-                new LabelData(){ lable_id = 41, label_name_chs = "楼盘名称", label_value = "新时空"},
-                new LabelData(){ lable_id = 42, label_name_chs = "楼栋名称", label_value = "1栋"},
-                new LabelData(){ lable_id = 43, label_name_chs = "房号名称", label_value = "1901"}
-            };
-            _formService.Submit(store);            
+                new LabelData(){ lable_id = 41, label_name_chs = "楼盘名称", label_value = "1"},
+                new LabelData(){ lable_id = 42, label_name_chs = "楼栋名称", label_value = "1"},
+                new LabelData(){ lable_id = 43, label_name_chs = "房号名称", label_value = "1901号"},
+                new LabelData(){ lable_id = 44, label_name_chs = "楼盘编码", label_value = "123"},
+                new LabelData(){ lable_id = 84, label_name_chs = "楼栋编码", label_value = "123456"},
+                new LabelData(){ lable_id = 85, label_name_chs = "房号编码", label_value = "12345678"}
+            };          
+            _formService.Submit(store, 0);
         }
 
         [TestMethod()]
         public void DelFormTest()
         {
-            Assert.Fail();
+            _formService.DelForm(21, 0);
         }
 
         [TestMethod()]
         public void GetFormTest()
         {
-            Assert.Fail();
+            var form = _formService.GetForm(1);
+            Assert.IsNotNull(form);
         }
 
         [TestMethod()]
         public void QueryFormTest()
         {
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void BuildFormTest()
+        {
+            var form = _formService.BuildForm(1);
+            Assert.IsNotNull(form.group_list);
+            
         }
     }
 }

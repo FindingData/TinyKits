@@ -15,7 +15,12 @@ namespace FD.Tiny.FormBuilder
         {
             //formPo to form
             // CreateMap<CategoryPO, Category>();
-            CreateMap<FormPO, Form>();
+            CreateMap<FormPO, Form>()
+                .ForMember(dest => dest.group_list, opt =>
+                {
+                    opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<FormGroup>>(src.FORM_CONFIG));
+                });
+            
             CreateMap<FormVariablePO, FormVariable>()                            
             .ForMember(dest => dest.database_config, opt =>
             {
@@ -64,7 +69,10 @@ namespace FD.Tiny.FormBuilder
 
             //form to formPo
             //CreateMap<Category, CategoryPO>();
-            CreateMap<Form, FormPO>();
+            CreateMap<Form, FormPO>()
+                .ForMember(dest=>dest.FORM_CONFIG,opt=> {
+                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.group_list));
+                });
             CreateMap<FormVariable, FormVariablePO>()
                 .ForMember(dest => dest.DATABASE_CONFIG, opt =>
                 {

@@ -23,9 +23,7 @@ namespace FD.Tiny.FormBuilder {
 	/// 条件类
 	/// </summary>
 	public class Condition {
-
-        private const string CONDTION_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
-
+        
         /// <summary>
         /// 条件表达式
         /// </summary>
@@ -38,33 +36,7 @@ namespace FD.Tiny.FormBuilder {
 			get;
 			set;
 		}
-       
-        public IEnumerable<string> ExtractAllOperand()
-        {
-            var matchs = Regex.Matches(this.condition_expr, CONDTION_PATTERN);
-            foreach (Match match in matchs)
-            {
-                yield return match.Value;
-            }            
-        }
-
-        public bool ExecuteExpression(Func<string, string> getVal)
-        {
-            var expr = condition_expr;           
-            var operands = ExtractAllOperand();
-            foreach (var operand in operands)
-            {
-                expr = expr.Replace($"@{operand}", getVal(operand));
-            }
-            if (expr.Contains("@"))
-                return false;
-            bool.TryParse(CalcStringExpression.CalcByJs(expr), out var result);
-            return result;
-        }
-
-        
-
-
+                        
     }//end Condition
 
 }//end namespace FD.Tiny.FormBuilder
