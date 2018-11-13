@@ -46,7 +46,7 @@
 }
 
 .form-config-center {
-    min-height: 700px;
+    min-height: 600px;
     padding: 10px;
     margin: 3px;
     border: 1px solid #bbbabb;
@@ -115,6 +115,21 @@
     border: none;
 }
 
+.form-config-right {
+    padding: 0 10px;
+    height: 700px;
+}
+.form-config-right-content {
+    position: relative;
+    height: 650px;
+}
+.form-config-right-content-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
 /**隐藏百度地图logo*/
 .BMap_cpyCtrl {
     display: none;

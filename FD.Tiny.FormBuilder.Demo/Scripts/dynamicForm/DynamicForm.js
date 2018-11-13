@@ -94,15 +94,21 @@ var dynamicForm = {
             })
             return value
         },
+        //自动完成控件条件筛选
+        autocompleteSearch(index) {
+
+        },
         getFormItemInputWidth() {
             return this.labelAlign === 'top' ? this.getFormItemWidth() : this.getFormItemWidth() - this.labelWidth
         },
         getFormItemWidth() {
             return this.formWith / this.formColumn - 10
         },
+        //刷新
         refreshFrom() {
             this.getForm()
         },
+        //验证
         validate() {
             return true
         },
@@ -166,28 +172,12 @@ var dynamicForm = {
                     </el-input>
                     <el-autocomplete v-if="item.label.control_type==='input_autocomplete'"
                                      v-model="item.label_value"
-                                     :placeholder="item.label.label_option.placeholder"
-                                     :maxlength="item.label.label_option.maxlength"
-                                     :clearable="item.label.label_option.clearable"
-                                     :readonly="item.label.label_option.readonly"
+                                     :placeholder="getLabelControlOptions(index,'placeholder')"
+                                     :clearable="getLabelControlOptions(index,'clearable')"
+                                     :readonly="getLabelControlOptions(index,'readonly')"
+                                     :trigger-on-focus="getLabelControlOptions(index,'trigger-on-focus')"
                                      :fetch-suggestions="autocompleteSearch(index)"
-                                     :trigger-on-focus="item.label.label_option.trigger_focus"
-                                     :style="{width:getFormItemInputWidth()+'px'}">
-                            <template slot-scope="{ item }">
-                                <div v-if="item.label.label_option.dataShowModel==='item-title-des'">
-                                    <div class="title">{{item.title}}</div>
-                                    <span style="font-size: 12px;color: #b4b4b4;">{{item.des}}</span>
-                                </div>
-                                <div v-else-if="item.label.label_option.dataShowModel==='item-key-value'">
-                                    <el-row>
-                                        <el-col :span="12">{{item.key}}</el-col>
-                                        <el-col :span="12">{{item.value}}</el-col>
-                                    </el-row>    
-                                </div>
-                                <div v-else>
-                                    {{item.item}}
-                                </div>
-                            </template>
+                                     :style="{width:getFormItemInputWidth()+'px'}"> 
                     </el-autocomplete>
                     <el-input v-if="item.label.control_type==='input_textarea'"
                               type="textarea"
