@@ -129,6 +129,11 @@
     <Compile Include="Service\FormStoreService.cs" />
     <Compile Include="Service\FormVariableService.cs" />
     <Compile Include="Service\LabelService.cs" />
+    <Compile Include="Sql\BaseSingleSqlParser .cs" />
+    <Compile Include="Sql\SelectSqlParser.cs" />
+    <Compile Include="Sql\SingleSqlParserFactory.cs" />
+    <Compile Include="Sql\SqlParserUtil.cs" />
+    <Compile Include="Sql\SqlSegment.cs" />
     <Compile Include="Store\FormData.cs" />
     <Compile Include="Store\FormStore.cs" />
     <Compile Include="Store\LabelData.cs" />

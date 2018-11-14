@@ -45,12 +45,12 @@ namespace FD.Tiny.FormBuilder.Tests
             {
                 new LabelData()
                 {
-                     lable_id = 32,
+                     label_id = 32,
                       label_value = "123",
                 },
                 new LabelData()
                 {
-                    lable_id = 33,
+                    label_id = 33,
                      label_value = "456"
                 }
             };

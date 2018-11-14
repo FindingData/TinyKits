@@ -97,6 +97,7 @@
     <Compile Include="Service\FormStoreServiceTests.cs" />
     <Compile Include="Service\FormVariableServiceTests.cs" />
     <Compile Include="Service\LabelServiceTests.cs" />
+    <Compile Include="Sql\SingleSqlParserFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
