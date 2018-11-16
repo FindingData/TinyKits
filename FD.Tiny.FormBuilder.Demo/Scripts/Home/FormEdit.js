@@ -1,7 +1,7 @@
 ﻿var DataType = { Number: 0, String: 1, Date: 2 }
 var FormComponents = [
     {
-        component_group: '表单组件',
+        component_group: '表单标签',
         component_list: [
             {
                 label_id: 0,
@@ -171,7 +171,7 @@ var FormComponents = [
         ]
     },
     {
-        component_group: '展示组件',
+        component_group: '展示标签',
         component_list: [
             {
                 control_type: 'html',
@@ -186,7 +186,7 @@ var FormComponents = [
         ]
     },
     {
-        component_group: '扩展组件',
+        component_group: '扩展标签',
         component_list: [
             {
                 control_type: 'map_gis',
@@ -229,6 +229,7 @@ var dfFormEditVm = new Vue({
             FormComponents: FormComponents,
             RelateRule: RelateRule,
             ValueMethod: ValueMethod,
+            activeComponentsName:'表单组件',
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
@@ -540,6 +541,7 @@ var dfFormEditVm = new Vue({
         this.getForm()
         this.getLabelList()
         this.getRetrieve()
+
     }
 })
 
