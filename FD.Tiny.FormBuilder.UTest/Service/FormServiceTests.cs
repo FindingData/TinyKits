@@ -62,12 +62,12 @@ namespace FD.Tiny.FormBuilder.Tests
             store.form_id = 1;
             store.customer_id = 3;
             store.label_data_list = new List<LabelData> {
-                new LabelData(){ lable_id = 41, label_name_chs = "楼盘名称", label_value = "1"},
-                new LabelData(){ lable_id = 42, label_name_chs = "楼栋名称", label_value = "1"},
-                new LabelData(){ lable_id = 43, label_name_chs = "房号名称", label_value = "1901号"},
-                new LabelData(){ lable_id = 44, label_name_chs = "楼盘编码", label_value = "123"},
-                new LabelData(){ lable_id = 84, label_name_chs = "楼栋编码", label_value = "123456"},
-                new LabelData(){ lable_id = 85, label_name_chs = "房号编码", label_value = "12345678"}
+                new LabelData(){ label_id = 41, label_name_chs = "楼盘名称", label_value = "1"},
+                new LabelData(){ label_id = 42, label_name_chs = "楼栋名称", label_value = "1"},
+                new LabelData(){ label_id = 43, label_name_chs = "房号名称", label_value = "1901号"},
+                new LabelData(){ label_id = 44, label_name_chs = "楼盘编码", label_value = "123"},
+                new LabelData(){ label_id = 84, label_name_chs = "楼栋编码", label_value = "123456"},
+                new LabelData(){ label_id = 85, label_name_chs = "房号编码", label_value = "12345678"}
             };          
             _formService.Submit(store, 0);
         }
