@@ -19,14 +19,14 @@ namespace FD.Tiny.FormBuilder.Tests
         public ApiServiceTests()
         {
             _apiService = AutofacExt.GetFromFac<ApiService>();
-          
+
         }
-        
+
         [TestMethod()]
         public void GetApiDataTest()
         {
-            List<ApiData> request = new List<ApiData>();            
-            var list =  _apiService.GetApiListData(21,request);
+            List<ApiData> request = new List<ApiData>();
+            var list = _apiService.GetApiListData(21, request);
             Assert.IsNotNull(list);
         }
 
@@ -44,7 +44,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 api_name = "获取楼盘",
                 api_url = "",
                 api_desc = "",
-                sql_content = "select c.construction_code,c.construction_name from redas.t_construction c where rownum < 10 ",                
+                sql_content = "select c.construction_code,c.construction_name from redas.t_construction c where rownum < 10 ",
             };
             _apiService.AddApi(api, 0);
         }
@@ -71,6 +71,15 @@ namespace FD.Tiny.FormBuilder.Tests
         public void GetApiTest()
         {
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetRequestParamsFromSqlTest()
+        {
+            var sql = "select (c.construction_code) as 楼盘名称, (c.construction_name) as 楼盘地址 from redas.t_construction c where rownum < 10";
+            var list = _apiService.GetRequestParamsFromSql(sql);
+            list.ForEach(l => Console.WriteLine(l.parameter_name + " || " + l.parameter_name_chs));
+            //Assert.Fail();
         }
     }
 }
