@@ -119,21 +119,21 @@
             </div>
 
             <div v-else-if="lableType==='rate'" role="slider" aria-valuenow="3.7" aria-valuetext="3.7" aria-valuemin="0" aria-valuemax="5" tabindex="0" class="el-rate">
-                <span class="el-rate__item" style="cursor: auto;">
+                <span class="el-rate__item" style="cursor: move;">
                     <i class="el-rate__icon el-icon-star-on" style="color: rgb(247, 186, 42);"></i>
                 </span>
-                <span class="el-rate__item" style="cursor: auto;">
+                <span class="el-rate__item" style="cursor: move;">
                     <i class="el-rate__icon el-icon-star-on" style="color: rgb(247, 186, 42);"></i>
                 </span>
-                <span class="el-rate__item" style="cursor: auto;">
+                <span class="el-rate__item" style="cursor: move;">
                     <i class="el-rate__icon el-icon-star-on" style="color: rgb(247, 186, 42);"></i>
                 </span>
-                <span class="el-rate__item" style="cursor: auto;">
+                <span class="el-rate__item" style="cursor: move;">
                     <i class="el-rate__icon el-icon-star-on" style="color: rgb(239, 242, 247);">
                         <i class="el-rate__decimal el-icon-star-on" style="color: rgb(247, 186, 42); width: 50%;"></i>
                     </i>
                 </span>
-                <span class="el-rate__item" style="cursor: auto;">
+                <span class="el-rate__item" style="cursor: move;">
                     <i class="el-rate__icon el-icon-star-on" style="color: rgb(239, 242, 247);"></i>
                 </span>
                 <span class="el-rate__text" style="color: rgb(255, 153, 0);">3.7</span>

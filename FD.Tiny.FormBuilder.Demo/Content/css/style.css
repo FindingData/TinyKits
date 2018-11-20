@@ -1,5 +1,13 @@
-﻿.df-index {
-    padding:30px 100px;
+﻿body {
+margin:0;
+}
+
+.df-form-edit {
+    padding:10px;
+    display:flex;
+}
+.df-index {
+    padding: 30px 100px;
 }
 
 .df-index-form-add {
@@ -28,25 +36,32 @@
 .scroll-me {
     padding-right: 20px;
 }
+.form-config-left {
+    flex: 0 0 280px;
+}
+
 .form-config-left-item {
-    width: 140px;
-    padding: 10px;
+    width:126px;
+    padding: 8px 0;
     text-align: center;
     border: 2px solid #bbbabb;
     border-radius: 4px;
     font-size: 14px;
-    margin: 3px;
+    margin: 5px;
     cursor: grab;
-    float: left;
+    float:left;
 }
 
-.form-config-center .form-config-center-row-ghost {
+.form-config-center {
+    flex:1
+}
+
+.form-config-content .form-config-center-row-ghost {
     width: 538px;
     border: 1px dashed #ff714b;
 }
 
-.form-config-center {
-    min-height: 600px;
+.form-config-content {
     padding: 10px;
     margin: 3px;
     border: 1px solid #bbbabb;
@@ -116,19 +131,19 @@
 }
 
 .form-config-right {
+    flex:0 0 470px;
     padding: 0 10px;
-    height: 700px;
+    position: relative;
 }
 .form-config-right-content {
     position: relative;
-    height: 650px;
 }
 .form-config-right-content-btn {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    text-align: center;
+    text-align: right;
 }
 /**隐藏百度地图logo*/
 .BMap_cpyCtrl {
