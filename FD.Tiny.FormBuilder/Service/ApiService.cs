@@ -17,6 +17,8 @@ using AutoMapper;
 using System.Data.Entity;
 using System.Linq;
 using FD.Tiny.FormBuilder;
+using FD.Tiny.Common.Utility.SqlParse;
+using System.Text.RegularExpressions;
 
 namespace FD.Tiny.FormBuilder {
 	public class ApiService : BaseService<ApiPO> {
@@ -61,6 +63,44 @@ namespace FD.Tiny.FormBuilder {
         {
             var apiPo = Mapper.Map<Api, ApiPO>(api);
             Repository.Update(apiPo, userId);
+        }
+
+         
+        public string ParseSql(string sql)
+        {
+            return SqlParserUtil.GetParsedSql(sql);
+        }
+
+
+        public List<ApiParameter> GetRequestParamsFromSql(string sql)
+        {
+            var parmList = new List<ApiParameter>();
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).FirstOrDefault(); //È¡µÚÒ»¶Î
+            if (segments != null)
+            {
+                foreach (var piece in segments.BodyPieces)
+                {
+                    string[] keyValue = Regex.Split(piece, " as ", RegexOptions.IgnoreCase);
+                    if (keyValue.Length == 2)
+                    {
+                        ApiParameter param = new ApiParameter()
+                        {
+                            data_type = DataType.String,
+                            is_required = true,
+                            parameter_name = keyValue[0].Trim(' ').Replace("(", "").Replace(")", ""),
+                            parameter_name_chs = keyValue[1].TrimEnd(',').Replace("\"", ""),
+                        };
+                        parmList.Add(param);
+                    }
+                }
+            }
+            return parmList;
+        }
+
+
+        public List<ApiParameter> GetResponseParamsFromSql(string sql)
+        {
+            return null;
         }
 
 		/// 

@@ -88,6 +88,11 @@
     <Compile Include="PageHeler\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflections\ReflectionExtensions.cs" />
+    <Compile Include="SqlParse\BaseSingleSqlParser .cs" />
+    <Compile Include="SqlParse\SelectSqlParser.cs" />
+    <Compile Include="SqlParse\SingleSqlParserFactory.cs" />
+    <Compile Include="SqlParse\SqlParserUtil.cs" />
+    <Compile Include="SqlParse\SqlSegment.cs" />
     <Compile Include="Validates\ValidateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

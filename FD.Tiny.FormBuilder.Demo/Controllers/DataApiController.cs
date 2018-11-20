@@ -35,6 +35,14 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
             return Json(new OkResponse(list), JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public ActionResult ParseSql(string sql)
+        {
+
+            return Json("");        
+        }
+
         /// <summary>
         /// GET: DataSource
         /// </summary>
