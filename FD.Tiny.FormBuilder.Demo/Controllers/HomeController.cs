@@ -16,6 +16,10 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers
         {
             return View();
         }
+        public ActionResult DataApi()
+        {
+            return View();
+        }
         public ActionResult FormEditOld(string formKey)
         {
             return View();

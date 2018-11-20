@@ -23,7 +23,7 @@ namespace FD.Tiny.FormBuilder {
 		/// <summary>
 		/// ·Ö¸î·û
 		/// </summary>
-		public int separtor{
+		public string separtor{
 			get;  set;
 		}
 
