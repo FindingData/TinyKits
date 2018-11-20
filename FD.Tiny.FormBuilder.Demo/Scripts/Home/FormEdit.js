@@ -1,4 +1,34 @@
-﻿var DataType = { Number: 0, String: 1, Date: 2 }
+﻿var DictTest = [
+    {
+        dic_type_id: 4003001,
+        dic_type_name: '景观',
+        child: [
+            { dic_par_id: 4003001001, dic_par_name: '江景' },
+            { dic_par_id: 4003001002, dic_par_name: '街景' },
+            { dic_par_id: 4003001003, dic_par_name: '湘江' },
+            { dic_par_id: 4003001004, dic_par_name: '岳麓山' },
+            { dic_par_id: 4003001005, dic_par_name: '高尔夫景' },
+            { dic_par_id: 4003001006, dic_par_name: '海景' },
+            { dic_par_id: 4003001007, dic_par_name: '河景' }
+        ]
+    },
+    {
+        dic_type_id: 4003002,
+        dic_type_name: '朝向',
+        child: [
+            { dic_par_id: 4003002001, dic_par_name: '东' },
+            { dic_par_id: 4003002002, dic_par_name: '南' },
+            { dic_par_id: 4003002003, dic_par_name: '西' },
+            { dic_par_id: 4003002004, dic_par_name: '北' },
+            { dic_par_id: 4003002005, dic_par_name: '金角' },
+            { dic_par_id: 4003002006, dic_par_name: '银角' },
+            { dic_par_id: 4003002007, dic_par_name: '铜角' },
+            { dic_par_id: 4003002008, dic_par_name: '铁角' }
+        ]
+    }
+]
+
+var DataType = { Number: 0, String: 1, Date: 2 }
 var FormComponents = [
     {
         component_group: '表单标签',
@@ -45,9 +75,13 @@ var FormComponents = [
                     validator_config: {
                         validator_list: []
                     },
-                    condition_config: [],
+                    condition_config: {
+                        condition_list: []
+                    },
                     data_source_config: null,
-                    relate_config: [],
+                    relate_config: {
+                        relate_list: []
+                    },
                     format_config: null,
                     map_config: null,
                     control_options: [
@@ -78,7 +112,25 @@ var FormComponents = [
                 default_value: '',
                 label_sort: 0,
                 group_name: '',
-                label_config: {}
+                label_config: {
+                    validator_config: {
+                        validator_list: []
+                    },
+                    condition_config: {
+                        condition_list: []
+                    },
+                    data_source_config: null,
+                    relate_config: {
+                        relate_list: []
+                    },
+                    format_config: null,
+                    map_config: null,
+                    control_options: [
+                        { key: 'placeholder', value: '' },
+                        { key: 'clearable', value: true },
+                        { key: 'readonly', value: false }
+                    ]
+                }
             },
             {
                 label_id: 0,
@@ -203,6 +255,7 @@ var FormComponents = [
 ]
 var RelateRule = { 赋值: 'assignment', 加载地图: 'loadmap', 加载子下拉框:'loadsubselect'}
 var ValueMethod = { 常量: 0, 公式: 1 }
+var DataSourceType = { Dict: 0, Custom: 1, DataApi:2}
 //根据值获取属性名称
 function getPropByValue(obj, val) {
     var result=''
@@ -229,7 +282,9 @@ var dfFormEditVm = new Vue({
             FormComponents: FormComponents,
             RelateRule: RelateRule,
             ValueMethod: ValueMethod,
-            activeComponentsName:'表单标签',
+            DataSourceType: DataSourceType,
+            DictTest: DictTest,
+            activeComponentsName: '表单标签',
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
@@ -260,7 +315,7 @@ var dfFormEditVm = new Vue({
             relateAddForm: {
                 relateName: '',
                 operatorStr: '',
-                label:''
+                label: ''
             },
             //添加条件dialog
             conditionAddDialog: false,
@@ -270,7 +325,38 @@ var dfFormEditVm = new Vue({
                 valueMethod: '',
                 innerValue: ''
             },
+            tempDataSourceConfig: {
+                data_source_type: '',
+                dic_type_id: '',
+                dic_par_ids: '',
+                separtor: '',
+                value: '',
+                api_name: '',
+                parameter_list: []
+            },
+            dictIndeterminate: false,
+            dictIndeterminateCheckAll: false,
+            dictChecked: [],
+
         }
+    },
+    computed: {
+        dictPars() {
+            var result = []
+            this.DictTest.forEach(item => {
+                if (this.tempDataSourceConfig.dic_type_id === item.dic_type_id) {
+                    result = item.child
+                }
+            })
+            return result
+        },
+        dictParIds() {
+            var result = []
+            this.dictPars.forEach(item => {
+                result.push(item.dic_par_id)
+            })
+            return result
+        },
     },
     methods: {
         //更新Label
@@ -331,6 +417,7 @@ var dfFormEditVm = new Vue({
                     this.setLableList[this.oldIndex] = this.oldLabelData
                     this.currentLabelindex = index
                     this.currentLabelData = this.setLableList[index]
+                    this.initDataSourceConfig()
                     this.oldIndex = index
                     this.oldLabelData = clone(this.currentLabelData)
                     this.tabActiveName='normal'
@@ -341,12 +428,65 @@ var dfFormEditVm = new Vue({
             } else {
                 this.currentLabelindex = index
                 this.currentLabelData = this.setLableList[index]
+                this.initDataSourceConfig()
                 this.oldIndex = index
                 this.oldLabelData = clone(this.currentLabelData)
                 this.labelEditChange = false
                 this.tabActiveName = 'normal'
                 setTimeout(() => { this.labelEditChange = true }, 0)
             }
+        },
+        //初始化DataSourceConfig
+        initDataSourceConfig() {
+            if (this.currentLabelData.label_config.data_source_config) {
+                for (var pro in this.currentLabelData.label_config.data_source_config) {
+                    this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source_config[pro]
+                }
+            }
+        },
+        //数据源类型更改回调
+        handledDataTypeChange(val) {
+            this.tempDataSourceConfig = {
+                data_source_type: val,
+                dic_type_id: '',
+                dic_par_ids: '',
+                separtor: '',
+                value: '',
+                api_name: '',
+                parameter_list: []
+            }
+        },
+        //数据源类型-字典类型更改回调
+        handledDictTypeChange() {
+            this.dictChecked = []
+            this.dictIndeterminate = false
+        },
+        //数据源类型-字典类型-全选点击
+        handleDictIndeterminateCheckAll(val) {
+            this.dictChecked = val ? this.dictParIds : []
+            this.dictIndeterminate = false
+        },
+        //数据源类型-字典类型-复选框更改回调
+        handledDictCheckedChange(value) {
+            let checkedCount = value.length
+            this.dictIndeterminateCheckAll = checkedCount === this.dictPars.length
+            this.dictIndeterminate = checkedCount > 0 && checkedCount < this.dictPars.length
+        },
+        //数据源类型-自定义类型-结果预览
+        getDataSourceConfigCustomResult() {
+            var result=''
+            if (this.tempDataSourceConfig.value !== '' && this.tempDataSourceConfig.separtor !== '') {
+                var arr = this.tempDataSourceConfig.value.split(this.tempDataSourceConfig.separtor)
+                arr.forEach(item => {
+                    if (result === '') {
+                        result += '"' + item + '"'
+                    } else {
+                        result += ',"' + item + '"'
+                    }
+                    
+                })
+            }
+            return '[' + result+']'
         },
         //获取标签项
         getLableConfigItem(attr) {
@@ -431,10 +571,9 @@ var dfFormEditVm = new Vue({
         },
         //表单dialog打开回调
         formPreviewOpen() {
+            document.getElementById('DynamicFormScrollbar').style.maxHeight = getDialogScrollHeight() + 'px'
             if (this.$refs.DynamicForm) {
-                setTimeout(() => {
-                    this.$refs.DynamicForm.refreshFrom()
-                }, 0)
+                this.$refs.DynamicForm.refreshFrom()
             }
         },
         //表单加载完成回调
@@ -536,12 +675,21 @@ var dfFormEditVm = new Vue({
         getValueMethodProp(val) {
             return getPropByValue(ValueMethod,val)
         },
+        getDataApi() {
+            var param = { name: '' }
+            get('/DataApi/Index', param).then(
+                res => {
+                    console.log('DataApi',res)
+                }
+            )
+        },
+        //初始化界面样式
         initStyle() {
+            document.getElementById('DfFormEedit').style.display='block'
             var height = document.documentElement.clientHeight
             document.getElementById('FormContent').style.height = (height - 86) + 'px'
             document.getElementById('FormLabelContent').style.maxHeight = (height - 106) + 'px'
             document.getElementById('FormRight').style.height = (height - 20) + 'px'
-            console.log(document.documentElement.clientHeight)
         },
     },
     mounted() {
@@ -549,6 +697,7 @@ var dfFormEditVm = new Vue({
         this.getLabelList()
         this.getRetrieve()
         this.initStyle()
+        this.getDataApi()
     }
 })
 

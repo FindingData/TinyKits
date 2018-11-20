@@ -307,3 +307,16 @@ function getParam(paramName) {
     }
     return paramValue == "" && (paramValue = null), paramValue
 }
+/**
+ * 获取浏览器高度
+*/
+function getClientHeight() {
+    return document.documentElement.clientHeight
+}
+
+/**
+ * 获取dialog内容scroll高度
+ * */
+function getDialogScrollHeight() {
+    return (1 - 0.15) * getClientHeight() - 50 - 54 - 60
+}

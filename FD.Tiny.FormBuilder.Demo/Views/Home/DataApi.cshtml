@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!-- 引入elementui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入vue2-scrollbar样式 -->
+    <link href="~/Scripts/plug/vue2-scrollbar/style/vue2-scrollbar.css" rel="stylesheet" />
+    <!-- 引入iconfont图标库 -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_rg1boygdku.css">
+
+
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <!-- 引入vue -->
+    <script src="~/Scripts/plug/vue/vue.js"></script>
+    <!-- 引入elementui组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入vue2-scrollbar组件库 -->
+    <script src="~/Scripts/plug/vue2-scrollbar/vue2-scrollbar.js"></script>
+    <script src="~/Scripts/plug/axios/axios.min.js"></script>
+    <script src="~/Scripts/common/Config.js"></script>
+    <script src="~/Scripts/common/common.js"></script>
+    <script src="~/Scripts/common/Request.js"></script>
+
+</head>
+<body>
+    <div class="data-api">
+        <div class="df-index-form-add">
+            <el-button type="primary" v-on:click="dataApiAddVisible=true" class="f-button-icon-text">
+                <i class="iconfont icon-zengjia"></i><span>新增数据源</span>
+            </el-button>
+        </div>
+        <!--数据源列表-->
+        <el-table :data="dataApiList" border>
+            <el-table-column prop="api_id"
+                             label="数据源ID"
+                             width="120">
+            </el-table-column>
+            <el-table-column prop="api_name"
+                             label="数据源名称"
+                             width="200">
+            </el-table-column>
+            <el-table-column prop="api_desc"
+                             label="描述">
+            </el-table-column>
+            <el-table-column label="操作"
+                             width="180">
+                <template slot-scope="scope">
+                    <el-button circle size="mini" type="primary" title="编辑" v-on:click="handleEdit(scope.row.api_id)">
+                        <i class="iconfont icon-bianji1"></i>
+                    </el-button>
+                    <el-button circle size="mini" type="danger" title="删除" v-on:click="handleDelete(scope.row.api_id)">
+                        <i class="iconfont icon-huishouzhan"></i>
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--新增表单-->
+        <el-dialog title="新增数据源" :visible.sync="dataApiAddVisible" v-on:opened="dataApiAddOpen" v-on:close="dataApiAddClose">
+            <vue-scrollbar classes="dialog-scrollbar" id="DataApiScrollbar" ref="DataApiScrollbar">
+                <div class="scroll-me">
+                    <el-form :model="customerForm" ref="CustomerForm" label-width="100px">
+                        <el-form-item label="数据源名称" prop="api_name"
+                                      :rules="[{ required: true, message: '请输入数据源名称', trigger: 'blur' }]">
+                            <el-input v-model="customerForm.api_name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="库名称" prop="fsq_db_name">
+                            <el-select v-model="customerForm.fsq_db_name" clearable placeholder="请选择">
+                                <el-option label="REDAS" value="REDAS"></el-option>
+                                <el-option label="OMPD" value="OMPD"></el-option>
+                                <el-option label="GJ" value="GJ"></el-option>
+                                <el-option label="OA" value="OA"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="SQL语句" prop="sql_content"
+                                      :rules="[{ required: true, message: '请输入SQL语句', trigger: 'blur' }]">
+                            <div style="position:relative;">
+                                <el-input type="textarea"
+                                          :autosize="{ minRows: 6, maxRows: 10}"
+                                          v-model="customerForm.sql_content"></el-input>
+                                <el-button title="格式化" type="text" 
+                                           v-on:click="sqlContentFromat"
+                                           style="position:absolute;right:5px;bottom:0;">
+                                    <i class="iconfont icon-format_icon" style="font-size:18px;"></i>
+                                </el-button>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="请求参数" prop="request_parameter_list">
+                            <el-row v-if="customerForm.request_parameter_list.length>0">
+                                <el-col :span="5">参数名称</el-col>
+                                <el-col :span="5">参数中文名称</el-col>
+                                <el-col :span="5">备注</el-col>
+                                <el-col :span="5">数据类型</el-col>
+                                <el-col :span="4">是否必填</el-col>
+                            </el-row>
+                            <el-row v-for="(param,index) in customerForm.request_parameter_list" :key="index">
+                                <el-col :span="5">{{param.parameter_name}}</el-col>
+                                <el-col :span="5">{{param.parameter_name_chs}}</el-col>
+                                <el-col :span="5">{{param.remark}}</el-col>
+                                <el-col :span="5">{{param.data_type}}</el-col>
+                                <el-col :span="4">{{param.is_required}}</el-col>
+                            </el-row>
+                            <el-button type="text"><i class="el-icon-plus"></i></el-button>
+                        </el-form-item>
+                        <el-form-item label="返回参数" prop="response_parameter_list">
+                            <el-row v-if="customerForm.response_parameter_list.length>0">
+                                <el-col :span="5">参数名称</el-col>
+                                <el-col :span="5">参数中文名称</el-col>
+                                <el-col :span="5">备注</el-col>
+                                <el-col :span="5">数据类型</el-col>
+                                <el-col :span="4">是否必填</el-col>
+                            </el-row>
+                            <el-row v-for="(param,index) in customerForm.response_parameter_list" :key="index">
+                                <el-col :span="5">{{param.parameter_name}}</el-col>
+                                <el-col :span="5">{{param.parameter_name_chs}}</el-col>
+                                <el-col :span="5">{{param.remark}}</el-col>
+                                <el-col :span="5">{{param.data_type}}</el-col>
+                                <el-col :span="4">{{param.is_required}}</el-col>
+                            </el-row>
+                            <el-button type="text"><i class="el-icon-plus"></i></el-button>
+                        </el-form-item>
+                        <el-form-item label="描述" prop="api_desc">
+                            <el-input type="textarea" v-model="customerForm.api_desc"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" v-on:click="addDataApi">确定</el-button>
+                            <el-button v-on:click="dataApiAddVisible = false">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </vue-scrollbar>
+        </el-dialog>
+    </div>
+    <script src="~/Scripts/Home/DataApi.js"></script>
+</body>
+</html>

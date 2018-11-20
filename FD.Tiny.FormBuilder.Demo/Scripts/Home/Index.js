@@ -7,7 +7,6 @@ var dfIndexVm = new Vue({
     el: '.df-index',
     data() {
         return {
-            FormType: FormType,
             formAddVisible:false,
             formList: [],
             customerForm: {
@@ -96,10 +95,9 @@ var dfIndexVm = new Vue({
         },
         //表单dialog打开回调
         formPreviewOpen() {
+            document.getElementById('DynamicFormScrollbar').style.maxHeight = getDialogScrollHeight() + 'px'
             if (this.$refs.DynamicForm) {
-                setTimeout(() => {
-                    this.$refs.DynamicForm.refreshFrom()
-                }, 0)
+                this.$refs.DynamicForm.refreshFrom()
             }
         },
         //表单加载完成回调
