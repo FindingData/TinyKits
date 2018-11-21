@@ -65,17 +65,15 @@ namespace FD.Tiny.FormBuilder {
             Repository.Update(apiPo, userId);
         }
 
-         
         public string ParseSql(string sql)
         {
             return SqlParserUtil.GetParsedSql(sql);
         }
-
-
+        
         public List<ApiParameter> GetRequestParamsFromSql(string sql)
         {
             var parmList = new List<ApiParameter>();
-            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql)[0]; //取第一段
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(select)")); //取第一段
             if (segments != null)
             {
                 foreach (var piece in segments.BodyPieces)
@@ -103,7 +101,7 @@ namespace FD.Tiny.FormBuilder {
         public List<ApiParameter> GetResponseParamsFromSql(string sql)
         {
             var parmList = new List<ApiParameter>();
-            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql)[2]; //取第一段
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(where)")); //取第三段
             if (segments != null)
             {                
                 foreach (var piece in segments.BodyPieces)

@@ -32,10 +32,10 @@ namespace FD.Tiny.Common.Utility.SqlParse {
             Body = "";
             End = "";
             this.SegmentRegExp = segmentRegExp;
-            this.BodySplitPattern = bodySplitPattern;
+            this.BodySplitPattern = bodySplitPattern;            
             this.BodyPieces = new List<string>();
-
         }
+        
 
         /// <summary>
         /// sql语句片段开头
@@ -61,10 +61,12 @@ namespace FD.Tiny.Common.Utility.SqlParse {
             get; set;
         }
 
+        
+
         /// <summary>
         /// 片段正则表达式
         /// </summary>
-        private string SegmentRegExp
+        public string SegmentRegExp
         {
             get; set;
         }
@@ -80,10 +82,12 @@ namespace FD.Tiny.Common.Utility.SqlParse {
         /// <summary>
         /// 分割中间部分正则
         /// </summary>
-        private string BodySplitPattern
+        public string BodySplitPattern
         {
             get; set;
         }
+
+        
 
         /// <summary>
         /// 从sql中查找符合segmentRegExp的部分,并赋值到start,body,end三个属性中

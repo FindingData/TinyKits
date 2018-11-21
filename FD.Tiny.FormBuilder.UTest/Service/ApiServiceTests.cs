@@ -78,16 +78,25 @@ namespace FD.Tiny.FormBuilder.Tests
         {
             var sql = "select c.construction_code,c.construction_name from redas.t_construction c where rownum < 10";
             var list = _apiService.GetRequestParamsFromSql(sql);
-            list.ForEach(l => Console.WriteLine(l.parameter_name + " || " + l.parameter_name_chs));
-            //Assert.Fail();
+            var paramList = new List<string>();            
+            list.ForEach(l => {
+                paramList.Add(l.parameter_name);    
+                Console.WriteLine(l.parameter_name + " || " + l.parameter_name_chs); });
+          
+            Assert.AreEqual("construction_code,construction_name", string.Join(",", paramList));
         }
 
         [TestMethod()]
         public void GetResponseParamsFromSqlTest()
         {
-            var sql = "select c.construction_code,c.construction_name from redas.t_construction c where construction_code=@construction_code rownum < 10";
+            var sql = "select c.construction_code,c.construction_name from redas.t_construction c where construction_code=@construction_code and construction_name like '%@construction_name%' rownum < 10";
             var list = _apiService.GetResponseParamsFromSql(sql);
-            list.ForEach(l => Console.WriteLine(l.parameter_name + " || " + l.parameter_name_chs));
+            var paramList = new List<string>();
+            list.ForEach(l => {
+                paramList.Add(l.parameter_name);
+                Console.WriteLine(l.parameter_name + " || " + l.parameter_name_chs);
+            });
+            Assert.AreEqual("construction_code,construction_name", string.Join(",", paramList));
         }
     }
 }
