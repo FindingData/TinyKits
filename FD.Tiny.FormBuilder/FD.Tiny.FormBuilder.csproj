@@ -84,6 +84,8 @@
     <Compile Include="Constants\ValueMethod.cs" />
     <Compile Include="Constants\VariableType.cs" />
     <Compile Include="Database\DbData.cs" />
+    <Compile Include="Dict\Dict.cs" />
+    <Compile Include="Entities\T_DICTIONARY.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="EntityFramework\DbContextConfiguration.cs" />
     <Compile Include="EntityFramework\FormBuilderContent.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\DbColumnService.cs" />
     <Compile Include="Service\DbTableService.cs" />
+    <Compile Include="Service\DictService.cs" />
     <Compile Include="Service\FormService.cs" />
     <Compile Include="Service\FormStoreService.cs" />
     <Compile Include="Service\FormVariableService.cs" />
