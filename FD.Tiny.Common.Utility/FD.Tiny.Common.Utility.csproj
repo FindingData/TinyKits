@@ -59,6 +59,8 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -74,6 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autofac\LoggingAroundAdvice.cs" />
+    <Compile Include="Cache\CacheContext.cs" />
+    <Compile Include="Cache\CacheProvider.cs" />
+    <Compile Include="Cache\ICacheContext.cs" />
+    <Compile Include="Cache\MemoryCacheHelper.cs" />
+    <Compile Include="Cache\ObjCacheProvider.cs" />
     <Compile Include="Calc\CalcStringExpression.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="DynamicQuery\DynamicQueryable.cs" />
@@ -95,9 +102,7 @@
     <Compile Include="SqlParse\SqlSegment.cs" />
     <Compile Include="Validates\ValidateExtensions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dict\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
