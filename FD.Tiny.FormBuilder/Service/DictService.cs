@@ -14,11 +14,17 @@ using System.IO;
 
 
 using FD.Tiny.FormBuilder;
+using FD.Tiny.Common.Utility.Cache;
+using System.Linq;
+using AutoMapper;
+
 namespace FD.Tiny.FormBuilder {
 	public class DictService : BaseService<DictionaryPO> {
 
         private static object locker = new object();
 
+        private ObjCacheProvider<List<Dict>>
+           _cacheProvider = new ObjCacheProvider<List<Dict>>();
 
         /// 
         /// <param name="dbContext"></param>
@@ -27,8 +33,39 @@ namespace FD.Tiny.FormBuilder {
 
         }
 
+        public Dict GetDict(int dicParId)
+        {
+            return GetCacheDictList().Find(d => d.dic_par_id == dicParId);
+        }
+
+        public List<Dict> GetDictList(int dicTypeId)
+        {
+            return GetCacheDictList().Where(d => d.dic_type_id == dicTypeId).ToList();
+        }
 
 
+        public List<Dict> GetCacheDictList()
+        {
+            var dictCache = _cacheProvider.GetCache("DICT");
+            lock (locker)
+            {
+                if (dictCache == null)
+                {
+                    dictCache = GetAllDictList();
+                    _cacheProvider.Create("DICT", dictCache, DateTime.Now.AddDays(10));
+                }
+            }
+            return dictCache;
+        }
+
+
+        public List<Dict> GetAllDictList()
+        {
+            var dictPoList = Repository.Find(d => d.VALID == 1).ToList();
+            return Mapper.Map<List<DictionaryPO>, List<Dict>>(dictPoList);
+        }
+
+      
     }//end DictService
 
 }//end namespace FD.Tiny.FormBuilder

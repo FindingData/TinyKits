@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FD.Tiny.FormBuilder
 {
     //字典表
-    [Table("ompd.T_DICTIONARY")]
+    [Table("T_DICTIONARY")]
     public partial class DictionaryPO : EntityBase
     {
         /// <summary>

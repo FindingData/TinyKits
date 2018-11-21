@@ -22,12 +22,12 @@ namespace FD.Tiny.FormBuilder {
             this.IS_DELETED = 0;
         }
 
-		public decimal CREATED_BY{
+		public decimal? CREATED_BY{
 			get;
 			set;
 		}
 
-		public DateTime CREATED_TIME{
+		public DateTime? CREATED_TIME{
 			get;
 			set;
 		}
@@ -42,7 +42,7 @@ namespace FD.Tiny.FormBuilder {
 			set;
 		}
 
-		public decimal IS_DELETED{
+		public decimal? IS_DELETED{
 			get;
 			set;
 		}
