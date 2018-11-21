@@ -36,9 +36,7 @@ namespace FD.Tiny.FormBuilder
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("FORM");
-
-            //modelBuilder.Entity<DictionaryPO>().ToTable("T_DICTIONARY", "OMPD");
+            modelBuilder.HasDefaultSchema("FORM");            
             base.OnModelCreating(modelBuilder);
         }
     }
