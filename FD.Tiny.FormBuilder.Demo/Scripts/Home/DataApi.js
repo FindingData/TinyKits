@@ -43,8 +43,8 @@ var dataApiVm = new Vue({
         sqlContentFromat() {
             if (this.customerForm.sql_content !== '') {
                 this.customerForm.sql_content = this.customerForm.sql_content.replace(/\r/g, '').replace(/\n/g, '').replace(/\t/g, '')
-                this.customerForm.sql_content = this.customerForm.sql_content.replace(/select/g, 'SELEC\n\t')
-                    .replace(/from/g, '\r\nFROM\n\t').replace(/where/g, '\r\nWHERE\n\t').replace(/SELECT/g, 'SELECT\n\t')
+                this.customerForm.sql_content = this.customerForm.sql_content.replace(/select/g, 'SELECT\r\n\t')
+                    .replace(/from/g, '\r\nFROM\n\t').replace(/where/g, '\r\nWHERE\n\t').replace(/SELECT/g, 'SELECT\r\n\t')
                     .replace(/FROM/g, '\r\nFROM\n\t').replace(/WHERE/g, '\r\nWHERE\n\t')
                 
             }
