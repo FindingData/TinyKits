@@ -65,33 +65,33 @@ namespace FD.Tiny.FormBuilder {
             Repository.Update(apiPo, userId);
         }
 
-         
         public string ParseSql(string sql)
         {
             return SqlParserUtil.GetParsedSql(sql);
         }
-
-
+        
         public List<ApiParameter> GetRequestParamsFromSql(string sql)
         {
             var parmList = new List<ApiParameter>();
-            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).FirstOrDefault(); //取第一段
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(select)")); //取第一段
             if (segments != null)
             {
                 foreach (var piece in segments.BodyPieces)
                 {
-                    string[] keyValue = Regex.Split(piece, " as ", RegexOptions.IgnoreCase);
+                    string[] keyValue = Regex.Split(piece,"\\.");
+                    string parameterName = keyValue[0].Trim(',');
                     if (keyValue.Length == 2)
                     {
-                        ApiParameter param = new ApiParameter()
-                        {
-                            data_type = DataType.String,
-                            is_required = true,
-                            parameter_name = keyValue[0].Trim(' ').Replace("(", "").Replace(")", ""),
-                            parameter_name_chs = keyValue[1].TrimEnd(',').Replace("\"", ""),
-                        };
-                        parmList.Add(param);
+                        parameterName = keyValue[1].Trim(',');
                     }
+                    ApiParameter param = new ApiParameter()
+                    {
+                        data_type = DataType.String,
+                        is_required = true,
+                        parameter_name = parameterName,
+                        parameter_name_chs = parameterName,
+                    };
+                    parmList.Add(param);
                 }
             }
             return parmList;
@@ -100,7 +100,27 @@ namespace FD.Tiny.FormBuilder {
 
         public List<ApiParameter> GetResponseParamsFromSql(string sql)
         {
-            return null;
+            var parmList = new List<ApiParameter>();
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(where)")); //取第三段
+            if (segments != null)
+            {                
+                foreach (var piece in segments.BodyPieces)
+                {
+                    var match = Regex.Match(piece, @"(?<=@)[\w\W]+?(?=[\W])");
+                    if (match.Success)
+                    {
+                        ApiParameter param = new ApiParameter()
+                        {
+                            data_type = DataType.String,
+                            is_required = true,
+                            parameter_name = match.Value,
+                            parameter_name_chs = match.Value,
+                        };
+                        parmList.Add(param);
+                    }                                                                                              
+                }
+            }
+            return parmList;
         }
 
 		/// 

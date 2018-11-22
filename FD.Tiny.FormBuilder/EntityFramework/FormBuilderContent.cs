@@ -31,9 +31,14 @@ namespace FD.Tiny.FormBuilder
 
         public DbSet<FormVariablePO> FormVariables { get; set; }
 
+
+        public DbSet<DictionaryPO> Dictionaries { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("FORM");
+
+            //modelBuilder.Entity<DictionaryPO>().ToTable("T_DICTIONARY", "OMPD");
             base.OnModelCreating(modelBuilder);
         }
     }

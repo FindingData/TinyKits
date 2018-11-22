@@ -10,10 +10,13 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
     public class DataController : ApiController
     {
         private ApiService _apiService;
+        private DictService _dictService;
 
-        public DataController(ApiService apiService)
+        public DataController(ApiService apiService,
+            DictService dictService)
         {
             _apiService = apiService;
+            _dictService = dictService;
         }
 
         [HttpGet]
@@ -35,5 +38,10 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
             return _apiService.GetApiListData(apiId, request);
         }
 
+        [HttpGet]
+        public List<Dict> GetDictList(int dicTypeId)
+        {
+            return _dictService.GetDictList(dicTypeId);
+        }               
     }
 }

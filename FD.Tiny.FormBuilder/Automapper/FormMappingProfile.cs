@@ -157,6 +157,11 @@ namespace FD.Tiny.FormBuilder
                 {
                     opt.MapFrom(src => (int)src.data_type);
                 });
+
+
+            //dict mapper
+            CreateMap<DictionaryPO, Dict>();
+            CreateMap<Dict, DictionaryPO>();
         }
     }
 }
