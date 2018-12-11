@@ -97,6 +97,7 @@ var dfIndexVm = new Vue({
         formPreviewOpen() {
             document.getElementById('DynamicFormScrollbar').style.maxHeight = getDialogScrollHeight() + 'px'
             if (this.$refs.DynamicForm) {
+                this.$refs.DynamicFormScrollbar.scrollToY(0)
                 this.$refs.DynamicForm.refreshFrom()
             }
         },

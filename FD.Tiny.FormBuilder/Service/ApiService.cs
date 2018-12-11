@@ -73,37 +73,9 @@ namespace FD.Tiny.FormBuilder {
         public List<ApiParameter> GetRequestParamsFromSql(string sql)
         {
             var parmList = new List<ApiParameter>();
-            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(select)")); //取第一段
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s => s.SegmentRegExp.StartsWith("(where)")); //取第三段
             if (segments != null)
             {
-                foreach (var piece in segments.BodyPieces)
-                {
-                    string[] keyValue = Regex.Split(piece,"\\.");
-                    string parameterName = keyValue[0].Trim(',');
-                    if (keyValue.Length == 2)
-                    {
-                        parameterName = keyValue[1].Trim(',');
-                    }
-                    ApiParameter param = new ApiParameter()
-                    {
-                        data_type = DataType.String,
-                        is_required = true,
-                        parameter_name = parameterName,
-                        parameter_name_chs = parameterName,
-                    };
-                    parmList.Add(param);
-                }
-            }
-            return parmList;
-        }
-
-
-        public List<ApiParameter> GetResponseParamsFromSql(string sql)
-        {
-            var parmList = new List<ApiParameter>();
-            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s=>s.SegmentRegExp.StartsWith("(where)")); //取第三段
-            if (segments != null)
-            {                
                 foreach (var piece in segments.BodyPieces)
                 {
                     var match = Regex.Match(piece, @"(?<=@)[\w\W]+?(?=[\W])");
@@ -117,7 +89,36 @@ namespace FD.Tiny.FormBuilder {
                             parameter_name_chs = match.Value,
                         };
                         parmList.Add(param);
-                    }                                                                                              
+                    }
+                }
+            }
+            return parmList;
+            
+        }
+
+
+        public List<ApiParameter> GetResponseParamsFromSql(string sql)
+        {
+            var parmList = new List<ApiParameter>();
+            var segments = SqlParserUtil.GetParsedSqlSegmentList(sql).Find(s => s.SegmentRegExp.StartsWith("(select)")); //取第一段
+            if (segments != null)
+            {
+                foreach (var piece in segments.BodyPieces)
+                {
+                    string[] keyValue = Regex.Split(piece, "\\.");
+                    string parameterName = keyValue[0].Trim(',');
+                    if (keyValue.Length == 2)
+                    {
+                        parameterName = keyValue[1].Trim(',');
+                    }
+                    ApiParameter param = new ApiParameter()
+                    {
+                        data_type = DataType.String,
+                        is_required = true,
+                        parameter_name = parameterName,
+                        parameter_name_chs = parameterName,
+                    };
+                    parmList.Add(param);
                 }
             }
             return parmList;
