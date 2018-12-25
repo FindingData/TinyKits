@@ -325,19 +325,24 @@ var dfFormEditVm = new Vue({
                 valueMethod: '',
                 innerValue: ''
             },
+            //临时的数据源设置
             tempDataSourceConfig: {
                 data_source_type: '',
                 dic_type_id: '',
                 dic_par_ids: '',
                 separtor: '',
                 value: '',
+                api_id:'',
                 api_name: '',
                 parameter_list: []
             },
             dictIndeterminate: false,
             dictIndeterminateCheckAll: false,
             dictChecked: [],
-
+            //数据源
+            dataApis: [],
+            //临时的数据源api参数设置
+            tempDataApiParam:[],
         }
     },
     computed: {
@@ -455,6 +460,7 @@ var dfFormEditVm = new Vue({
                 api_name: '',
                 parameter_list: []
             }
+            this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
         },
         //数据源类型-字典类型更改回调
         handledDictTypeChange() {
@@ -488,6 +494,22 @@ var dfFormEditVm = new Vue({
             }
             return '[' + result+']'
         },
+        //数据源类型-api类型更改回调
+        handledDataApiChange(val) {
+            this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
+            this.dataApis.forEach(item => {
+                if (item.api_id === val) {
+                    item.request_parameter_list.forEach(_item => {
+                        this.tempDataApiParam.push({
+                            parameter_name: _item.parameter_name,
+                            parameter_name_chs: _item.parameter_name_chs,
+                            is_required: _item.is_required,
+                            parameter_value: _item.is_required?'变量1':''
+                        })
+                    })
+                }
+            })
+        },
         //获取标签项
         getLableConfigItem(attr) {
             var option = null
@@ -502,6 +524,37 @@ var dfFormEditVm = new Vue({
         saveLabelConfig() {
             this.$refs['Form' + this.currentLabelData.label_id].validate((valid) => {
                 if (valid) {
+                    this.currentLabelData.label_config.data_source_config = null
+                    if (this.tempDataSourceConfig.data_source_type === DataSourceType.Custom) {
+                        this.currentLabelData.label_config.data_source_config = {
+                            data_source_type: this.tempDataSourceConfig.data_source_type,
+                            separtor: this.tempDataSourceConfig.separtor,
+                            value: this.tempDataSourceConfig.value
+
+                        }
+                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.Dict) {
+                        this.currentLabelData.label_config.data_source_config = {
+                            data_source_type: this.tempDataSourceConfig.data_source_type,
+                            dic_type_id: this.tempDataSourceConfig.dic_type_id,
+                            dic_par_ids: this.dictChecked.join(',')
+                        }
+                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.DataApi) {
+                        var parameter_list=[]
+                        this.tempDataApiParam.forEach(item => {
+                            if (item.parameter_value !== '') {
+                                var obj = {}
+                                obj[item.parameter_name] = item.parameter_value
+                                parameter_list.push(obj)
+                            }
+                        })
+                        this.currentLabelData.label_config.data_source_config = {
+                            data_source_type: this.tempDataSourceConfig.data_source_type,
+                            api_id: this.tempDataSourceConfig.api_id,
+                            parameter_list: parameter_list
+                        }
+                    }
+                    console.log(this.currentLabelData)
+                    return
                     this.saveLabel(this.currentLabelData)
                 }
             })
@@ -679,6 +732,7 @@ var dfFormEditVm = new Vue({
             var param = { name: '' }
             get('/DataApi/Index', param).then(
                 res => {
+                    this.dataApis = res
                     console.log('DataApi',res)
                 }
             )

@@ -15,7 +15,7 @@
     <!-- 引入vue2-scrollbar样式 -->
     <link href="~/Scripts/plug/vue2-scrollbar/style/vue2-scrollbar.css" rel="stylesheet" />
     <!-- 引入iconfont图标库 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_rg1boygdku.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_13694bc2ntyg.css">
 
     <link href="~/Content/css/style.css" rel="stylesheet" />
     <link href="~/Content/css/labelTemplate.css" rel="stylesheet" />
@@ -333,7 +333,7 @@
                                         </el-option>
                                     </el-select>
                                 </div>
-                                <div v-if="tempDataSourceConfig.dic_type_id>0" style="margin-top:10px;">
+                                <div v-if="tempDataSourceConfig.dic_type_id!==''" style="margin-top:10px;">
                                     <el-checkbox :indeterminate="dictIndeterminate" v-model="dictIndeterminateCheckAll" v-on:change="handleDictIndeterminateCheckAll">全选</el-checkbox>
                                 </div>
                                 <div class="f-label-config-data-dic-checkbox">
@@ -360,7 +360,34 @@
                                 </el-form>
                             </div>
                             <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.DataApi" class="f-label-config-data-type">
-
+                                <div>
+                                    <span>数据源</span>
+                                    <el-select v-model="tempDataSourceConfig.api_id" v-on:change="handledDataApiChange" clearable placeholder="请选择">
+                                        <el-option v-for="(api,index) in dataApis" :key="index"
+                                                   :label="api.api_name"
+                                                   :value="api.api_id">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div v-if="tempDataSourceConfig.api_id!==''" style="margin-top:10px;">
+                                    <el-row v-for="(param,index) in tempDataApiParam" :key="index">
+                                        <el-col :span="8" style="text-align:right;height:40px;line-height:40px;">
+                                            <span v-text="param.parameter_name_chs+' ('+(param.is_required?'必填':'选填')+')'"></span>
+                                        </el-col>
+                                        <el-col :span="4" style="text-align:center;height:40px;line-height:40px;">
+                                            <i class="iconfont icon-zhixiang" style="font-size:24px;"></i>
+                                        </el-col>
+                                        <el-col :span="8">
+                                            <el-select v-model="param.parameter_value" :clearable="!param.is_required" filterable placeholder="请选择">
+                                                <el-option label="变量1" value="变量1"></el-option>
+                                                <el-option label="变量2" value="变量2"></el-option>
+                                                <el-option label="变量3" value="变量3"></el-option>
+                                                <el-option label="变量4" value="变量4"></el-option>
+                                                <el-option label="变量5" value="变量5"></el-option>
+                                            </el-select>
+                                        </el-col>
+                                    </el-row>       
+                                </div>
                             </div>                        
                         </el-tab-pane>
                         <el-tab-pane label="关联" name="relate"></el-tab-pane>
