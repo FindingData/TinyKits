@@ -56,9 +56,9 @@ namespace FD.Tiny.FormBuilder {
 		/// <summary>
 		/// 变量列表
 		/// </summary>
-		public List<FormVariable> variable_list{
-			get;  set;
-		}
+		//public List<FormVariable> variable_list{
+		//	get;  set;
+		//}
 
 	}//end Form
 

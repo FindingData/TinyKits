@@ -29,18 +29,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 form_id = 1,
             };
             
-            formStore.form_data_list = new List<FormData>() {
-                new FormData()
-                {
-                     variable_id = 21,
-                      variable_value = "123"
-                },
-                new FormData()
-                {
-                    variable_id = 22,
-                     variable_value = "456"
-                }
-            };
+           
             formStore.label_data_list = new List<LabelData>()
             {
                 new LabelData()

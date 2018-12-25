@@ -44,14 +44,7 @@ namespace FD.Tiny.FormBuilder
             get;set;
         }
 						
-		/// <summary>
-		/// 变量数据
-        /// </summary>        
-				
-        public string FORM_STORE_CONTENT
-        {
-            get;set;
-        }
+		 
 						
 		/// <summary>
 		/// 公司ID

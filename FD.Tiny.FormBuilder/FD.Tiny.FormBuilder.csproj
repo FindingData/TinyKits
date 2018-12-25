@@ -70,15 +70,15 @@
     <Compile Include="Api\ApiData.cs" />
     <Compile Include="Api\ApiParameter.cs" />
     <Compile Include="Automapper\AutomapperConfig.cs" />
-    <Compile Include="Automapper\FormVariableDtoConvert.cs" />
     <Compile Include="Automapper\FormMappingProfile.cs" />
+    <Compile Include="Automapper\LabelDtoConvert.cs" />
     <Compile Include="Condition\Condition.cs" />
-    <Compile Include="Condition\ConditionConfig.cs" />
     <Compile Include="Condition\ConditionItem.cs" />
     <Compile Include="Constants\DataSourceType.cs" />
     <Compile Include="Constants\DataType.cs" />
     <Compile Include="Constants\FormatNumberMode.cs" />
     <Compile Include="Constants\FormatType.cs" />
+    <Compile Include="Constants\LabelType.cs" />
     <Compile Include="Constants\MapServerType.cs" />
     <Compile Include="Constants\ValidatorType.cs" />
     <Compile Include="Constants\ValueMethod.cs" />
@@ -101,7 +101,6 @@
     <Compile Include="Entities\T_DB_TABLE.cs" />
     <Compile Include="Entities\T_FORM.cs" />
     <Compile Include="Entities\T_FORM_STORE.cs" />
-    <Compile Include="Entities\T_FORM_VARIABLE.cs" />
     <Compile Include="Entities\T_LABEL.cs" />
     <Compile Include="Form.cs" />
     <Compile Include="Format\BaseFormat.cs" />
@@ -110,9 +109,15 @@
     <Compile Include="Format\NumerFormat.cs" />
     <Compile Include="FormGroup.cs" />
     <Compile Include="FormType.cs" />
+    <Compile Include="Label\ConditionConfig.cs" />
+    <Compile Include="Label\ConditionLabel.cs" />
+    <Compile Include="Label\ControlConfig.cs" />
+    <Compile Include="Label\ControlLabel.cs" />
     <Compile Include="Label\Label.cs" />
     <Compile Include="Label\LabelConfig.cs" />
     <Compile Include="Label\Option.cs" />
+    <Compile Include="Label\VariableConfig.cs" />
+    <Compile Include="Label\VariableLabel.cs" />
     <Compile Include="Map\ArcigisMapConfig.cs" />
     <Compile Include="Map\BaiduMapConfig.cs" />
     <Compile Include="Map\MapConfig.cs" />
@@ -130,7 +135,6 @@
     <Compile Include="Service\DictService.cs" />
     <Compile Include="Service\FormService.cs" />
     <Compile Include="Service\FormStoreService.cs" />
-    <Compile Include="Service\FormVariableService.cs" />
     <Compile Include="Service\LabelService.cs" />
     <Compile Include="Store\FormData.cs" />
     <Compile Include="Store\FormStore.cs" />
@@ -140,9 +144,6 @@
     <Compile Include="Validation\RegexValiator.cs" />
     <Compile Include="Validation\RemoteValiator.cs" />
     <Compile Include="Validation\ValidatorConfig.cs" />
-    <Compile Include="Variable\ConditionVariable.cs" />
-    <Compile Include="Variable\FormVariable.cs" />
-    <Compile Include="Variable\LabelVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FD.Tiny.Common.Utility\FD.Tiny.Common.Utility.csproj">
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Autofac\" />
+    <Folder Include="Variable\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

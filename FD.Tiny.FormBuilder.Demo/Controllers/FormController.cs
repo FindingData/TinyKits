@@ -22,7 +22,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 
 		private FD.Tiny.FormBuilder.FormService _formService;
 		private FD.Tiny.FormBuilder.FormStoreService _StoreService;
-		private FD.Tiny.FormBuilder.FormVariableService _VariableService;
+		//private FD.Tiny.FormBuilder.FormVariableService _VariableService;
 		private FD.Tiny.FormBuilder.LabelService _labelService;
 
 		/// 
@@ -30,11 +30,13 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 		/// <param name="storeService"></param>
 		/// <param name="variableService"></param>
 		/// <param name="labelService"></param>
-		public FormController(FormService formService, FormStoreService storeService, FormVariableService variableService, LabelService labelService){
+		public FormController(FormService formService, FormStoreService storeService,
+            //FormVariableService variableService,
+            LabelService labelService){
 
 			_formService = formService;
 			_StoreService = storeService;
-			_VariableService = variableService;
+			//_VariableService = variableService;
 			_labelService = labelService;
 		}
 
@@ -107,30 +109,30 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 
 		/// 
 		/// <param name="variable"></param>
-		[HttpPost]
-		public ActionResult AddVariable(FormVariable variable){
+		//[HttpPost]
+		//public ActionResult AddVariable(FormVariable variable){
 
-			var result = _VariableService.AddFormVariabel(variable, 0);
-			return Json(new OkResponse(result));
-		}
+		//	var result = _VariableService.AddFormVariabel(variable, 0);
+		//	return Json(new OkResponse(result));
+		//}
 
 		/// 
 		/// <param name="variableId"></param>
-		[HttpPost]
-		public ActionResult DelVariable(int variableId){
+		//[HttpPost]
+		//public ActionResult DelVariable(int variableId){
 
-			_VariableService.DelFormVariable(variableId, 0);
-			return Json(new OkResponse());
-		}
+		//	_VariableService.DelFormVariable(variableId, 0);
+		//	return Json(new OkResponse());
+		//}
 
 		/// 
 		/// <param name="variable"></param>
-		[HttpPost]
-		public ActionResult SaveVariable(FormVariable variable){
+		//[HttpPost]
+		//public ActionResult SaveVariable(FormVariable variable){
 
-			_VariableService.SaveFormVariable(variable, 0);
-			return Json(new OkResponse());
-		}
+		//	_VariableService.SaveFormVariable(variable, 0);
+		//	return Json(new OkResponse());
+		//}
 
 		/// 
 		/// <param name="label"></param>

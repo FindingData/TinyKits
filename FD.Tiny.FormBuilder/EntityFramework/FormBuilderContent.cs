@@ -29,7 +29,7 @@ namespace FD.Tiny.FormBuilder
 
         public DbSet<FormStorePO> FormStores { get; set; }
 
-        public DbSet<FormVariablePO> FormVariables { get; set; }
+        //public DbSet<FormVariablePO> FormVariables { get; set; }
 
 
         public DbSet<DictionaryPO> Dictionaries { get; set; }

@@ -14,12 +14,12 @@ namespace FD.Tiny.FormBuilder.Tests
     public class FormServiceTests : BaseTest
     {
         private FormService _formService;
-        private FormVariableService _formVariableService;
+        //private FormVariableService _formVariableService;
 
         public FormServiceTests()
         {
             _formService = AutofacExt.GetFromFac<FormService>();
-            _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
+          //  _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
         }
  
 
@@ -50,7 +50,7 @@ namespace FD.Tiny.FormBuilder.Tests
         public void SaveFormTest()
         {
             var form = _formService.GetForm(1);
-            form.variable_list = _formVariableService.GetFormVariableList(1);
+         //   form.variable_list = _formVariableService.GetFormVariableList(1);
             form.group_list = new List<FormGroup>();
             _formService.SaveForm(form, 0);
         }
@@ -59,7 +59,7 @@ namespace FD.Tiny.FormBuilder.Tests
         public void SubmitConditionVariableTest()
         {
             var store = new FormStore();
-            store.form_id = 1;
+            store.form_id = 81;
             store.customer_id = 3;
             store.label_data_list = new List<LabelData> {
                 new LabelData(){ label_id = 41, label_name_chs = "楼盘名称", label_value = "1"},
