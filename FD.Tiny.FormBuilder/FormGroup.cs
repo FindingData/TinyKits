@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
+using System.Linq;
 
 
 namespace FD.Tiny.FormBuilder {
@@ -18,6 +18,11 @@ namespace FD.Tiny.FormBuilder {
 	/// 表单分组类
 	/// </summary>
 	public class FormGroup {
+
+        public FormGroup()
+        {
+            this.label_list = new List<Label>();
+        }
 
 		/// <summary>
 		/// 分组名称
@@ -39,6 +44,8 @@ namespace FD.Tiny.FormBuilder {
 		public IList<Label> label_list{
 			get;  set;
 		}
+
+        
 
 	}//end FormGroup
 

@@ -47,32 +47,36 @@ namespace FD.Tiny.FormBuilder.Tests
         {
             var formId = 81;
 
-            var lb1 = new ControlLabel()
+            var lb1 = new VariableLabel()
             {
                 form_id = formId,
                 label_name_chs = "楼盘编码",
                 data_type = DataType.String,
-                label_config = new ControlConfig() {
+                label_config = new VariableConfig() {
                       
                 }
             };
             _labelService.AddLabel(lb1, 0);
 
-            var lb2 = new ControlLabel()
+            var lb2 = new VariableLabel()
             {
                 form_id = formId,
                 label_name_chs = "楼栋编码",
                 data_type = DataType.String,
-                label_config = new ControlConfig() { }
+                label_config = new VariableConfig() {
+                  
+                }
             };
             _labelService.AddLabel(lb2, 0);
 
-            var lb3 = new ControlLabel()
+            var lb3 = new VariableLabel()
             {
                 form_id = formId,
                 label_name_chs = "房号编码",
                 data_type = DataType.String,
-                label_config = new ControlConfig() { }
+                label_config = new VariableConfig() {
+                    
+                }
             };
             _labelService.AddLabel(lb3, 0);
 
@@ -84,7 +88,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 label_name_chs = "楼盘名称",
                 label_config = new ControlConfig()
                 {
-
+                    group_name = "区位",
                 }
             };
             _labelService.AddLabel(lb4, 0);
@@ -96,7 +100,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 label_name_chs = "楼栋名称",
                 label_config = new ControlConfig()
                 {
-
+                    group_name = "区位",
                 }
             };
             _labelService.AddLabel(lb5, 0);
@@ -108,6 +112,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 label_name_chs = "房号名称",
                 label_config = new ControlConfig()
                 {
+                    group_name = "区位",
                 }
             };
             _labelService.AddLabel(lb6, 0);
@@ -155,6 +160,18 @@ namespace FD.Tiny.FormBuilder.Tests
                           },
                      
                         }
+                },
+            };
+            _labelService.AddLabel(lb8, 0);
+
+            var lb9 = new VariableLabel()
+            {
+                data_type = DataType.String,
+                form_id = formId,
+                label_name_chs = "公司ID",
+                label_config = new VariableConfig()
+                {
+                    is_parameter = true,
                 },
             };
             _labelService.AddLabel(lb8, 0);

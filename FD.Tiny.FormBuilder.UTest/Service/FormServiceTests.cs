@@ -41,6 +41,10 @@ namespace FD.Tiny.FormBuilder.Tests
             {
                 form_desc = "一个测试表单",
                 form_name = "测试表单",                 
+                group_list = new List<FormGroup>()
+                {
+                    new FormGroup(){ group_name = "区位"},                    
+                }
             };
             var formId = _formService.AddForm(form, 0);
             Assert.IsTrue(formId > 0);
@@ -49,9 +53,13 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void SaveFormTest()
         {
-            var form = _formService.GetForm(1);
-         //   form.variable_list = _formVariableService.GetFormVariableList(1);
-            form.group_list = new List<FormGroup>();
+            var form = _formService.GetForm(81);
+
+            //   form.variable_list = _formVariableService.GetFormVariableList(1);
+            form.group_list = new List<FormGroup>()
+                {
+                    new FormGroup(){ group_name = "区位"},
+                };
             _formService.SaveForm(form, 0);
         }
 
@@ -69,6 +77,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 new LabelData(){ label_id = 84, label_name_chs = "楼栋编码", label_value = "123456"},
                 new LabelData(){ label_id = 85, label_name_chs = "房号编码", label_value = "12345678"}
             };          
+
             _formService.Submit(store, 0);
         }
 
@@ -81,7 +90,7 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void GetFormTest()
         {
-            var form = _formService.GetForm(1);
+            var form = _formService.GetForm(81);            
             Assert.IsNotNull(form);
         }
 
@@ -94,7 +103,9 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void BuildFormTest()
         {
-            var form = _formService.BuildForm(1);
+            var dic = new Dictionary<string, string>();
+            dic.Add("公司ID", "3");
+            var form = _formService.BuildForm(81, dic);
             Assert.IsNotNull(form.group_list);
             
         }

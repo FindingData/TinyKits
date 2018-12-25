@@ -36,26 +36,24 @@ namespace FD.Tiny.FormBuilder {
         }
 
 
-        public Form BuildForm(int formId)
+        public Form BuildForm(int formId,Dictionary<string,string> initParams)
         {
             var form = GetForm(formId);
-             
-            var labelList = _labelService.GetLabelList(formId);
-            //var labelGroup = labelList.GroupBy(l => l.group_name);
-            foreach (var group in form.group_list)
-            {                                
-                //group.label_list = labelList.Where(l => l.group_name == group.group_name).ToList();
+            
+            var labelList = _labelService.GetLabelList(formId);            
+            
+            foreach (var label in labelList)
+            {              
+                form.AddLabel(label);
             }
+            
             return form;
         }
 
         public int Submit(FormStore store,int userId)
         {
             Dictionary<string, object> labelDataList = store.label_data_list.ToDictionary(k => k.label_name_chs, v => v.label_value);
-
-            //var variables = _formVariableService.GetFormVariableList(store.form_id);
-            //store.form_data_list = store.form_data_list ?? new List<FormData>();
-
+            
             var variables = _labelService.GetLabelList(store.form_id);
 
             foreach (var variable in variables)
@@ -70,18 +68,7 @@ namespace FD.Tiny.FormBuilder {
                     };
                     store.label_data_list.Add(labelData);
                 }               
-            }
-
-            //foreach (var variable in variables)
-            //{
-            //    var formData = new FormData()
-            //    {
-            //        variable_id = variable.variable_id,
-            //        variable_name_chs = variable.variable_name_chs,
-            //        variable_value = variable.GetValue(r => labelDataList.GetOrDefault(r,""))
-            //    };                
-            //    store.form_data_list.Add(formData);
-            //}
+            }           
            return  _formStoreService.AddFormStore(store, userId);
         }        
        
@@ -91,19 +78,6 @@ namespace FD.Tiny.FormBuilder {
             var store = _formStoreService.GetFormStore(storeId);
             if (store == null)
                 return null;
-            //var variableList = _formVariableService.GetFormVariableList(store.form_id);
-
-            //foreach (var dbVariable in variableList.Where(v => v.database_config != null))
-            //{
-            //    var value = store.form_data_list.FirstOrDefault(d => d.variable_id == dbVariable.variable_id)?.variable_value;
-            //    var data = new DbData()
-            //    {
-            //        column_name = dbVariable.database_config.table_name,
-            //        table_name = dbVariable.database_config.column_name,
-            //        column_value = value,
-            //    };
-            //    dataList.Add(data);
-            //}
             return dataList;
         }
 
