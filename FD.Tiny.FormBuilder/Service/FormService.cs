@@ -39,7 +39,9 @@ namespace FD.Tiny.FormBuilder {
         public Form BuildForm(int formId,Dictionary<string,string> initParams)
         {
             var form = GetForm(formId);
-            
+
+            form.form_params = initParams;
+
             var labelList = _labelService.GetLabelList(formId);            
             
             foreach (var label in labelList)

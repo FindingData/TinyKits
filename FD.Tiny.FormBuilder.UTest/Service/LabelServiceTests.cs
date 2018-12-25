@@ -174,7 +174,7 @@ namespace FD.Tiny.FormBuilder.Tests
                     is_parameter = true,
                 },
             };
-            _labelService.AddLabel(lb8, 0);
+            _labelService.AddLabel(lb9, 0);
 
         }       
     }
