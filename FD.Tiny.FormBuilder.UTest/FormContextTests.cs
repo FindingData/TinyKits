@@ -80,17 +80,17 @@ namespace FD.Tiny.FormBuilder.UTest
             dbContext.SaveChanges();
         }
 
-        [TestMethod]
-        public void FormVariableAddTest()
-        {
-            var formVar = new FormVariablePO();
-            formVar.FORM_ID = 1;            
-            formVar.IS_PARAMETER = 0;
-            formVar.VARIABLE_NAME_CHS = "标的名称";
-            formVar.DATA_TYEP = (decimal)DataType.String;
-            dbContext.FormVariables.Add(formVar);
-            dbContext.SaveChanges();
-        }
+        //[TestMethod]
+        //public void FormVariableAddTest()
+        //{
+        //    var formVar = new FormVariablePO();
+        //    formVar.FORM_ID = 1;            
+        //    formVar.IS_PARAMETER = 0;
+        //    formVar.VARIABLE_NAME_CHS = "标的名称";
+        //    formVar.DATA_TYEP = (decimal)DataType.String;
+        //    dbContext.FormVariables.Add(formVar);
+        //    dbContext.SaveChanges();
+        //}
 
         [TestMethod]
         public void LabelAddTest()
@@ -98,10 +98,10 @@ namespace FD.Tiny.FormBuilder.UTest
             var label = new LabelPO();
             label.FORM_ID = 1;
             label.LABEL_NAME_CHS = "楼盘名称";
-            label.GROUP_NAME = "实物因素";
+          
             label.CREATED_BY = 1;
             label.DATA_TYPE = (decimal)DataType.String;
-            label.LABEL_SORT = 1;
+            
             dbContext.Labels.Add(label);
             dbContext.SaveChanges();
         }

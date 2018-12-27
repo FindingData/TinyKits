@@ -34,10 +34,10 @@ namespace FD.Tiny.FormBuilder {
 			get;  set;
 		}
 
-		public FormVariable form_variable{
-			get;
-			set;
-		}
+		//public FormVariable form_variable{
+		//	get;
+		//	set;
+		//}
 
 		public string variable_name_chs{
 			get;

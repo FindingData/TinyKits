@@ -1,102 +1,93 @@
-﻿using System; 
+﻿using System;
 using System.Text;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Data;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace FD.Tiny.FormBuilder 
+namespace FD.Tiny.FormBuilder
 {
-	//标签表
+    //标签表
     [Table("T_LABEL")]
-	public partial class LabelPO :EntityBase
-	{		 
+    public partial class LabelPO : EntityBase
+    {
 
-      					
-		/// <summary>
-		/// 标签ID
+
+        /// <summary>
+        /// 标签ID
         /// </summary>        
-				
-		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]		
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public decimal LABEL_ID
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 表单ID
+
+        /// <summary>
+        /// 表单ID
         /// </summary>        
-				
+
         public decimal? FORM_ID
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 数据类型
+
+        /// <summary>
+        /// 标签类型
         /// </summary>        
-				
+
+        public decimal? LABEL_TYPE
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 数据类型
+        /// </summary>        
+
         public decimal? DATA_TYPE
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 标签名称
+
+        /// <summary>
+        /// 标签名称
         /// </summary>        
-				
+
         public string LABEL_NAME_CHS
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 控件类型
+
+        /// <summary>
+        /// 默认值
         /// </summary>        
-				
-        public string CONTROL_TYPE
-        {
-            get;set;
-        }
-						
-		/// <summary>
-		/// 默认值
-        /// </summary>        
-				
+
         public string DEFAULT_VALUE
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 分组名称
+
+        /// <summary>
+        /// 原始值
         /// </summary>        
-				
-        public string GROUP_NAME
+
+        public string INNER_VALUE
         {
-            get;set;
+            get; set;
         }
-						
-		/// <summary>
-		/// 排序
+
+        /// <summary>
+        /// 标签配置
         /// </summary>        
-				
-        public decimal? LABEL_SORT
-        {
-            get;set;
-        }
-						
-		/// <summary>
-		/// 标签配置
-        /// </summary>        
-				
+
         public string LABEL_CONFIG
         {
-            get;set;
+            get; set;
         }
-												 
-	}
+
+    }
 }

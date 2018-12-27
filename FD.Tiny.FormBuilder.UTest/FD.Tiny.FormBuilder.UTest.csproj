@@ -96,7 +96,6 @@
     <Compile Include="Service\DictServiceTests.cs" />
     <Compile Include="Service\FormServiceTests.cs" />
     <Compile Include="Service\FormStoreServiceTests.cs" />
-    <Compile Include="Service\FormVariableServiceTests.cs" />
     <Compile Include="Service\LabelServiceTests.cs" />
     <Compile Include="Sql\SingleSqlParserFactoryTests.cs" />
   </ItemGroup>

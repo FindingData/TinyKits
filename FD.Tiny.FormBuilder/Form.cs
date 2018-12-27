@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
+using System.Linq;
 
 
 using FD.Tiny.FormBuilder;
@@ -22,8 +22,14 @@ namespace FD.Tiny.FormBuilder {
 
         public Form()
         {
-            this.group_list = new List<FormGroup>();
+            this.variable_label_list = new List<Label>();
+            this.form_params = new Dictionary<string, string>();
         }
+
+        /// <summary>
+        /// 初始化参数
+        /// </summary>
+        public Dictionary<string,string> form_params { get; set; }
 
 		/// <summary>
 		/// 表单Id
@@ -53,12 +59,33 @@ namespace FD.Tiny.FormBuilder {
 			get;  set;
 		}
 
-		/// <summary>
-		/// 变量列表
-		/// </summary>
-		public List<FormVariable> variable_list{
-			get;  set;
-		}
+        /// <summary>
+        /// 变量标签
+        /// </summary>
+        public List<Label> variable_label_list { get; set; }
+
+        /// <summary>
+        /// 添加标签
+        /// </summary>
+        /// <param name="label"></param>
+        public void AddLabel(Label label)
+        {
+            if (label is ControlLabel cLabel)
+            {             
+                var group = group_list.FirstOrDefault(g => g.group_name.Equals(cLabel.label_config.group_name));
+                group.label_list.Add(cLabel);
+            }
+            else if(label is VariableLabel vLabel)
+            {
+                //初始化变量
+                if (vLabel.label_config.is_parameter && form_params.ContainsKey(vLabel.label_name_chs))
+                {
+                    vLabel.inner_value = form_params[vLabel.label_name_chs];
+                }
+                variable_label_list.Add(label);
+            }
+            
+        }      
 
 	}//end Form
 
