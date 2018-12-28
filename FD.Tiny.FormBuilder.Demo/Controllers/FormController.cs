@@ -39,9 +39,10 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 			_labelService = labelService;
 		}
 
-		/// 
-		/// <param name="name"></param>
-		public IHttpActionResult Index(string name){
+        /// 
+        /// <param name="name"></param>
+        [HttpGet]
+        public IHttpActionResult Index(string name){
 
 			var list = _formService.QueryForm(name);
 			return Json(new OkResponse(list));
@@ -61,6 +62,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// GET: Form
         /// </summary>
         /// <param name="formId"></param>
+        [HttpGet]
         public IHttpActionResult Get(int formId)
         {
             var result = _formService.GetForm(formId);
