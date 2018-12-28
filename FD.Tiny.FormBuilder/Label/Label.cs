@@ -22,7 +22,7 @@ namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// ±Ìµ•±Í«©
 	/// </summary>   
-    public abstract class Label {
+    public class Label {
 
 		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
 
