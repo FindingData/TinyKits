@@ -113,7 +113,7 @@ var dfFormEditVm = new Vue({
                     var param = {
                         label: this.setLableList[i]
                     }
-                    post('/form/AddLabel', param, () => {
+                    post('/Api/Form/AddLabel', param, () => {
                         this.setLableList.splice(i, 1)
                     }).then(
                         res => {
@@ -144,7 +144,7 @@ var dfFormEditVm = new Vue({
             var param = {
                 label: label
             }
-            post('/Form/SaveLabel', param).then(
+            post('/Api/Form/SaveLabel', param).then(
                 res => {
                     console.log('保存Label',res)
                     this.oldLabelData = clone(label)
@@ -309,7 +309,7 @@ var dfFormEditVm = new Vue({
                 var param = {
                     labelId: this.currentLabelData.label_id
                 }
-                post('/Form/DelLabel', param).then(
+                post('/Api/Form/DelLabel', param).then(
                     res => {
                         console.log('删除标签',res)
                         this.currentLabelindex = -1
@@ -325,7 +325,7 @@ var dfFormEditVm = new Vue({
             var param = {
                 formId: this.formId
             }
-            get('/Form/GetLabelList', param).then(
+            get('/Api/Form/GetLabelList', param).then(
                 res => {
                     console.log('获取LabelList',res)
                     this.setLableList=res
@@ -337,7 +337,7 @@ var dfFormEditVm = new Vue({
             var param = {
                 formId: this.formId
             }
-            get('/Form/Get', param).then(
+            get('/Api/Form/Get', param).then(
                 res => {
                     console.log('获取Form',res)
                 }
@@ -348,7 +348,7 @@ var dfFormEditVm = new Vue({
             var param = {
                 storeId: 43
             }
-            get('/Form/Retrieve', param).then(
+            get('/Api/Form/Retrieve', param).then(
                 res => {
                     console.log('form取回',res)
                 }
@@ -470,7 +470,7 @@ var dfFormEditVm = new Vue({
         },
         getDataApi() {
             var param = { name: '' }
-            get('/DataApi/Index', param).then(
+            get('/Api/DataApi/Index', param).then(
                 res => {
                     this.dataApis = res
                     console.log('DataApi',res)

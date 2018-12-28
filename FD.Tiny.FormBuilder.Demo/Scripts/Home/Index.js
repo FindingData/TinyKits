@@ -33,7 +33,7 @@ var dfIndexVm = new Vue({
             var param = {
                 name: ''
             }
-            get('/Form/Index', param).then(
+            get('/Api/Form/Index', param).then(
                 res => {
                     console.log('表单列表',res)
                     this.formList = res
@@ -47,7 +47,7 @@ var dfIndexVm = new Vue({
                     var param = {
                         form: this.customerForm
                     }
-                    post('/Form/Add', param).then(
+                    post('/Api/Form/Add', param).then(
                         res => {
                             console.log('新增表单',res)
                             this.getFormList()
