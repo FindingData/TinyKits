@@ -1,4 +1,6 @@
 ﻿using FD.Tiny.Common.Utility.Json;
+using FD.Tiny.Common.Utility.JsonSubTypes;
+using FD.Tiny.FormBuilder.Demo.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +21,19 @@ namespace FD.Tiny.FormBuilder.Demo
                 defaults: new { controller = "Data", action = "Index", id = RouteParameter.Optional }
             );
 
+            
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting =
+                Newtonsoft.Json.Formatting.Indented;
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+                (new Newtonsoft.Json.Converters.StringEnumConverter());
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+                (new LabelConverter());
+
             var jsonFormatter = new JsonMediaTypeFormatter();
+            jsonFormatter.SerializerSettings.Converters.Add(new LabelConverter());
             jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
             config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
 
         }

@@ -410,7 +410,7 @@ var dfFormEditVm = new Vue({
                     var param = {
                         label: this.setLableList[i]
                     }
-                    post('/Form/AddLabel', param, () => {
+                    post('/api/Label/AddLabel', param, () => {
                         this.setLableList.splice(i, 1)
                     }).then(
                         res => {

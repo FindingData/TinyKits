@@ -16,11 +16,13 @@ using System.IO;
 using System.Text.RegularExpressions;
 using FD.Tiny.Common.Utility.Calc;
 using FD.Tiny.FormBuilder;
+using System.Runtime.Serialization;
+
 namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// ±Ìµ•±Í«©
-	/// </summary>
-	public abstract class Label {
+	/// </summary>   
+    public abstract class Label {
 
 		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
 

@@ -89,6 +89,7 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="Calc\CalcStringExpressionTests.cs" />
     <Compile Include="Controllers\DataBaseControllerTests.cs" />
+    <Compile Include="Controllers\FormControllerTests.cs" />
     <Compile Include="FormContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DbServiceTests.cs" />

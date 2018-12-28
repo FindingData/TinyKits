@@ -91,6 +91,9 @@
     <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Json\JsonContentNegotiator.cs" />
     <Compile Include="Json\JsonHelper.cs" />
+    <Compile Include="JsonSubtypes\JsonSubtypes.cs" />
+    <Compile Include="JsonSubtypes\JsonSubtypesConverter.cs" />
+    <Compile Include="JsonSubtypes\JsonSubtypesConverterBuilder.cs" />
     <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="PageHeler\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

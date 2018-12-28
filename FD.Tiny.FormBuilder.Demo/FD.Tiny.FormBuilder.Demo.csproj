@@ -246,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIs\DataController.cs" />
+    <Compile Include="APIs\LabelController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -259,6 +260,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\LabelConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\labelTemplate.css" />

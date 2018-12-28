@@ -20,15 +20,17 @@ namespace FD.Tiny.FormBuilder {
 	/// </summary>
 	public class ControlConfig : LabelConfig {
 
-		public List<Option> control_options{
-			get;
-						set;
-		}
+        public List<Option> control_options
+        {
+            get;
+            set;
+        } 
 
-		public ValidatorConfig validator_config{
-			get;
-						set;
-		}
+        public ValidatorConfig validator_config
+        {
+            get;
+            set;
+        } 
 
 		public int label_sort{
 			get;

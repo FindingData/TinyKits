@@ -22,13 +22,14 @@ namespace FD.Tiny.FormBuilder {
 
 		public ControlLabel(){
 
-			this.label_type = LabelType.control;
+			this.label_type = LabelType.control;            
 		}
 
-		public new ControlConfig label_config{
-			get;
-						set;
-		}
+        public new ControlConfig label_config
+        {
+            get;
+            set;
+        } = new ControlConfig();
 
         public override string GetValue(Func<string, string> source)
         {
