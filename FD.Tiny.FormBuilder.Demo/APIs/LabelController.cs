@@ -22,5 +22,7 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
             var result = _labelService.AddLabel(label, 0);
             return new OkResponse(result);
         }
+
+        
     }
 }

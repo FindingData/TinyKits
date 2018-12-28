@@ -28,6 +28,14 @@ namespace FD.Tiny.FormBuilder.Demo
                 (new Newtonsoft.Json.Converters.StringEnumConverter());
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
                 (new LabelConverter());
+            //config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+            //    (JsonSubtypesConverterBuilder
+            //.Of(typeof(Label), "label_type") // type property is only defined here
+            //.RegisterSubtype(typeof(ControlLabel), LabelType.control)
+            //.RegisterSubtype(typeof(VariableLabel), LabelType.variable)
+            //.RegisterSubtype(typeof(ConditionLabel), LabelType.condition)
+            //.SerializeDiscriminatorProperty() // ask to serialize the type property
+            //.Build());
 
             var jsonFormatter = new JsonMediaTypeFormatter();
             jsonFormatter.SerializerSettings.Converters.Add(new LabelConverter());
