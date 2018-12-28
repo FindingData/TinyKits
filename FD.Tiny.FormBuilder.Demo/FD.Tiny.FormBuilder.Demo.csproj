@@ -277,6 +277,7 @@
     </Content>
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\common\Config.js" />
+    <Content Include="Scripts\common\data.js" />
     <Content Include="Scripts\common\FDialog.js" />
     <Content Include="Scripts\common\Request.js" />
     <Content Include="Scripts\dynamicForm\BaiduMap.js" />

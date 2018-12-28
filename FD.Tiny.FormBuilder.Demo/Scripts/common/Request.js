@@ -1,8 +1,4 @@
-﻿/**
- * 网络请求错误分类
- */
-var ErrType = { 请求错误: 0, 授权过期: 1, 地址出错: 2, 请求超时: 3, 服务器内部错误: 4, 接口返回错误: 5, 未知错误: 6 }
-
+﻿
 //======================请求和响应的拦截========================================
 //请求拦截
 axios.interceptors.request.use(
@@ -36,36 +32,30 @@ axios.interceptors.response.use(
  */
 function errorResponseHandle(response) {
     var message = ''
-    var errType = ErrType.请求错误
+    var errType = response.status
     switch (response.status) {
         case 400:
             message = '请求无效'
-            errType = ErrType.请求错误
             break
 
         case 401:
             message = '您的授权已过期，请重新登录'
-            errType = ErrType.授权过期
             break
 
         case 404:
             message = `请求地址出错: ${err.response.config.url}`
-            errType = ErrType.地址出错
             break
 
         case 408:
             message = '请求超时，请尝试重新获取'
-            errType = ErrType.请求超时
             break
 
         case 500:
             message = '服务器内部错误，请联系技术人员'
-            errType = ErrType.服务器内部错误
             break
 
         default:
             message = '未知错误，请刷新页面后尝试重新获取'
-            errType = ErrType.未知错误
     }
     return { msg: message, errType: errType }
 }
@@ -81,7 +71,7 @@ function errHandle(err) {
             errType = pro
         }
     }
-    return errType + ':' + err.msg
+    return errType + '：' + err.msg
 }
 /**
  * GET请求
