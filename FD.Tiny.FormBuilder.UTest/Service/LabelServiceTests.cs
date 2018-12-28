@@ -89,6 +89,11 @@ namespace FD.Tiny.FormBuilder.Tests
                 label_config = new ControlConfig()
                 {
                     group_name = "区位",
+                     control_type = "autocomplete",
+                      data_source_config = new ApiDataSource()
+                      {
+                           
+                      }
                 }
             };
             _labelService.AddLabel(lb4, 0);

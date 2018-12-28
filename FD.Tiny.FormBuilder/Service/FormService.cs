@@ -26,8 +26,7 @@ namespace FD.Tiny.FormBuilder {
         private LabelService _labelService;
 
         public FormService(IRepository<FormPO> repository,
-            FormStoreService formStoreService,
-        
+            FormStoreService formStoreService,        
             LabelService labelService) : base(repository)
         {
             _formStoreService = formStoreService;
