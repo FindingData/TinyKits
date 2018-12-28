@@ -30,29 +30,29 @@ namespace FD.Tiny.FormBuilder
                 })
                 .ForMember(dest => dest.label_config, opt =>
                    {
-                       opt.MapFrom(src => JsonHelper.Instance.Deserialize<LabelConfig>(src.LABEL_CONFIG));
+                       opt.Ignore();
                    }).ConvertUsing<LabelDtoConvert>();
 
             CreateMap<LabelPO, ControlLabel>()
+                 .IncludeBase<LabelPO, Label>()
                  .ForMember(dest => dest.label_config, opt =>
                  {
                      opt.MapFrom(src => JsonHelper.Instance.Deserialize<ControlConfig>(src.LABEL_CONFIG));
-                 })
-                .IncludeBase<LabelPO, Label>()                ;
+                 });
 
             CreateMap<LabelPO, VariableLabel>()
+                .IncludeBase<LabelPO, Label>()
                  .ForMember(dest => dest.label_config, opt =>
                  {
                      opt.MapFrom(src => JsonHelper.Instance.Deserialize<VariableConfig>(src.LABEL_CONFIG));
-                 })
-              .IncludeBase<LabelPO, Label>();
+                 });
 
             CreateMap<LabelPO, ConditionLabel>()
+                .IncludeBase<LabelPO, Label>()
                     .ForMember(dest => dest.label_config, opt =>
                     {
                         opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.LABEL_CONFIG));
-                    })
-              .IncludeBase<LabelPO, Label>();
+                    });
 
 
             CreateMap<FormStorePO, FormStore>()

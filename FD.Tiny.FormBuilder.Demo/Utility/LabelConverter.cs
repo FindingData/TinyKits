@@ -15,10 +15,11 @@ namespace FD.Tiny.FormBuilder.Demo.Utility
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {            
+        {
+            Label label;
             JObject j = JObject.Load(reader);
-            var label = j["label"].ToObject<Label>();
-            switch (label.label_type)
+            var type = j["label"]["label_type"].ToObject<LabelType>();
+            switch (type)
             {
                 case LabelType.control:
                     label = j["label"].ToObject<ControlLabel>();

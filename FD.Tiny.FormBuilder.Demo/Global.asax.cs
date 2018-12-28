@@ -33,10 +33,11 @@ namespace FD.Tiny.FormBuilder.Demo
          
 
             var config = GlobalConfiguration.Configuration;
+
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             
-            var jsonFormatter = config.Formatters.JsonFormatter;
-            jsonFormatter.SerializerSettings.Converters.Add(new LabelConverter());
-         
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new LabelConverter());
+            
             //var jsonFormatter = new JsonMediaTypeFormatter();
             //jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             //jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
