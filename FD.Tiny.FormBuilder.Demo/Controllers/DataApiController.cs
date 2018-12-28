@@ -12,12 +12,11 @@ using System.Text;
 using System.IO;
 
 
-
-using System.Web.Mvc;
 using FD.Tiny.Common.Utility.PageHeler;
+using System.Web.Http;
 
 namespace FD.Tiny.FormBuilder.Demo.Controllers {
-	public class DataApiController : Controller {
+	public class DataApiController : ApiController {
 
         private ApiService _apiService;
 
@@ -29,15 +28,16 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// <summary>
         /// GET: DataSource
         /// </summary>
-        public ActionResult Index(string name)
-        {
+        public IHttpActionResult Index(string name)
+        {            
             var list = _apiService.QueryApi(name);
-            return Json(new OkResponse(list), JsonRequestBehavior.AllowGet);
+            
+            return Json(new OkResponse(list));
         }
 
 
         [HttpPost]
-        public ActionResult ParseSql(string sql)
+        public IHttpActionResult ParseSql(string sql)
         {
             var parsedSql = _apiService.ParseSql(sql);
             var requestList = _apiService.GetRequestParamsFromSql(sql);
@@ -54,7 +54,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// GET: DataSource
         /// </summary>
         [HttpPost]
-        public ActionResult Add(Api api)
+        public IHttpActionResult Add(Api api)
         {
             var result = _apiService.AddApi(api, 0);
             return Json(new OkResponse(result));
@@ -64,7 +64,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// GET: DataSource
         /// </summary>
         [HttpPost]
-        public ActionResult Save(Api api){
+        public IHttpActionResult Save(Api api){
             _apiService.SaveApi(api, 0);
 			return Json(new OkResponse());
 		}
@@ -73,7 +73,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// GET: DataSource
         /// </summary>
         [HttpPost]
-        public ActionResult Del(int apiId){
+        public IHttpActionResult Del(int apiId){
             _apiService.DelApi(apiId, 0);
 			return Json(new OkResponse());
 		}

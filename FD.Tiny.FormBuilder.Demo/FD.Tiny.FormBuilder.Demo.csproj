@@ -245,8 +245,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIs\DataController.cs" />
-    <Compile Include="APIs\LabelController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
