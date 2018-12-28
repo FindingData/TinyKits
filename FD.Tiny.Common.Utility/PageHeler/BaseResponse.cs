@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace FD.Tiny.Common.Utility.PageHeler
 {
@@ -33,7 +36,7 @@ namespace FD.Tiny.Common.Utility.PageHeler
         }
     }
 
-    public class BaseResponse
+    public class BaseResponse 
     {
         public BaseResponse()
         {
@@ -51,5 +54,6 @@ namespace FD.Tiny.Common.Utility.PageHeler
         public string Message { get; set; } = "操作成功";
 
         public dynamic Result { get; set; }
+       
     }
 }

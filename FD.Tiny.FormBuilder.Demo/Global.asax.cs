@@ -26,30 +26,7 @@ namespace FD.Tiny.FormBuilder.Demo
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);            
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-             
-         
-         
-
-            var config = GlobalConfiguration.Configuration;
-
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-            
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new LabelConverter());
-            
-            //var jsonFormatter = new JsonMediaTypeFormatter();
-            //jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-            //jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            //jsonFormatter.SerializerSettings.Converters.Add(JsonSubtypesConverterBuilder
-            //.Of(typeof(Label), "label_type") // type property is only defined here
-            //.RegisterSubtype(typeof(ControlLabel), LabelType.control)
-            //.RegisterSubtype(typeof(VariableLabel), LabelType.variable)
-            //.RegisterSubtype(typeof(ConditionLabel), LabelType.condition)
-            //.SerializeDiscriminatorProperty() // ask to serialize the type property
-            //.Build());
-            //config.Formatters.Remove(config.Formatters.JsonFormatter);
-            //config.Formatters.Insert(0, jsonFormatter);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);                                          
         }
     }
 }

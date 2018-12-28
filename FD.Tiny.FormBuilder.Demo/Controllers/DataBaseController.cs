@@ -13,12 +13,12 @@ using System.IO;
 
 
 
-using System.Web.Mvc;
-
 using FD.Tiny.FormBuilder;
 using FD.Tiny.Common.Utility.PageHeler;
+using System.Web.Http;
+
 namespace FD.Tiny.FormBuilder.Demo.Controllers {
-	public class DataBaseController : Controller {
+	public class DataBaseController : ApiController {
 
 		private FD.Tiny.FormBuilder.DbTableService _dbTableService;
 		private FD.Tiny.FormBuilder.DbColumnService _dbColumnService;
@@ -34,7 +34,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 
 		/// 
 		/// <param name="schemal"></param>
-		public ActionResult Index(string schemal){
+		public IHttpActionResult Index(string schemal){
 
 			var list = _dbTableService.QueryDbTable(schemal);
 			return Json(new OkResponse(list));
@@ -45,7 +45,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="table"></param>
         [HttpPost]
-        public ActionResult AddTable(DbTable table){
+        public IHttpActionResult AddTable(DbTable table){
             var result = _dbTableService.AddDbTable(table, 0);
 			return Json(new OkResponse(result));
 		}
@@ -55,7 +55,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="table"></param>
         [HttpPost]
-        public ActionResult UpdateTable(DbTable table){
+        public IHttpActionResult UpdateTable(DbTable table){
             _dbTableService.SaveDbTable(table, 0);
 			return Json(new OkResponse());
 		}
@@ -65,7 +65,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="tableId"></param>
         [HttpPost]
-        public ActionResult DelTable(int tableId)
+        public IHttpActionResult DelTable(int tableId)
         {
             _dbTableService.DelDbTable(tableId, 0);
             return Json(new OkResponse());
@@ -76,7 +76,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="column"></param>
         [HttpPost]
-        public ActionResult AddColumn(DbColumn column)
+        public IHttpActionResult AddColumn(DbColumn column)
         {
             var result =  _dbColumnService.AddDbColumn(column, 0);
             return Json(new OkResponse(result));
@@ -87,7 +87,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="column"></param>
         [HttpPost]
-        public ActionResult UpdateColumn(DbColumn column){
+        public IHttpActionResult UpdateColumn(DbColumn column){
             _dbColumnService.SaveDbColumn(column, 0);
             return Json(new OkResponse());
         }
@@ -97,7 +97,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// </summary>
         /// <param name="columnId"></param>
         [HttpPost]
-        public ActionResult DelColumn(int columnId)
+        public IHttpActionResult DelColumn(int columnId)
         {
             _dbColumnService.DelDbColumn(columnId, 0);
             return Json(new OkResponse());

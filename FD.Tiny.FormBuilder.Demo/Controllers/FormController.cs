@@ -12,13 +12,12 @@ using System.Text;
 using System.IO;
 
 
-
-using System.Web.Mvc;
 using FD.Tiny.FormBuilder;
 using FD.Tiny.Common.Utility.PageHeler;
+using System.Web.Http;
 
 namespace FD.Tiny.FormBuilder.Demo.Controllers {
-	public class FormController : Controller {
+	public class FormController : ApiController {
 
 		private FD.Tiny.FormBuilder.FormService _formService;
 		private FD.Tiny.FormBuilder.FormStoreService _StoreService;
@@ -42,41 +41,43 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 
 		/// 
 		/// <param name="name"></param>
-		public ActionResult Index(string name){
+		public IHttpActionResult Index(string name){
 
 			var list = _formService.QueryForm(name);
-			return Json(new OkResponse(list), JsonRequestBehavior.AllowGet);
+			return Json(new OkResponse(list));
 		}
 
-		/// 
-		/// <param name="form"></param>
-		[HttpPost]
-		public ActionResult Add(Form form){
+        /// 
+        /// <param name="form"></param>
+        [HttpPost]
+        public IHttpActionResult Add(Form form)
+        {
 
-			var result = _formService.AddForm(form,0);
-						return Json(new OkResponse(result));
-		}
+            var result = _formService.AddForm(form, 0);
+            return Json(new OkResponse(result));
+        }
 
-		/// <summary>
-		/// GET: Form
-		/// </summary>
-		/// <param name="formId"></param>
-		public ActionResult Get(int formId){
+        /// <summary>
+        /// GET: Form
+        /// </summary>
+        /// <param name="formId"></param>
+        public IHttpActionResult Get(int formId)
+        {
+            var result = _formService.GetForm(formId);
+            return Json(new OkResponse(result));
+        }
 
-			var result = _formService.GetForm(formId);
-						return Json(new OkResponse(result),JsonRequestBehavior.AllowGet);
-		}
+        /// 
+        /// <param name="form"></param>
+        [HttpPost]
+        public IHttpActionResult Save(Form form)
+        {
 
-		/// 
-		/// <param name="form"></param>
-		[HttpPost]
-		public ActionResult Save(Form form){
+            _formService.SaveForm(form, 0);
+            return Json(new OkResponse());
+        }
 
-			_formService.SaveForm(form, 0);
-						return Json(new OkResponse());
-		}
-
-		public ActionResult Validate(){
+		public IHttpActionResult Validate(){
 
 			return null;
 		}
@@ -84,7 +85,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// 
         /// <param name="store"></param>
         [HttpPost]
-        public ActionResult Submit(FormStore store)
+        public IHttpActionResult Submit(FormStore store)
         {
             var result = _StoreService.AddFormStore(store, 0);
 
@@ -94,89 +95,35 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// 
         /// <param name="storeId"></param>
         [HttpGet]
-        public ActionResult Retrieve(int storeId){
+        public IHttpActionResult Retrieve(int storeId){
 
 			var result = _StoreService.GetFormStore(storeId);
-			return Json(new OkResponse(result), JsonRequestBehavior.AllowGet);
+			return Json(new OkResponse(result));
 		}
 
         [HttpGet]
-        public ActionResult RetrieveDbData(int storeId)
+        public IHttpActionResult RetrieveDbData(int storeId)
         {
             var result = _formService.RetriveDbData(storeId);
-            return Json(new OkResponse(result), JsonRequestBehavior.AllowGet);
+            return Json(new OkResponse(result));
         }
 
-        [HttpGet]
-        public ActionResult LabelGet()
-        {
-            var lb = new ControlLabel()
-            {
-                form_id = 8,
-                label_name_chs = "文本测试",
-                data_type = DataType.String,
-                form = null,
-                inner_value = "",
-                label_type = LabelType.condition,
-                label_config = new ControlConfig()
-                {
-                    control_type = "input",
-                    label_sort = 1,
-                    group_name = "基础",
-                    validator_config = new ValidatorConfig(),
-                    data_source_config = new DataSource(),
-                    relate_config = new RelateConfig(),
-                    database_config = null,
-                    map_config = null,
-                    control_options = new List<Option>()
-                       {
-                            new Option(){ key = "placeholder",value= "你好"},
-                            new Option(){ key="readonly", value = false},
-                       }
-                },
-            };
-            return Json(lb, JsonRequestBehavior.AllowGet);
-        }
-		/// 
-		/// <param name="variable"></param>
-		//[HttpPost]
-		//public ActionResult AddVariable(FormVariable variable){
-
-		//	var result = _VariableService.AddFormVariabel(variable, 0);
-		//	return Json(new OkResponse(result));
-		//}
-
-		/// 
-		/// <param name="variableId"></param>
-		//[HttpPost]
-		//public ActionResult DelVariable(int variableId){
-
-		//	_VariableService.DelFormVariable(variableId, 0);
-		//	return Json(new OkResponse());
-		//}
-
-		/// 
-		/// <param name="variable"></param>
-		//[HttpPost]
-		//public ActionResult SaveVariable(FormVariable variable){
-
-		//	_VariableService.SaveFormVariable(variable, 0);
-		//	return Json(new OkResponse());
-		//}
+       
 
 		/// 
 		/// <param name="label"></param>
 		[HttpPost]
-		public ActionResult AddLabel(Label label){
+		public IHttpActionResult AddLabel(Label label){
 
 			var result = _labelService.AddLabel(label, 0);
+           
 			return Json(new OkResponse(result));
 		}
 
 		/// 
 		/// <param name="label"></param>
 		[HttpPost]
-		public ActionResult SaveLabel(Label label){
+		public IHttpActionResult SaveLabel(Label label){
 
 			_labelService.SaveLabel(label,0);
 			return Json(new OkResponse());
@@ -185,17 +132,17 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 		/// 
 		/// <param name="labelId"></param>
 		[HttpPost]
-		public ActionResult DelLabel(int labelId){
+		public IHttpActionResult DelLabel(int labelId){
 
 			_labelService.DelLabel(labelId, 0);
 			return Json(new OkResponse());
 		}
 
        
-        public ActionResult GetLabelList(int formId)
+        public IHttpActionResult GetLabelList(int formId)
         {
             var list = _labelService.GetLabelList(formId);
-            return Json(new OkResponse(list),JsonRequestBehavior.AllowGet);
+            return Json(new OkResponse(list));
         }
 
 	}//end FormController
