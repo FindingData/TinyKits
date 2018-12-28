@@ -29,30 +29,60 @@
 ]
 
 var DataType = { Number: 0, String: 1, Date: 2 }
+var LabelType = { control: 0, variable: 1, condition: 2 }
+var ValueMethod = { Const: 0, Formula:1}
+
 var FormComponents = [
     {
         component_group: '表单标签',
-        component_list: [
+		component_list: [
+			{
+				label_id: 0,
+				form_id: 0,
+				data_type: DataType.String,
+				label_name_chs: '变量',
+				form: null,
+				inner_value: '',
+
+				label_type: LabelType.variable,
+				label_config: {
+					is_parameter: false,
+					value_method: ValueMethod.Const
+				}
+			},
+			{
+				label_id: 0,
+				form_id: 0,
+				data_type: DataType.String,
+				label_name_chs: '条件',
+				form: null,
+				inner_value: '',
+				label_type: LabelType.condition,
+				label_config: {
+					condition_list:[]
+				}
+			},
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '普通文本',
-                control_type: 'input_base',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {
+				form:null,
+				inner_value: '',
+				default_value: '',
+				label_type: LabelType.control,
+				label_config: {
+					control_type: 'input_base',
+					label_sort:0,
+					group_name: '',
                     validator_config: {
                         validator_list: []
-                    },
-                    condition_config: {
-                        condition_list:[]
                     },
                     data_source_config: null,
                     relate_config: {
                         relate_list: []
                     },
+					database_config: null,
                     format_config: null,
                     map_config: null,
                     control_options: [
@@ -63,27 +93,27 @@ var FormComponents = [
                 }
             },
             {
-                label_id: 0,
-                form_id: 0,
-                data_type: DataType.String,
-                label_name_chs: '远程文本',
-                control_type: 'input_autocomplete',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
+				label_id: 0,
+				form_id: 0,
+				data_type: DataType.String,
+				label_name_chs: '远程文本',
+				form: null,
+				inner_value: '',
+				label_type: LabelType.control,
                 label_config: {
-                    validator_config: {
-                        validator_list: []
-                    },
-                    condition_config: {
-                        condition_list: []
-                    },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
-                    format_config: null,
-                    map_config: null,
+					control_type: 'input_autocomplete',
+					label_sort: 0,
+					group_name: '',
+					validator_config: {
+						validator_list: []
+					},
+					data_source_config: null,
+					relate_config: {
+						relate_list: []
+					},
+					database_config: null,
+					format_config: null,
+					map_config: null,
                     control_options: [
                         { key: 'placeholder', value: '' },
                         { key: 'clearable', value: true },
@@ -91,7 +121,36 @@ var FormComponents = [
                         { key: 'trigger-on-focus', value: true }
                     ]
                 }
-            },
+			},
+			{
+				label_id: 0,
+				form_id: 0,
+				data_type: DataType.String,
+				label_name_chs: '远程文本',
+				form: null,
+				inner_value: '',
+				label_type: LabelType.control,
+				label_config: {
+					control_type: 'select',
+					label_sort: 0,
+					group_name: '',
+					validator_config: {
+						validator_list: []
+					},
+					data_source_config: null,
+					relate_config: {
+						relate_list: []
+					},
+					database_config: null,
+					format_config: null,
+					map_config: null,
+					control_options: [
+						{ key: 'placeholder', value: '' },
+						{ key: 'clearable', value: true },
+						{ key: 'readonly', value: false }
+					]
+				}
+			},
             {
                 label_id: 0,
                 form_id: 0,
@@ -102,35 +161,6 @@ var FormComponents = [
                 label_sort: 0,
                 group_name: '',
                 label_config: {}
-            },
-            {
-                label_id: 0,
-                form_id: 0,
-                data_type: DataType.String,
-                label_name_chs: '下拉选择',
-                control_type: 'select',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {
-                    validator_config: {
-                        validator_list: []
-                    },
-                    condition_config: {
-                        condition_list: []
-                    },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'placeholder', value: '' },
-                        { key: 'clearable', value: true },
-                        { key: 'readonly', value: false }
-                    ]
-                }
             },
             {
                 label_id: 0,
@@ -278,8 +308,9 @@ var dfFormEditVm = new Vue({
     },
     data() {
         return {
-            DataType: { Number: 0, String: 1, Date: 2 },
-            FormComponents: FormComponents,
+			FormComponents: FormComponents,
+			DataType: DataType,
+			LabelType: LabelType,
             RelateRule: RelateRule,
             ValueMethod: ValueMethod,
             DataSourceType: DataSourceType,
@@ -289,7 +320,8 @@ var dfFormEditVm = new Vue({
             currentLabelData: {},
             currentLabelindex: -1,
             oldLabelData: {},
-            oldIndex: -1,
+			oldIndex: -1,
+			labelActiveName:'control',
             tabActiveName: 'normal',
             labelEditChange: true,
             formPreviewVisible: false,

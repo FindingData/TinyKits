@@ -62,7 +62,7 @@ margin:0;
 
 .form-config-content {
     padding: 10px;
-    margin: 3px;
+    margin: 0 3px;
     border: 1px solid #bbbabb;
 }
 
@@ -151,10 +151,17 @@ margin:0;
     margin-top: 10px;
     margin-left: 30px;
 }
-/**隐藏百度地图logo*/
-.BMap_cpyCtrl {
-    display: none;
+
+.form-label-type-tab {
+	margin:0 3px;
 }
+	.form-label-type-tab .el-tabs__header {
+		margin:0;
+	}
+	/**隐藏百度地图logo*/
+	.BMap_cpyCtrl {
+		display: none;
+	}
 
 .anchorBL {
     display: none;

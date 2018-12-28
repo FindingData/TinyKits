@@ -69,51 +69,72 @@
                     </el-collapse-item>
                 </el-collapse>
             </div>
-            <div class="form-config-center">
-                <div style="text-align:right;">
-                    <el-button size="medium" v-on:click="formPreviewVisible=true" class="f-button-icon-text">
-                        <i class="iconfont icon-yulan"></i><span>预 览</span>
-                    </el-button>
-                    <el-button type="primary" size="medium" v-on:click="formSetVisible=true" class="f-button-icon-text">
-                        <i class="iconfont icon-shezhi"></i><span>设 置</span>
-                    </el-button>
-                    <el-button type="success" size="medium" class="f-button-icon-text">
-                        <i class="iconfont icon--baocun"></i><span>变 量</span>
-                    </el-button>
-                </div>
-                <div class="form-config-content" id="FormContent">
-                    <vue-scrollbar classes="form-label-scrollbar" id="FormLabelContent" ref="FormLabelScrollbar">
-                        <div class="scroll-me">
-                            <draggable v-model="setLableList" v-on:update="updateData" v-on:add="addData"
-                                       :options="{group:{ name:'labelList',  pull:false, put:true },ghostClass:'form-config-center-row-ghost',animation:300}" style="min-height:500px;">
-                                <div v-for="(label,index) in setLableList" :key="index"
-                                     v-on:click="settingData(index)"
-                                     :class="['form-config-center-row',index===currentLabelindex?'row-active':'']">
-                                    <div v-if="label.control_type==='map_gis'">
-                                        <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
-                                    </div>
-                                    <div v-else-if="label.control_type==='map_baidu'">
-                                        <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
-                                    </div>
-                                    <div v-else-if="label.control_type==='rtf'">
-                                        <label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
-                                    </div>
-                                    <el-row v-else>
-                                        <el-col :span="6">
-                                            <label class="form-config-center-label">{{label.label_name_chs}}</label>
-                                        </el-col>
-                                        <el-col :span="18">
-                                            <label-template :lable-type="label.control_type" class="form-config-center-control"></label-template>
-                                        </el-col>
-                                    </el-row>
-                                </div>
+			<div class="form-config-center">
+				<!--
+	<div style="text-align:right;">
+		<el-button size="medium" v-on:click="formPreviewVisible=true" class="f-button-icon-text">
+			<i class="iconfont icon-yulan"></i><span>预 览</span>
+		</el-button>
+		<el-button type="primary" size="medium" v-on:click="formSetVisible=true" class="f-button-icon-text">
+			<i class="iconfont icon-shezhi"></i><span>设 置</span>
+		</el-button>
+		<el-button type="success" size="medium" class="f-button-icon-text">
+			<i class="iconfont icon--baocun"></i><span>变 量</span>
+		</el-button>
+	</div>
+		-->
+				<el-tabs v-model="labelActiveName" class="form-label-type-tab">
+					<el-tab-pane label="控件标签" name="control"></el-tab-pane>
+					<el-tab-pane label="变量标签" name="variable"></el-tab-pane>
+					<el-tab-pane label="条件标签" name="condition"></el-tab-pane>
+				</el-tabs>
+				<div class="form-config-content" id="FormContent">
+					<vue-scrollbar classes="form-label-scrollbar" id="FormLabelContent" ref="FormLabelScrollbar">
+						<div class="scroll-me">
+							<draggable v-model="setLableList" v-on:update="updateData" v-on:add="addData"
+									   :options="{group:{ name:'labelList',  pull:false, put:true },ghostClass:'form-config-center-row-ghost',animation:300}" style="min-height:500px;">
+								<div v-for="(label,index) in setLableList" :key="index"
+									 v-on:click="settingData(index)"
+									 :class="['form-config-center-row',index===currentLabelindex?'row-active':'']">
+									<div v-if="labelActiveName === 'control'">
+										<div v-if="label.label_type === LabelType.control">
+											<div v-if="label.label_config.control_type==='map_gis'">
+												<label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+											</div>
+											<div v-else-if="label.label_config.control_type==='map_baidu'">
+												<label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+											</div>
+											<div v-else-if="label.label_config.control_type==='rtf'">
+												<label-template :lable-type="label.control_type" class="form-config-center-control" style="margin-left:2.5%;"></label-template>
+											</div>
+											<el-row v-else>
+												<el-col :span="6">
+													<label class="form-config-center-label">{{label.label_name_chs}}</label>
+												</el-col>
+												<el-col :span="18">
+													<label-template :lable-type="label.label_config.control_type" class="form-config-center-control"></label-template>
+												</el-col>
+											</el-row>
+										</div>
+									</div>
+									<div v-else-if="labelActiveName === 'variable'">
+										<div v-if="label.label_type === LabelType.variable">
 
-                            </draggable>
-                        </div>
-                    </vue-scrollbar>
+										</div>
+									</div>
+									<div v-else>
+										<div v-if="label.label_type === LabelType.condition">
 
-                </div>
-            </div>
+										</div>
+									</div>
+								</div>
+
+							</draggable>
+						</div>
+					</vue-scrollbar>
+
+				</div>
+			</div>
             <div class="form-config-right" id="FormRight">
                 <div v-if="labelEditChange">
                     <el-tabs v-model="tabActiveName" v-if="currentLabelData.control_type==='input_base'">
