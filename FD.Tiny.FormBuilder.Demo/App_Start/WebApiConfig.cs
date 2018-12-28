@@ -18,7 +18,7 @@ namespace FD.Tiny.FormBuilder.Demo
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { controller = "Data", action = "Index", id = RouteParameter.Optional }
+                defaults: new { controller = "Form", action = "Index", id = RouteParameter.Optional }
             );
 
             

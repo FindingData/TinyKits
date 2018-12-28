@@ -19,9 +19,9 @@ namespace FD.Tiny.FormBuilder.Tests
         public FormServiceTests()
         {
             _formService = AutofacExt.GetFromFac<FormService>();
-          //  _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
+            //  _formVariableService = AutofacExt.GetFromFac<FormVariableService>();
         }
- 
+
 
         [TestMethod()]
         public void RetriveDbDataTest()
@@ -40,10 +40,10 @@ namespace FD.Tiny.FormBuilder.Tests
             var form = new Form()
             {
                 form_desc = "一个测试表单",
-                form_name = "测试表单",                 
+                form_name = "测试表单",
                 group_list = new List<FormGroup>()
                 {
-                    new FormGroup(){ group_name = "区位"},                    
+                    new FormGroup(){ group_name = "区位"},
                 }
             };
             var formId = _formService.AddForm(form, 0);
@@ -76,7 +76,7 @@ namespace FD.Tiny.FormBuilder.Tests
                 new LabelData(){ label_id = 44, label_name_chs = "楼盘编码", label_value = "123"},
                 new LabelData(){ label_id = 84, label_name_chs = "楼栋编码", label_value = "123456"},
                 new LabelData(){ label_id = 85, label_name_chs = "房号编码", label_value = "12345678"}
-            };          
+            };
 
             _formService.Submit(store, 0);
         }
@@ -90,14 +90,15 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void GetFormTest()
         {
-            var form = _formService.GetForm(81);            
+            var form = _formService.GetForm(81);
             Assert.IsNotNull(form);
         }
 
         [TestMethod()]
         public void QueryFormTest()
         {
-            Assert.Fail();
+            var fromList = _formService.QueryForm("");
+            Assert.IsNotNull(fromList);
         }
 
         [TestMethod()]
@@ -107,7 +108,9 @@ namespace FD.Tiny.FormBuilder.Tests
             dic.Add("公司ID", "3");
             var form = _formService.BuildForm(81, dic);
             Assert.IsNotNull(form.group_list);
-            
+
         }
+
+        
     }
 }

@@ -120,7 +120,7 @@ namespace FD.Tiny.FormBuilder {
 
         public List<Form> QueryForm(string name)
         {
-            var list = Repository.Find(r => r.FORM_NAME.Contains(name)).ToList();
+            var list = Repository.Find(r => string.IsNullOrEmpty(name) || r.FORM_NAME.Contains(name)).ToList();
             return Mapper.Map<List<FormPO>, List<Form>>(list);
         }
 
