@@ -119,14 +119,14 @@
 										</div>
 									</div>
 									<div v-else-if="labelActiveName === 'variable'">
-										<div v-if="label.label_type === LabelType.variable">
-
-										</div>
+                                        <div v-if="label.label_type === LabelType.variable">
+                                            {{label.label_name_chs}}
+                                        </div>
 									</div>
 									<div v-else>
-										<div v-if="label.label_type === LabelType.condition">
-
-										</div>
+                                        <div v-if="label.label_type === LabelType.condition">
+                                            {{label.label_name_chs}}
+                                        </div>
 									</div>
 								</div>
 
