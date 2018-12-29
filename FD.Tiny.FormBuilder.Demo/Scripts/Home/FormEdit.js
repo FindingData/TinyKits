@@ -52,14 +52,6 @@ var dfFormEditVm = new Vue({
                 operatorStr: '',
                 label: ''
             },
-            //添加条件dialog
-            conditionAddDialog: false,
-            //添加条件form
-            conditionAddForm: {
-                conditionExpr: '',
-                valueMethod: '',
-                innerValue: ''
-            },
             //临时的数据源设置
             tempDataSourceConfig: {
                 data_source_type: '',
@@ -146,7 +138,8 @@ var dfFormEditVm = new Vue({
             }
             post('/Api/Form/SaveLabel', param).then(
                 res => {
-                    console.log('保存Label',res)
+                    console.log('保存Label', res)
+                    SuccessMsg('操作成功')
                     this.oldLabelData = clone(label)
                 }
             )
@@ -293,8 +286,6 @@ var dfFormEditVm = new Vue({
                             parameter_list: parameter_list
                         }
                     }
-                    console.log(this.currentLabelData)
-                    return
                     this.saveLabel(this.currentLabelData)
                 }
             })
@@ -306,6 +297,7 @@ var dfFormEditVm = new Vue({
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
+                debugger
                 var param = {
                     labelId: this.currentLabelData.label_id
                 }
@@ -434,40 +426,7 @@ var dfFormEditVm = new Vue({
         getRelateRuleProp(val) {
             return getPropByValue(RelateRule, val)
         },
-        //添加条件dialog关闭回调
-        conditionAddDialogClose() {
-            this.$refs.ConditionAddForm.resetFields()
-        },
-        //新增条件
-        conditionAdd() {
-            this.$refs.ConditionAddForm.validate(valid => {
-                if (valid) {
-                    var condition = {
-                        condition_expr: this.conditionAddForm.conditionExpr,
-                        condition_item: {
-                            value_method: this.conditionAddForm.valueMethod,
-                            inner_value: this.conditionAddForm.innerValue
-                        }
-                    }
-                    if (this.currentLabelData.label_config.condition_config) {
-                        this.currentLabelData.label_config.condition_config.condition_list.push(condition)
-                    } else {
-                        this.currentLabelData.label_config.condition_config = {
-                            condition_list: [condition]
-                        }
-                    }
-                    this.conditionAddDialog = false
-                }
-            })
-        },
-        //删除提交
-        conditionDelete(index) {
-            this.currentLabelData.label_config.condition_config.condition_list.splice(index, 1)
-        },
-        //获取取值方式名称
-        getValueMethodProp(val) {
-            return getPropByValue(ValueMethod,val)
-        },
+       
         getDataApi() {
             var param = { name: '' }
             get('/Api/DataApi/Index', param).then(

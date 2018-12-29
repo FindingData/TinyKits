@@ -46,7 +46,6 @@ var FormComponents = [
                 label_name_chs: '普通文本',
                 form: null,
                 inner_value: '',
-                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
                     control_type: 'input_base',
@@ -73,7 +72,7 @@ var FormComponents = [
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
-                label_name_chs: '远程文本',
+                label_name_chs: '搜索文本',
                 form: null,
                 inner_value: '',
                 label_type: LabelType.control,
@@ -103,7 +102,7 @@ var FormComponents = [
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
-                label_name_chs: '远程文本',
+                label_name_chs: '下拉选择',
                 form: null,
                 inner_value: '',
                 label_type: LabelType.control,
@@ -133,11 +132,31 @@ var FormComponents = [
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '多行文本',
-                control_type: 'input_textarea',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                form: null,
+                inner_value: '',
+                label_type: LabelType.control,
+                label_config: {
+                    control_type: 'input_textarea',
+                    label_sort: 0,
+                    group_name: '',
+                    validator_config: {
+                        validator_list: []
+                    },
+                    data_source_config: null,
+                    relate_config: {
+                        relate_list: []
+                    },
+                    database_config: null,
+                    format_config: null,
+                    map_config: null,
+                    control_options: [
+                        { key: 'placeholder', value: '' },
+                        { key: 'autosize', value: [2,5] },
+                        { key: 'resize', value: 'none' },
+                        { key: 'clearable', value: true },
+                        { key: 'readonly', value: false }
+                    ]
+                }
             },
             {
                 label_id: 0,

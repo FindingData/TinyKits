@@ -28,6 +28,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// <summary>
         /// GET: DataSource
         /// </summary>
+        [HttpGet]
         public IHttpActionResult Index(string name)
         {            
             var list = _apiService.QueryApi(name);
