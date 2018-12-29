@@ -71,19 +71,15 @@
                 </el-collapse>
             </div>
 			<div class="form-config-center">
-				<!--
-	<div style="text-align:right;">
-		<el-button size="medium" v-on:click="formPreviewVisible=true" class="f-button-icon-text">
-			<i class="iconfont icon-yulan"></i><span>预 览</span>
-		</el-button>
-		<el-button type="primary" size="medium" v-on:click="formSetVisible=true" class="f-button-icon-text">
-			<i class="iconfont icon-shezhi"></i><span>设 置</span>
-		</el-button>
-		<el-button type="success" size="medium" class="f-button-icon-text">
-			<i class="iconfont icon--baocun"></i><span>变 量</span>
-		</el-button>
-	</div>
-		-->
+				
+                <div style="text-align:right;position:absolute;right:510px;z-index:99;">
+                    <el-button type="text" title="设置" v-on:click="formSetVisible=true">
+                        <i class="iconfont icon-shezhi" style="font-size:24px;top:2px;"></i>
+                    </el-button>
+                    <el-button type="text" title="预览" v-on:click="formPreviewVisible=true">
+                        <i class="iconfont icon-yulan" style="font-size:20px;"></i>
+                    </el-button>
+                </div>
 				<el-tabs v-model="labelActiveName" class="form-label-type-tab">
 					<el-tab-pane label="控件标签" name="control"></el-tab-pane>
 					<el-tab-pane label="变量标签" name="variable"></el-tab-pane>
@@ -587,7 +583,7 @@
                     </div>
                 </div>
                 <div v-if="labelEditChange" class="form-config-right-content-btn">
-                    <el-button type="danger" v-on:click="removeConfig">删除组件</el-button>
+                    <el-button type="danger" v-on:click="removeLabel">删除组件</el-button>
                     <el-button type="primary" v-on:click="saveLabelConfig">保存组件</el-button>
                 </div>
             </div>

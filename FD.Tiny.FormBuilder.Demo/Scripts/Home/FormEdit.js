@@ -102,10 +102,7 @@ var dfFormEditVm = new Vue({
             for (let i = 0; i < this.setLableList.length; i++) {
                 if (this.setLableList[i].label_id === 0) {
                     this.setLableList[i].form_id = this.formId
-                    var param = {
-                        label: this.setLableList[i]
-                    }
-                    post('/Api/Form/AddLabel', param, () => {
+                    post('/Api/Form/AddLabel', this.setLableList[i], () => {
                         this.setLableList.splice(i, 1)
                     }).then(
                         res => {
@@ -133,10 +130,7 @@ var dfFormEditVm = new Vue({
         },
         //保存Label
         saveLabel(label) {
-            var param = {
-                label: label
-            }
-            post('/Api/Form/SaveLabel', param).then(
+            post('/Api/Form/SaveLabel', label).then(
                 res => {
                     console.log('保存Label', res)
                     SuccessMsg('操作成功')
@@ -291,19 +285,19 @@ var dfFormEditVm = new Vue({
             })
         },
         //删除标签
-        removeConfig() {
+        removeLabel() {
             this.$confirm('此操作将移除该组件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                debugger
                 var param = {
                     labelId: this.currentLabelData.label_id
                 }
-                post('/Api/Form/DelLabel', param).then(
+                get('/Api/Form/DelLabel', param).then(
                     res => {
-                        console.log('删除标签',res)
+                        console.log('删除标签', res)
+                        SuccessMsg('操作成功')
                         this.currentLabelindex = -1
                         this.currentLabelData = {}
                         this.getLabelList()
@@ -338,7 +332,7 @@ var dfFormEditVm = new Vue({
         //测试取回
         getRetrieve() {
             var param = {
-                storeId: 43
+                storeId: 147
             }
             get('/Api/Form/Retrieve', param).then(
                 res => {

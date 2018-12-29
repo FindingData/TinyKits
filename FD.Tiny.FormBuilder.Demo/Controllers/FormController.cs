@@ -133,7 +133,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 
 		/// 
 		/// <param name="labelId"></param>
-		[HttpPost]
+		[HttpGet]
 		public IHttpActionResult DelLabel(int labelId){
 
 			_labelService.DelLabel(labelId, 0);
