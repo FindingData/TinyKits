@@ -94,6 +94,15 @@ var dynamicForm = {
             })
             return value
         },
+        getLabelValueOption(index) {
+            var result = []
+            this.LabelValueOptions.forEach(item => {
+                if (index === item.index) {
+                    result = item.data
+                }
+            })
+            return result
+        },
         //自动完成控件条件筛选
         autocompleteSearch(index) {
 
@@ -189,10 +198,10 @@ var dynamicForm = {
                             </el-input>
                             <el-select v-if="item.label.label_config.control_type==='select'"
                                       v-model="item.label_value"
-                                      :placeholder="item.label.label_option.placeholder"
-                                      :filterable="item.label.label_option.filterable"
-                                      :clearable="item.label.label_option.clearable"
-                                      :readonly="item.label.label_option.readonly"
+                                      :placeholder="getLabelControlOptions(index,'placeholder')"
+                                      :filterable="getLabelControlOptions(index,'filterable')"
+                                      :clearable="getLabelControlOptions(index,'clearable')"
+                                      :readonly="getLabelControlOptions(index,'readonly')"
                                       :style="{width:getFormItemInputWidth()+'px'}">
                                     <el-option v-for="item in getLabelValueOption(index)"
                                               :key="item.value"

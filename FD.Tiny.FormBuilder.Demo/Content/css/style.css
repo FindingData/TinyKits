@@ -158,10 +158,13 @@ margin:0;
 	.form-label-type-tab .el-tabs__header {
 		margin:0;
 	}
-	/**隐藏百度地图logo*/
-	.BMap_cpyCtrl {
-		display: none;
-	}
+.formula-data-scrollbar {
+    height:200px;
+}
+/**隐藏百度地图logo*/
+.BMap_cpyCtrl {
+    display: none;
+}
 
 .anchorBL {
     display: none;
