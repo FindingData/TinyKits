@@ -165,11 +165,28 @@ var FormComponents = [
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '单选框',
-                control_type: 'radio',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                form: null,
+                inner_value: '',
+                label_type: LabelType.control,
+                label_config: {
+                    control_type: 'radio',
+                    label_sort: 0,
+                    group_name: '',
+                    validator_config: {
+                        validator_list: []
+                    },
+                    data_source_config: null,
+                    relate_config: {
+                        relate_list: []
+                    },
+                    database_config: null,
+                    format_config: null,
+                    map_config: null,
+                    control_options: [
+                        { key: 'readonly', value: false },
+                        { key: 'border', value: false }
+                    ]
+                }
             },
             {
                 label_id: 0,
