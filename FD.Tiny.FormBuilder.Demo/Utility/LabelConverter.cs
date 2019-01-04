@@ -18,17 +18,17 @@ namespace FD.Tiny.FormBuilder.Demo.Utility
         {
             Label label;
             JObject j = JObject.Load(reader);
-            var type = j["label"]["label_type"].ToObject<LabelType>();
+            var type = j["label_type"].ToObject<LabelType>();
             switch (type)
             {
                 case LabelType.control:
-                    label = j["label"].ToObject<ControlLabel>();
+                    label = j.ToObject<ControlLabel>();
                     break;
                 case LabelType.variable:
-                    label = j["label"].ToObject<VariableLabel>();
+                    label = j.ToObject<VariableLabel>();
                     break;
                 case LabelType.condition:
-                    label = j["label"].ToObject<ConditionLabel>();
+                    label = j.ToObject<ConditionLabel>();
                     break;
                 default:
                     label = null;

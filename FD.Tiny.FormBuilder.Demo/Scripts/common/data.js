@@ -8,6 +8,8 @@ var ValueMethod = { Const: 0, Formula: 1 }
 var RelateRule = { 赋值: 'assignment', 加载地图: 'loadmap', 加载子下拉框: 'loadsubselect' }
 //数据源类型
 var DataSourceType = { Dict: 0, Custom: 1, DataApi: 2 }
+//运算符
+var Operation = { Plus: 0, Minus: 1, Multiply: 2, Divide: 3, LeftParentheses: 4, RightParentheses: 5,}
 //标签库
 var FormComponents = [
     {
@@ -20,7 +22,6 @@ var FormComponents = [
                 label_name_chs: '变量',
                 form: null,
                 inner_value: '',
-
                 label_type: LabelType.variable,
                 label_config: {
                     is_parameter: false,
@@ -123,7 +124,8 @@ var FormComponents = [
                     control_options: [
                         { key: 'placeholder', value: '' },
                         { key: 'clearable', value: true },
-                        { key: 'readonly', value: false }
+                        { key: 'readonly', value: false },
+                        { key: 'filterable', value: false }
                     ]
                 }
             },
@@ -163,11 +165,28 @@ var FormComponents = [
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '单选框',
-                control_type: 'radio',
-                default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                form: null,
+                inner_value: '',
+                label_type: LabelType.control,
+                label_config: {
+                    control_type: 'radio',
+                    label_sort: 0,
+                    group_name: '',
+                    validator_config: {
+                        validator_list: []
+                    },
+                    data_source_config: null,
+                    relate_config: {
+                        relate_list: []
+                    },
+                    database_config: null,
+                    format_config: null,
+                    map_config: null,
+                    control_options: [
+                        { key: 'readonly', value: false },
+                        { key: 'border', value: false }
+                    ]
+                }
             },
             {
                 label_id: 0,
@@ -307,5 +326,28 @@ var DictTest = [
             { dic_par_id: 4003002007, dic_par_name: '铜角' },
             { dic_par_id: 4003002008, dic_par_name: '铁角' }
         ]
+    }
+]
+
+var FormulaExampleData = [
+    {
+        name: '抵押价值单价',
+        example:'(@市场价值总价 -@优先受偿款 )/@建筑面积'
+    },
+    {
+        name: '估价对象价值',
+        example: '(@比较价值A +@比较价值B +@比较价值C )/3'
+    },
+    {
+        name: '收益法：管理费',
+        example: '@年有效毛收入 *3%'
+    },
+    {
+        name: '收益法：其他收入',
+        example: '@平均比准租金 *@一年期存款利率'
+    },
+    {
+        name: '抵押价值总价',
+        example: '@市场价值总价 -@优先受偿款'
     }
 ]

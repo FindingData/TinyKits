@@ -11,20 +11,21 @@ var dfFormEditVm = new Vue({
     },
     data() {
         return {
-			FormComponents: FormComponents,
-			DataType: DataType,
-			LabelType: LabelType,
+            FormComponents: FormComponents,
+            DataType: DataType,
+            LabelType: LabelType,
             RelateRule: RelateRule,
             ValueMethod: ValueMethod,
             DataSourceType: DataSourceType,
             DictTest: DictTest,
+            Operation: Operation,
             activeComponentsName: '表单标签',
             setLableList: [],
             currentLabelData: {},
             currentLabelindex: -1,
             oldLabelData: {},
-			oldIndex: -1,
-			labelActiveName:'control',
+            oldIndex: -1,
+            labelActiveName: 'control',
             tabActiveName: 'normal',
             labelEditChange: true,
             formPreviewVisible: false,
@@ -59,7 +60,7 @@ var dfFormEditVm = new Vue({
                 dic_par_ids: '',
                 separtor: '',
                 value: '',
-                api_id:'',
+                api_id: '',
                 api_name: '',
                 parameter_list: []
             },
@@ -69,7 +70,12 @@ var dfFormEditVm = new Vue({
             //数据源
             dataApis: [],
             //临时的数据源api参数设置
-            tempDataApiParam:[],
+            tempDataApiParam: [],
+            formulaExampleData: FormulaExampleData,
+            formulaExampleDataVisible: false,
+            formulaDataVisible: false,
+            formulaDataBak: [],
+
         }
     },
     computed: {
@@ -102,10 +108,7 @@ var dfFormEditVm = new Vue({
             for (let i = 0; i < this.setLableList.length; i++) {
                 if (this.setLableList[i].label_id === 0) {
                     this.setLableList[i].form_id = this.formId
-                    var param = {
-                        label: this.setLableList[i]
-                    }
-                    post('/Api/Form/AddLabel', param, () => {
+                    post('/Api/Form/AddLabel', this.setLableList[i], () => {
                         this.setLableList.splice(i, 1)
                     }).then(
                         res => {
@@ -133,10 +136,7 @@ var dfFormEditVm = new Vue({
         },
         //保存Label
         saveLabel(label) {
-            var param = {
-                label: label
-            }
-            post('/Api/Form/SaveLabel', param).then(
+            post('/Api/Form/SaveLabel', label).then(
                 res => {
                     console.log('保存Label', res)
                     SuccessMsg('操作成功')
@@ -291,19 +291,19 @@ var dfFormEditVm = new Vue({
             })
         },
         //删除标签
-        removeConfig() {
+        removeLabel() {
             this.$confirm('此操作将移除该组件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                debugger
                 var param = {
                     labelId: this.currentLabelData.label_id
                 }
-                post('/Api/Form/DelLabel', param).then(
+                get('/Api/Form/DelLabel', param).then(
                     res => {
-                        console.log('删除标签',res)
+                        console.log('删除标签', res)
+                        SuccessMsg('操作成功')
                         this.currentLabelindex = -1
                         this.currentLabelData = {}
                         this.getLabelList()
@@ -338,7 +338,7 @@ var dfFormEditVm = new Vue({
         //测试取回
         getRetrieve() {
             var param = {
-                storeId: 43
+                storeId: 147
             }
             get('/Api/Form/Retrieve', param).then(
                 res => {
@@ -426,7 +426,6 @@ var dfFormEditVm = new Vue({
         getRelateRuleProp(val) {
             return getPropByValue(RelateRule, val)
         },
-       
         getDataApi() {
             var param = { name: '' }
             get('/Api/DataApi/Index', param).then(
@@ -435,6 +434,62 @@ var dfFormEditVm = new Vue({
                     console.log('DataApi',res)
                 }
             )
+        },
+        //变量公式取值-公式撤回
+        formulaDataReturnBack() {
+            this.currentLabelData.inner_value = ''
+            if (this.formulaDataBak.length > 0) {
+                this.formulaDataBak.splice(this.formulaDataBak.length - 1, 1)
+            }
+            if (this.formulaDataBak.length > 0) {
+                this.currentLabelData.inner_value = this.formulaDataBak[this.formulaDataBak.length - 1]
+            }
+                
+        },
+        formulaDataOperation(operation) {
+            debugger
+            var str=''
+            switch (operation) {
+                case Operation.Plus:
+                    str = '+'
+                    break;
+                case Operation.Minus:
+                    str = '-'
+                    break;
+                case Operation.Multiply:
+                    str = '*'
+                    break;
+                case Operation.Divide:
+                    str = '/'
+                    break;
+                case Operation.LeftParentheses:
+                    str = '('
+                    break;
+                case Operation.RightParentheses:
+                    str = ')'
+                    break;
+            }
+            if (this.currentLabelData.inner_value) {
+                this.currentLabelData.inner_value += str
+            } else {
+                this.currentLabelData.inner_value = str
+            }
+            this.formulaDataBak.push(this.currentLabelData.inner_value)
+        },
+        formulaDataLabelClick(item) {
+            if (this.currentLabelData.inner_value) {
+                this.currentLabelData.inner_value += ' @' + item.label_name_chs + ' '
+            } else {
+                this.currentLabelData.inner_value = ' @' + item.label_name_chs + ' '
+            }
+            this.formulaDataBak.push(this.currentLabelData.inner_value)
+        },
+        formulaDataClear() {
+            this.currentLabelData.inner_value = ''
+            this.formulaDataBak.splice(0,this.formulaDataBak.length)
+        },
+        formulaDataChange(value) {
+            this.formulaDataBak.push(this.currentLabelData.inner_value)
         },
         //初始化界面样式
         initStyle() {

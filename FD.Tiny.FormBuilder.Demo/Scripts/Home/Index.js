@@ -44,10 +44,7 @@ var dfIndexVm = new Vue({
         addForm() {
             this.$refs.CustomerForm.validate((valid) => {
                 if (valid) {
-                    var param = {
-                        form: this.customerForm
-                    }
-                    post('/Api/Form/Add', param).then(
+                    post('/Api/Form/Add', this.customerForm).then(
                         res => {
                             console.log('新增表单',res)
                             this.getFormList()

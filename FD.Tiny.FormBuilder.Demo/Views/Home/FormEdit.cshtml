@@ -15,7 +15,7 @@
     <!-- 引入vue2-scrollbar样式 -->
     <link href="~/Scripts/plug/vue2-scrollbar/style/vue2-scrollbar.css" rel="stylesheet" />
     <!-- 引入iconfont图标库 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_13694bc2ntyg.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_804038_m7zphuaqknm.css">
 
     <link href="~/Content/css/style.css" rel="stylesheet" />
     <link href="~/Content/css/labelTemplate.css" rel="stylesheet" />
@@ -71,19 +71,15 @@
                 </el-collapse>
             </div>
 			<div class="form-config-center">
-				<!--
-	<div style="text-align:right;">
-		<el-button size="medium" v-on:click="formPreviewVisible=true" class="f-button-icon-text">
-			<i class="iconfont icon-yulan"></i><span>预 览</span>
-		</el-button>
-		<el-button type="primary" size="medium" v-on:click="formSetVisible=true" class="f-button-icon-text">
-			<i class="iconfont icon-shezhi"></i><span>设 置</span>
-		</el-button>
-		<el-button type="success" size="medium" class="f-button-icon-text">
-			<i class="iconfont icon--baocun"></i><span>变 量</span>
-		</el-button>
-	</div>
-		-->
+				
+                <div style="text-align:right;position:absolute;right:510px;z-index:99;">
+                    <el-button type="text" title="设置" v-on:click="formSetVisible=true">
+                        <i class="iconfont icon-shezhi" style="font-size:24px;top:2px;"></i>
+                    </el-button>
+                    <el-button type="text" title="预览" v-on:click="formPreviewVisible=true">
+                        <i class="iconfont icon-yulan" style="font-size:20px;"></i>
+                    </el-button>
+                </div>
 				<el-tabs v-model="labelActiveName" class="form-label-type-tab">
 					<el-tab-pane label="控件标签" name="control"></el-tab-pane>
 					<el-tab-pane label="变量标签" name="variable"></el-tab-pane>
@@ -93,7 +89,9 @@
 					<vue-scrollbar classes="form-label-scrollbar" id="FormLabelContent" ref="FormLabelScrollbar">
 						<div class="scroll-me">
 							<draggable v-model="setLableList" v-on:update="updateData" v-on:add="addData"
-									   :options="{group:{ name:'labelList',  pull:false, put:true },ghostClass:'form-config-center-row-ghost',animation:300}" style="min-height:500px;">
+									   :options="{group:{ name:'labelList',  pull:false, put:true },
+                                       disabled:labelActiveName === 'variable' || labelActiveName === 'condition',
+                                       ghostClass:'form-config-center-row-ghost',animation:300}" style="min-height:500px;">
 								<div v-for="(label,index) in setLableList" :key="index"
 									 v-on:click="settingData(index)"
 									 :class="['form-config-center-row',index===currentLabelindex?'row-active':'']">
@@ -119,12 +117,12 @@
 										</div>
 									</div>
 									<div v-else-if="labelActiveName === 'variable'">
-                                        <div v-if="label.label_type === LabelType.variable">
+                                        <div v-if="label.label_type === LabelType.variable" style="padding:20px 20px;">
                                             {{label.label_name_chs}}
                                         </div>
 									</div>
 									<div v-else>
-                                        <div v-if="label.label_type === LabelType.condition">
+                                        <div v-if="label.label_type === LabelType.condition" style="padding:20px 20px;">
                                             {{label.label_name_chs}}
                                         </div>
 									</div>
@@ -244,7 +242,7 @@
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
-                                        <el-input v-model="currentLabelData.label_config.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
                                         <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
@@ -477,19 +475,240 @@
                             <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
                         <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='select'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="占位文本">
+                                        <el-input v-model="getLableConfigItem('placeholder').value" placeholder="请输入占位文本"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="是否可清空">
+                                        <el-radio-group v-model="getLableConfigItem('clearable').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否可搜索">
+                                        <el-radio-group v-model="getLableConfigItem('filterable').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data">
+                                <div>
+                                    <span>数据源类型</span>
+                                    <el-select v-model="tempDataSourceConfig.data_source_type" v-on:change="handledDataTypeChange" clearable placeholder="请选择">
+                                        <el-option v-for="(value,key) in DataSourceType" :key="value"
+                                                   :label="key"
+                                                   :value="value">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div v-if="tempDataSourceConfig.data_source_type===DataSourceType.Dict" class="f-label-config-data-type">
+                                    <div>
+                                        <span>字典类型</span>
+                                        <el-select v-model="tempDataSourceConfig.dic_type_id" v-on:change="handledDictTypeChange" clearable placeholder="请选择">
+                                            <el-option v-for="(dict,index) in DictTest" :key="index"
+                                                       :label="dict.dic_type_name"
+                                                       :value="dict.dic_type_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.dic_type_id!==''" style="margin-top:10px;">
+                                        <el-checkbox :indeterminate="dictIndeterminate" v-model="dictIndeterminateCheckAll" v-on:change="handleDictIndeterminateCheckAll">全选</el-checkbox>
+                                    </div>
+                                    <div class="f-label-config-data-dic-checkbox">
+                                        <el-checkbox-group v-model="dictChecked" v-on:change="handledDictCheckedChange">
+                                            <el-checkbox v-for="par in dictPars" :label="par.dic_par_id" :key="par.dic_par_id">{{par.dic_par_name}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.Custom" class="f-label-config-data-type">
+                                    <el-form :model="tempDataSourceConfig" ref="dynamicValidateForm" label-width="80px">
+                                        <el-form-item prop="value"
+                                                      label="数据值"
+                                                      :rules="[{ required: true, message: '请输入数据值', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.value" type="textarea" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
+                                        </el-form-item>
+                                        <el-form-item prop="separtor"
+                                                      label="分割符"
+                                                      :rules="[{ required: true, message: '请输入分割符', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.separtor"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="结果预览">
+                                            <span v-text="getDataSourceConfigCustomResult()"></span>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.DataApi" class="f-label-config-data-type">
+                                    <div>
+                                        <span>数据源</span>
+                                        <el-select v-model="tempDataSourceConfig.api_id" v-on:change="handledDataApiChange" clearable placeholder="请选择">
+                                            <el-option v-for="(api,index) in dataApis" :key="index"
+                                                       :label="api.api_name"
+                                                       :value="api.api_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.api_id!==''" style="margin-top:10px;">
+                                        <el-row v-for="(param,index) in tempDataApiParam" :key="index">
+                                            <el-col :span="8" style="text-align:right;height:40px;line-height:40px;">
+                                                <span v-text="param.parameter_name_chs+' ('+(param.is_required?'必填':'选填')+')'"></span>
+                                            </el-col>
+                                            <el-col :span="4" style="text-align:center;height:40px;line-height:40px;">
+                                                <i class="iconfont icon-zhixiang" style="font-size:24px;"></i>
+                                            </el-col>
+                                            <el-col :span="8">
+                                                <el-select v-model="param.parameter_value" :clearable="!param.is_required" filterable placeholder="请选择">
+                                                    <el-option label="变量1" value="变量1"></el-option>
+                                                    <el-option label="变量2" value="变量2"></el-option>
+                                                    <el-option label="变量3" value="变量3"></el-option>
+                                                    <el-option label="变量4" value="变量4"></el-option>
+                                                    <el-option label="变量5" value="变量5"></el-option>
+                                                </el-select>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
                             <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
                         <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='radio'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否有边框">
+                                        <el-radio-group v-model="getLableConfigItem('border').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data">
+                                <div>
+                                    <span>数据源类型</span>
+                                    <el-select v-model="tempDataSourceConfig.data_source_type" v-on:change="handledDataTypeChange" clearable placeholder="请选择">
+                                        <el-option v-for="(value,key) in DataSourceType" :key="value"
+                                                   :label="key"
+                                                   :value="value">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div v-if="tempDataSourceConfig.data_source_type===DataSourceType.Dict" class="f-label-config-data-type">
+                                    <div>
+                                        <span>字典类型</span>
+                                        <el-select v-model="tempDataSourceConfig.dic_type_id" v-on:change="handledDictTypeChange" clearable placeholder="请选择">
+                                            <el-option v-for="(dict,index) in DictTest" :key="index"
+                                                       :label="dict.dic_type_name"
+                                                       :value="dict.dic_type_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.dic_type_id!==''" style="margin-top:10px;">
+                                        <el-checkbox :indeterminate="dictIndeterminate" v-model="dictIndeterminateCheckAll" v-on:change="handleDictIndeterminateCheckAll">全选</el-checkbox>
+                                    </div>
+                                    <div class="f-label-config-data-dic-checkbox">
+                                        <el-checkbox-group v-model="dictChecked" v-on:change="handledDictCheckedChange">
+                                            <el-checkbox v-for="par in dictPars" :label="par.dic_par_id" :key="par.dic_par_id">{{par.dic_par_name}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.Custom" class="f-label-config-data-type">
+                                    <el-form :model="tempDataSourceConfig" ref="dynamicValidateForm" label-width="80px">
+                                        <el-form-item prop="value"
+                                                      label="数据值"
+                                                      :rules="[{ required: true, message: '请输入数据值', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.value" type="textarea" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
+                                        </el-form-item>
+                                        <el-form-item prop="separtor"
+                                                      label="分割符"
+                                                      :rules="[{ required: true, message: '请输入分割符', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.separtor"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="结果预览">
+                                            <span v-text="getDataSourceConfigCustomResult()"></span>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.DataApi" class="f-label-config-data-type">
+                                    <div>
+                                        <span>数据源</span>
+                                        <el-select v-model="tempDataSourceConfig.api_id" v-on:change="handledDataApiChange" clearable placeholder="请选择">
+                                            <el-option v-for="(api,index) in dataApis" :key="index"
+                                                       :label="api.api_name"
+                                                       :value="api.api_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.api_id!==''" style="margin-top:10px;">
+                                        <el-row v-for="(param,index) in tempDataApiParam" :key="index">
+                                            <el-col :span="8" style="text-align:right;height:40px;line-height:40px;">
+                                                <span v-text="param.parameter_name_chs+' ('+(param.is_required?'必填':'选填')+')'"></span>
+                                            </el-col>
+                                            <el-col :span="4" style="text-align:center;height:40px;line-height:40px;">
+                                                <i class="iconfont icon-zhixiang" style="font-size:24px;"></i>
+                                            </el-col>
+                                            <el-col :span="8">
+                                                <el-select v-model="param.parameter_value" :clearable="!param.is_required" filterable placeholder="请选择">
+                                                    <el-option label="变量1" value="变量1"></el-option>
+                                                    <el-option label="变量2" value="变量2"></el-option>
+                                                    <el-option label="变量3" value="变量3"></el-option>
+                                                    <el-option label="变量4" value="变量4"></el-option>
+                                                    <el-option label="变量5" value="变量5"></el-option>
+                                                </el-select>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
                             <el-tab-pane label="地图" name="map"></el-tab-pane>
@@ -577,7 +796,112 @@
                         </el-tabs>
                     </div>
                     <div v-else-if="currentLabelData.label_type===LabelType.variable">
+                        <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                            <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                            </el-form-item>
 
+                            <el-form-item label="数据类型">
+                                <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                    <el-option v-for="(value,key) in DataType" :key="value"
+                                               :label="key" :value="value"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="是否传出参数">
+                                <el-radio-group v-model="currentLabelData.label_config.is_parameter">
+                                    <el-radio :label="false">否</el-radio>
+                                    <el-radio :label="true">是</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item label="取值方式">
+                                <el-select v-model="currentLabelData.label_config.value_method">
+                                    <el-option v-for="(value,key) in ValueMethod" :key="value"
+                                               :label="key" :value="value"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="值" v-if="currentLabelData.label_config.value_method===ValueMethod.Const">
+                                <el-input v-model="currentLabelData.inner_value" placeholder="请输入内容" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item label="值" v-else>
+                                <el-input placeholder="请输入内容"
+                                          v-model="currentLabelData.inner_value"
+                                          v-on:focus="formulaDataVisible=true"
+                                          clearable
+                                          style="width:270px;"></el-input>
+                                <el-button type="text" v-on:click="formulaExampleDataVisible=true">点击参考</el-button>
+                            </el-form-item>
+                        </el-form>
+                        <el-dialog title="设置公式"
+                                   :visible.sync="formulaDataVisible"
+                                   width="50%">
+                            <div style="display:flex;">
+                                <div style="flex:0 0 220px;">
+                                    <div>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.Plus)">
+                                            <i class="iconfont icon-yunsuan-jia"></i>
+                                        </el-button>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.Minus)">
+                                            <i class="iconfont icon-yunsuan-jian"></i>
+                                        </el-button>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.Multiply)">
+                                            <i class="iconfont icon-yunsuan-cheng"></i>
+                                        </el-button>
+                                    </div>
+                                    <div>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.Divide)">
+                                            <i class="iconfont icon-yunsuan-chu"></i>
+                                        </el-button>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.LeftParentheses)">
+                                            <i class="iconfont icon-yunsuan-zuokuohao"></i>
+                                        </el-button>
+                                        <el-button style="margin:0 0 10px 10px;" v-on:click="formulaDataOperation(Operation.RightParentheses)">
+                                            <i class="iconfont icon-yunsuan-youkuohao"></i>
+                                        </el-button>
+                                    </div>
+                                    <div>
+                                        <vue-scrollbar classes="formula-data-scrollbar" ref="FormulaDataScrollbar">
+                                            <div class="scroll-me">
+                                                <div v-for="(item,index) in getLabelsExceptSelf()" :key="index" 
+                                                     v-on:click="formulaDataLabelClick(item)"
+                                                     style="padding:5px 10px;cursor:pointer;">
+                                                    <span style="color:#e6a23c;">@@</span><span v-text="item.label_name_chs"></span>
+                                                </div>
+                                            </div>
+                                        </vue-scrollbar>
+                                    </div>
+                                </div>
+                                <div style="flex:1">
+                                    <div style="text-align:right;margin-bottom:10px;">
+                                        <el-button title="清除" type="warning" style="font-size:17px;" v-on:click="formulaDataClear">C</el-button>
+                                        <el-button title="撤回" v-on:click="formulaDataReturnBack">
+                                            <i class="iconfont icon-chexiao"></i>
+                                        </el-button>
+                                    </div>
+                                    <el-input type="textarea"
+                                              :autosize="{ minRows: 8, maxRows: 12}"
+                                              resize="none"
+                                              placeholder="请输入公式"
+                                              v-on:change="formulaDataChange"
+                                              v-model="currentLabelData.inner_value">
+                                    </el-input>
+                                </div>
+                            </div>
+                        </el-dialog>
+                        <el-dialog title="参考公式"
+                                   :visible.sync="formulaExampleDataVisible"
+                                   width="50%">
+                            <el-table :data="formulaExampleData"
+                                      border
+                                      style="width: 100%">
+                                <el-table-column prop="name"
+                                                 label="名称"
+                                                 width="180">
+                                </el-table-column>
+                                <el-table-column prop="example"
+                                                 label="例子">
+                                </el-table-column>
+                            </el-table>
+                        </el-dialog>
                     </div>
                     <div v-else-if="currentLabelData.label_type===LabelType.condition">
 
@@ -587,7 +911,7 @@
                     </div>
                 </div>
                 <div v-if="labelEditChange" class="form-config-right-content-btn">
-                    <el-button type="danger" v-on:click="removeConfig">删除组件</el-button>
+                    <el-button type="danger" v-on:click="removeLabel">删除组件</el-button>
                     <el-button type="primary" v-on:click="saveLabelConfig">保存组件</el-button>
                 </div>
             </div>
