@@ -134,8 +134,8 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
 		/// 
 		/// <param name="labelId"></param>
 		[HttpPost]
-		public IHttpActionResult DelLabel(int labelId){
-
+		public IHttpActionResult DelLabel(int labelId)
+        {
 			_labelService.DelLabel(labelId, 0);
 			return Json(new OkResponse());
 		}

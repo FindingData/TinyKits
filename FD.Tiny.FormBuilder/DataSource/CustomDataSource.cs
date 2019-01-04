@@ -20,6 +20,12 @@ namespace FD.Tiny.FormBuilder {
 	/// </summary>
 	public class CustomDataSource : DataSource {
 
+
+        public CustomDataSource()
+        {
+            this.data_source_type = DataSourceType.Custom;
+        }
+
 		/// <summary>
 		/// ·Ö¸î·û
 		/// </summary>

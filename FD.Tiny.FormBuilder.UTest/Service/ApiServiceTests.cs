@@ -52,7 +52,11 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void SaveApiTest()
         {
-            Assert.Fail();
+            var api = _apiService.GetApi(21);
+            api.sql_content = "SELECT c.construction_code, c.construction_name FROM redas.t_construction c WHERE c.new_purpose_id = @new_purpose_Id and c.pca_code = @pca_code and  c.customer_id = @customer_id and rownum< 10 ";
+            api.request_parameter_list = _apiService.GetRequestParamsFromSql(api.sql_content);
+            api.response_parameter_list = _apiService.GetResponseParamsFromSql(api.sql_content);
+            _apiService.SaveApi(api, 0);            
         }
 
         [TestMethod()]

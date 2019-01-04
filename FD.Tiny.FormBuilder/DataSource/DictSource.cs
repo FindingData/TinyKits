@@ -20,6 +20,12 @@ namespace FD.Tiny.FormBuilder {
 	/// </summary>
 	public class DictSource : DataSource {
 
+
+        public DictSource()
+        {
+            this.data_source_type = DataSourceType.Dict;
+        }
+
 		/// <summary>
 		/// ◊÷µ‰¿‡–Õ
 		/// </summary>

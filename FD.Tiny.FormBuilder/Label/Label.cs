@@ -19,10 +19,10 @@ using FD.Tiny.FormBuilder;
 using System.Runtime.Serialization;
 
 namespace FD.Tiny.FormBuilder {
-	/// <summary>
-	/// 表单标签
-	/// </summary>   
-    public class Label {
+    /// <summary>
+    /// 表单标签
+    /// </summary>     
+    public abstract class Label {
 
 		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
 

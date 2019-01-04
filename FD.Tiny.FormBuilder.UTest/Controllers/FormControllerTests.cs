@@ -91,7 +91,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers.Tests
                     label_sort = 1,
                     group_name = "基础",
                     validator_config = new ValidatorConfig(),
-                    data_source_config = new DataSource(),
+                    
                     relate_config = new RelateConfig(),
                     database_config = null,
                     map_config = null,

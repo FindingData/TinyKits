@@ -40,7 +40,7 @@ namespace FD.Tiny.FormBuilder.Tests
                     label_sort = 1,
                     group_name = "基础",
                     validator_config = new ValidatorConfig(),
-                    data_source_config = new DataSource(),
+                    
                     relate_config = new RelateConfig(),
                     database_config = null,
                     map_config = null,
@@ -107,7 +107,18 @@ namespace FD.Tiny.FormBuilder.Tests
                      control_type = "autocomplete",
                       data_source_config = new ApiDataSource()
                       {
-                           
+                          api_id = 21,
+                           request_parameter_map = new Dictionary<string, string>()
+                           {
+                               { "customer_id","客户Id" },
+                               { "pca_code","区域代码" },
+                               { "new_purpose_id","楼盘用途ID" }
+                           },
+                           response_parameter_map = new Dictionary<string, string>()
+                           {
+                               { "construction_name","楼盘名称" },
+                               { "construction_code","楼盘编码" },
+                           }
                       }
                 }
             };
