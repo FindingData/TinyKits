@@ -10,8 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
-
+using System.Text.RegularExpressions;
 
 namespace FD.Tiny.Common.Utility.SqlParse {
     public class SqlParserUtil
@@ -21,7 +20,7 @@ namespace FD.Tiny.Common.Utility.SqlParse {
         /// <param name="sql"></param>
         public static string GetParsedSql(string sql)
         {
-            sql = sql.Trim().Replace("s+", "    ");
+            sql = Regex.Replace(sql.Trim().ToLower(), "\r\n|\\s", "    ");
             sql = "" + sql + " ENDOFSQL";
             return SingleSqlParserFactory.GenerateParser(sql).GetParsedSql();
         }
@@ -30,7 +29,7 @@ namespace FD.Tiny.Common.Utility.SqlParse {
         /// <param name="sql"></param>
         public static List<SqlSegment> GetParsedSqlSegmentList(string sql)
         {
-            sql = sql.Trim().Replace("s+", "    ");
+            sql = Regex.Replace(sql.Trim().ToLower(), "\r\n|\\s", "    ");
             sql = "" + sql + " ENDOFSQL";
             return SingleSqlParserFactory.GenerateParser(sql).ReturnSqlSegments();
         }

@@ -21,15 +21,10 @@ namespace FD.Tiny.FormBuilder {
 
 			this.label_type = LabelType.condition;
 		}
-
-		public new ConditionConfig label_config{
-			get;
-			            set;
-		} = new ConditionConfig();
-
-		/// 
-		/// <param name="source"></param>
-		public override string GetValue(Func<string, string> source){
+ 
+        /// 
+        /// <param name="source"></param>
+        public override string GetValue(Func<string, string> source){
 
 			foreach (var condition in label_config.condition_list)
 			{

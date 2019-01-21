@@ -13,6 +13,8 @@ namespace FD.Tiny.FormBuilder.UTest
         {
             AutomapperConfig.Config();
             AutofacExt.InitAutofac();
+           // JsonConfig.Config();
+
         }
     }
 }

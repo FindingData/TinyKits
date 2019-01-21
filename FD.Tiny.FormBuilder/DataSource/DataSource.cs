@@ -17,7 +17,7 @@ namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// 数据源类
 	/// </summary>
-	public abstract class DataSource {
+	public  class DataSource {
 
 		/// <summary>
 		/// 数据源类型

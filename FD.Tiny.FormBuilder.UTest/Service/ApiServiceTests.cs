@@ -39,12 +39,24 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void AddApiTest()
         {
+            //var api = new Api()
+            //{
+            //    api_name = "获取楼盘",
+            //    api_url = "",
+            //    api_desc = "",
+            //    sql_content = "SELECT c.construction_code, c.construction_name FROM redas.t_construction c WHERE c.new_purpose_id = @new_purpose_Id and c.pca_code = @pca_code and  c.customer_id = @customer_id and rownum< 10 ",
+            //};
             var api = new Api()
             {
-                api_name = "获取楼盘",
+                api_name = "获取楼栋",
                 api_url = "",
                 api_desc = "",
-                sql_content = "select c.construction_code,c.construction_name from redas.t_construction c where rownum < 10 ",
+                sql_content = @"SELECT b.building_code, b.building_name
+  FROM redas.t_building b
+ WHERE b.construction_code = @construction_code
+   and b.pca_code = @pca_code
+   and b.customer_id = @customer_id
+   and rownum < 10",
             };
             _apiService.AddApi(api, 0);
         }
@@ -52,8 +64,8 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void SaveApiTest()
         {
-            var api = _apiService.GetApi(21);
-            api.sql_content = "SELECT c.construction_code, c.construction_name FROM redas.t_construction c WHERE c.new_purpose_id = @new_purpose_Id and c.pca_code = @pca_code and  c.customer_id = @customer_id and rownum< 10 ";
+            var api = _apiService.GetApi(61);
+            //api.sql_content = "SELECT c.construction_code, c.construction_name FROM redas.t_construction c WHERE c.new_purpose_id = @new_purpose_Id and c.pca_code = @pca_code and  c.customer_id = @customer_id and rownum< 10 ";
             api.request_parameter_list = _apiService.GetRequestParamsFromSql(api.sql_content);
             api.response_parameter_list = _apiService.GetResponseParamsFromSql(api.sql_content);
             _apiService.SaveApi(api, 0);            

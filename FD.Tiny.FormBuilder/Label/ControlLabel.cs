@@ -24,12 +24,11 @@ namespace FD.Tiny.FormBuilder {
 
 			this.label_type = LabelType.control;            
 		}
-
-        public new ControlConfig label_config
-        {
-            get;
-            set;
-        } = new ControlConfig();
+       
+        //public override LabelConfig Config
+        //{
+        //    get { return this.label_config; }
+        //}
 
         public override string GetValue(Func<string, string> source)
         {

@@ -33,8 +33,8 @@
     <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -44,6 +44,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
@@ -74,22 +77,26 @@
     <Compile Include="Automapper\LabelDtoConvert.cs" />
     <Compile Include="Condition\Condition.cs" />
     <Compile Include="Condition\ConditionItem.cs" />
+    <Compile Include="Config\ControlConfig.cs" />
+    <Compile Include="Config\DatabaseConfig.cs" />
+    <Compile Include="Config\LabelConfig.cs" />
     <Compile Include="Constants\DataSourceType.cs" />
     <Compile Include="Constants\DataType.cs" />
     <Compile Include="Constants\FormatNumberMode.cs" />
     <Compile Include="Constants\FormatType.cs" />
     <Compile Include="Constants\LabelType.cs" />
     <Compile Include="Constants\MapServerType.cs" />
+    <Compile Include="Constants\RelateType.cs" />
     <Compile Include="Constants\ValidatorType.cs" />
     <Compile Include="Constants\ValueMethod.cs" />
     <Compile Include="Constants\VariableType.cs" />
+    <Compile Include="Control\Option.cs" />
     <Compile Include="Database\DbData.cs" />
     <Compile Include="Dict\Dict.cs" />
     <Compile Include="Entities\T_DICTIONARY.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="EntityFramework\DbContextConfiguration.cs" />
     <Compile Include="EntityFramework\FormBuilderContent.cs" />
-    <Compile Include="Database\DatabaseConfig.cs" />
     <Compile Include="Database\DbColumn.cs" />
     <Compile Include="Database\DbTable.cs" />
     <Compile Include="DataSource\ApiDataSource.cs" />
@@ -109,22 +116,17 @@
     <Compile Include="Format\NumerFormat.cs" />
     <Compile Include="FormGroup.cs" />
     <Compile Include="FormType.cs" />
-    <Compile Include="Label\ConditionConfig.cs" />
     <Compile Include="Label\ConditionLabel.cs" />
-    <Compile Include="Label\ControlConfig.cs" />
     <Compile Include="Label\ControlLabel.cs" />
     <Compile Include="Label\Label.cs" />
-    <Compile Include="Label\LabelConfig.cs" />
-    <Compile Include="Label\Option.cs" />
-    <Compile Include="Label\VariableConfig.cs" />
     <Compile Include="Label\VariableLabel.cs" />
     <Compile Include="Map\ArcigisMapConfig.cs" />
     <Compile Include="Map\BaiduMapConfig.cs" />
     <Compile Include="Map\MapConfig.cs" />
     <Compile Include="Map\MapServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relate\ConditionRelate.cs" />
     <Compile Include="Relate\Relate.cs" />
-    <Compile Include="Relate\RelateConfig.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Service\ApiService.cs" />
@@ -161,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Autofac\" />
-    <Folder Include="Variable\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

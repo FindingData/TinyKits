@@ -35,7 +35,7 @@ namespace FD.Tiny.Common.Utility.Json
 
         public T Deserialize<T>(string input)
         {
-            return JsonConvert.DeserializeObject<T>(input);
+            return JsonConvert.DeserializeObject<T>(input,_setting);
         }
 
         public T DeserializeByConverter<T>(string input, params JsonConverter[] converter)
