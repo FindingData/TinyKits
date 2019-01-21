@@ -21,15 +21,10 @@ namespace FD.Tiny.FormBuilder {
 
 			this.label_type = LabelType.variable;
 		}
-
-		public new VariableConfig label_config{
-			get;
-			set;
-		}
-
-		/// 
-		/// <param name="val"></param>
-		public override string GetValue(Func<string, string> source){
+        		        
+        /// 
+        /// <param name="val"></param>
+        public override string GetValue(Func<string, string> source){
             if(label_config.value_method == ValueMethod.Const)
             {
                 return this.inner_value;
@@ -37,8 +32,7 @@ namespace FD.Tiny.FormBuilder {
             else
             {
                 return CalcExpression(source);
-            }
-		
+            }		
 		}
 
 	}//end VariableLabel

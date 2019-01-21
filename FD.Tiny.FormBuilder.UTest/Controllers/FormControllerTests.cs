@@ -85,21 +85,26 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers.Tests
                 form = null,
                 inner_value = "",
                 label_type = LabelType.condition,
-                label_config = new ControlConfig()
+                label_config = new LabelConfig()
                 {
-                    control_type = "input",
-                    label_sort = 1,
-                    group_name = "基础",
-                    validator_config = new ValidatorConfig(),
-                    
-                    relate_config = new RelateConfig(),
-                    database_config = null,
-                    map_config = null,
-                    control_options = new List<Option>()
+                    control_config = new ControlConfig()
+                    {
+                        control_type = "input",
+                        control_sort = 1,
+                        group_name = "基础",
+                        control_options = new List<Option>()
                        {
                             new Option(){ key = "placeholder",value= "你好"},
                             new Option(){ key="readonly", value = false},
                        }
+                    },
+                   
+                
+                    
+                
+                    database_config = null,
+                
+                 
                 },
             };
             _controller.AddLabel(lb);

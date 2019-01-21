@@ -20,7 +20,8 @@ namespace FD.Tiny.FormBuilder
                     opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<FormGroup>>(src.FORM_CONFIG));
                 });
                   
-            CreateMap<LabelPO, Label>()
+            CreateMap<LabelPO, Label>()                
+               // .IncludeAllDerived()
                 .ForMember(dest=> dest.data_type, opt => {
                     opt.MapFrom(src => (DataType)src.DATA_TYPE);
                 })
@@ -28,31 +29,38 @@ namespace FD.Tiny.FormBuilder
                 {
                     opt.MapFrom(src => (LabelType)src.LABEL_TYPE);
                 })
-                .ForMember(dest => dest.label_config, opt =>
-                   {
-                       opt.Ignore();
-                   }).ConvertUsing<LabelDtoConvert>();
+                .ForMember(dest => dest.label_config, opt => {
+                    opt.MapFrom(src => JsonHelper.Instance.Deserialize<LabelConfig>(src.LABEL_CONFIG));
+                })         
+            .ConvertUsing<LabelDtoConvert>()
+            ;
 
             CreateMap<LabelPO, ControlLabel>()
-                 .IncludeBase<LabelPO, Label>()
-                 .ForMember(dest => dest.label_config, opt =>
-                 {
-                     opt.MapFrom(src => JsonHelper.Instance.Deserialize<ControlConfig>(src.LABEL_CONFIG));
-                 });
+            //    .ForMember(dest => dest.label_config, opt => opt.Ignore())
+            //.ForMember(dest => dest.label_config, opt =>
+            //   {
+            //       opt.MapFrom(src => JsonHelper.Instance.Deserialize<ControlConfig>(src.LABEL_CONFIG));
+            //   })
+            .IncludeBase<LabelPO, Label>()
+            ;
 
             CreateMap<LabelPO, VariableLabel>()
-                .IncludeBase<LabelPO, Label>()
-                 .ForMember(dest => dest.label_config, opt =>
-                 {
-                     opt.MapFrom(src => JsonHelper.Instance.Deserialize<VariableConfig>(src.LABEL_CONFIG));
-                 });
+             //   .ForMember(dest => dest.label_config, opt => opt.Ignore())
+            //.ForMember(dest => dest.label_config, opt =>
+            //{
+            //    opt.MapFrom(src => JsonHelper.Instance.Deserialize<VariableConfig>(src.LABEL_CONFIG));
+            //})
+             .IncludeBase<LabelPO, Label>()
+            ;
 
             CreateMap<LabelPO, ConditionLabel>()
-                .IncludeBase<LabelPO, Label>()
-                    .ForMember(dest => dest.label_config, opt =>
-                    {
-                        opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.LABEL_CONFIG));
-                    });
+
+                  //.ForMember(dest => dest.label_config, opt =>
+                  //{
+                  //    opt.MapFrom(src => JsonHelper.Instance.Deserialize<ConditionConfig>(src.LABEL_CONFIG));
+                  //})
+              .IncludeBase<LabelPO, Label>()
+            ;
 
 
             CreateMap<FormStorePO, FormStore>()
@@ -66,41 +74,33 @@ namespace FD.Tiny.FormBuilder
             CreateMap<Form, FormPO>()
                 .ForMember(dest=>dest.FORM_CONFIG,opt=> {
                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.group_list));
-                });           
-
-            CreateMap<Label, LabelPO>()
-                .ForMember(dest => dest.DATA_TYPE, opt => {
-                    opt.MapFrom(src => (int)src.data_type);
-                })
-                .ForMember(dest=>dest.LABEL_TYPE,opt=>
-                {
-                    opt.MapFrom(src => (int)src.label_type);
-                })
-                .ForMember(dest => dest.LABEL_CONFIG, opt =>
-                {
-                    opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
                 });
 
+            //label to labelPo
+            CreateMap<Label, LabelPO>()
+                .ForMember(dest => dest.DATA_TYPE, opt =>
+                {
+                    opt.MapFrom(src => (int)src.data_type);
+                })
+                .ForMember(dest => dest.LABEL_TYPE, opt =>
+                   {
+                       opt.MapFrom(src => (int)src.label_type);
+                   })
+                    .ForMember(dest => dest.LABEL_CONFIG, opt =>
+                    {
+                        opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
+                    });
+
+
             CreateMap<ControlLabel, LabelPO>()
-                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
-                 {
-                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
-                 })
                 .IncludeBase<Label, LabelPO>();
 
             CreateMap<VariableLabel, LabelPO>()
-                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
-                 {
-                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
-                 })
-             .IncludeBase<Label, LabelPO>();
+                  .IncludeBase<Label, LabelPO>();
 
             CreateMap<ConditionLabel, LabelPO>()
-                 .ForMember(dest => dest.LABEL_CONFIG, opt =>
-                 {
-                     opt.MapFrom(src => JsonHelper.Instance.Serialize(src.label_config));
-                 })
-             .IncludeBase<Label, LabelPO>();
+                  .IncludeBase<Label, LabelPO>();
+
 
 
 

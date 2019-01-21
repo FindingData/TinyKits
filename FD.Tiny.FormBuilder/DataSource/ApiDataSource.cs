@@ -11,9 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-
-
-using System.Collections.Generic;
+ 
 using FD.Tiny.FormBuilder;
 namespace FD.Tiny.FormBuilder {
 	/// <summary>
@@ -31,12 +29,7 @@ namespace FD.Tiny.FormBuilder {
 		/// </summary>
 		public string api_name{
 			get;  set;
-		}
-
-		public int api_id{
-			get;
-						set;
-		}
+		}		 
 
 		/// <summary>
 		/// 参数列表

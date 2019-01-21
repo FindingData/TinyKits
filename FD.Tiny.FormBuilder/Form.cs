@@ -72,7 +72,7 @@ namespace FD.Tiny.FormBuilder {
         {
             if (label is ControlLabel cLabel)
             {             
-                var group = group_list.FirstOrDefault(g => g.group_name.Equals(cLabel.label_config.group_name));
+                var group = group_list.FirstOrDefault(g => g.group_name.Equals(cLabel.label_config.control_config.group_name));
                 group.label_list.Add(cLabel);
             }
             else if(label is VariableLabel vLabel)
