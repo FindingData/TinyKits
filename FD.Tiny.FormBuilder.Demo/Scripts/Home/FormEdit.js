@@ -503,7 +503,7 @@ var dfFormEditVm = new Vue({
     mounted() {
         this.getForm()
         this.getLabelList()
-        this.getRetrieve()
+        //this.getRetrieve()
         this.initStyle()
         this.getDataApi()
     }
