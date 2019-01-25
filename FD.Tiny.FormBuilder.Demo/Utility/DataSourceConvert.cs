@@ -18,7 +18,7 @@ namespace FD.Tiny.FormBuilder.Demo.Utility
         {
             DataSource dataSource;
             JObject j = JObject.Load(reader);
-            var type = j["data_source"]["data_source_type"].ToObject<DataSourceType>();
+            var type = j["data_source_type"].ToObject<DataSourceType>();
             switch (type)
             {
                 case DataSourceType.Custom:
