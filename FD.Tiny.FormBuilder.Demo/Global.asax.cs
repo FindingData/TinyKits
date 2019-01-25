@@ -22,6 +22,9 @@ namespace FD.Tiny.FormBuilder.Demo
             //配置映射
             AutomapperConfig.Config();
 
+            //序列化配置
+            JsonConfig.Config();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(WebApiConfig.Register);

@@ -12,33 +12,29 @@ namespace FD.Tiny.FormBuilder
     {
         public override bool CanConvert(Type objectType)
         {
-            bool result = typeof(DataSource).IsAssignableFrom(objectType);
-            return result;            
+            return (objectType == typeof(DataSource));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            DataSource dataSource = new DataSource();
+            DataSource dataSource;
             JObject j = JObject.Load(reader);
-            if (j.ContainsKey("data_source_type"))
+            var type = j["data_source_type"].ToObject<DataSourceType>();
+            switch (type)
             {
-                var type = j["data_source_type"].ToObject<DataSourceType>();
-                switch (type)
-                {
-                    case DataSourceType.Custom:
-                        dataSource = j.ToObject<CustomDataSource>();
-                        break;
-                    case DataSourceType.DataApi:
-                        dataSource = j.ToObject<ApiDataSource>();
-                        break;
-                    case DataSourceType.Dict:
-                        dataSource = j.ToObject<DictSource>();
-                        break;
-                    default:
-                        dataSource = new DataSource();
-                        break;
-                }
-            }        
+                case DataSourceType.Custom:
+                    dataSource = j.ToObject<CustomDataSource>(serializer);
+                    break;
+                case DataSourceType.DataApi:
+                    dataSource = j.ToObject<ApiDataSource>(serializer);
+                    break;
+                case DataSourceType.Dict:
+                    dataSource = j.ToObject<DictSource>(serializer);
+                    break;
+                default:
+                    dataSource = null;
+                    break;
+            }
             return dataSource;
         }
 

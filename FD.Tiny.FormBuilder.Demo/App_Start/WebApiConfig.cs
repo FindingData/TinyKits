@@ -20,16 +20,19 @@ namespace FD.Tiny.FormBuilder.Demo
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { controller = "Form", action = "Index", id = RouteParameter.Optional }
             );
-            
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting =
-                Newtonsoft.Json.Formatting.Indented;
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
-                (new Newtonsoft.Json.Converters.StringEnumConverter());
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
-             (new DataSourceConvert());
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
-                (new LabelConverter());
-          
+
+
+            //config.Formatters.JsonFormatter.SerializerSettings.Formatting =
+            //    Newtonsoft.Json.Formatting.Indented;
+            //config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+            //    (new Newtonsoft.Json.Converters.StringEnumConverter());
+            //config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+            // (new DataSourceConvert());
+            //config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
+            //    (new LabelConverter());
+
+            config.Formatters.JsonFormatter.SerializerSettings = JsonHelper.Setting;
+
             config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(config.Formatters.JsonFormatter));
 
         }
