@@ -22,13 +22,13 @@ namespace FD.Tiny.FormBuilder.Demo.Utility
             switch (type)
             {
                 case DataSourceType.Custom:
-                    dataSource = j["data_source"].ToObject<CustomDataSource>(serializer);
+                    dataSource = j.ToObject<CustomDataSource>(serializer);
                     break;
                 case DataSourceType.DataApi:
-                    dataSource = j["data_source"].ToObject<ApiDataSource>(serializer);
+                    dataSource = j.ToObject<ApiDataSource>(serializer);
                     break;
                 case DataSourceType.Dict:
-                    dataSource = j["data_source"].ToObject<DictSource>(serializer);
+                    dataSource = j.ToObject<DictSource>(serializer);
                     break;
                 default:
                     dataSource = null;
