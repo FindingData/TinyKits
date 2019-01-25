@@ -179,7 +179,12 @@ var dfFormEditVm = new Vue({
         initDataSourceConfig() {
             if (this.currentLabelData.label_config.data_source) {
                 for (var pro in this.currentLabelData.label_config.data_source) {
-                    this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
+                    if (pro === 'dic_par_ids') {
+                        this.dictChecked = this.currentLabelData.label_config.data_source[pro].split(',').map(Number)
+                        this.dictIndeterminateCheckAll = this.dictChecked.length === this.dictPars.length
+                    } else {
+                        this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
+                    }
                 }
             }
         },
