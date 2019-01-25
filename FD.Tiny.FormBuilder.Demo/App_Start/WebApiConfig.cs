@@ -20,7 +20,6 @@ namespace FD.Tiny.FormBuilder.Demo
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { controller = "Form", action = "Index", id = RouteParameter.Optional }
             );
-
             
             config.Formatters.JsonFormatter.SerializerSettings.Formatting =
                 Newtonsoft.Json.Formatting.Indented;

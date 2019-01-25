@@ -13,6 +13,8 @@ namespace FD.Tiny.FormBuilder
     {
         public FormMappingProfile()
         {
+
+            JsonHelper.Setting.Converters.Add(new DataSourceConvert());
             //formPo to form           
             CreateMap<FormPO, Form>()
                 .ForMember(dest => dest.group_list, opt =>
