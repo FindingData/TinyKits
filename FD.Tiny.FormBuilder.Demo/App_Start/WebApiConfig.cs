@@ -27,7 +27,7 @@ namespace FD.Tiny.FormBuilder.Demo
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
                 (new Newtonsoft.Json.Converters.StringEnumConverter());
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
-             (new LabelConfigConvert());
+             (new DataSourceConvert());
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add
                 (new LabelConverter());
           
