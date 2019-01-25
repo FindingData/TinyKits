@@ -23,13 +23,13 @@ namespace FD.Tiny.FormBuilder.Demo.Utility
             switch (type)
             {
                 case LabelType.control:
-                    label = j.ToObject<ControlLabel>();
+                    label = j.ToObject<ControlLabel>(serializer);
                     break;
                 case LabelType.variable:
-                    label = j.ToObject<VariableLabel>();
+                    label = j.ToObject<VariableLabel>(serializer);
                     break;
                 case LabelType.condition:
-                    label = j.ToObject<ConditionLabel>();
+                    label = j.ToObject<ConditionLabel>(serializer);
                     break;
                 default:
                     label = null;
