@@ -21,7 +21,7 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '变量',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.variable,
                 label_config: {
                     is_parameter: false,
@@ -34,7 +34,7 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '条件',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.condition,
                 label_config: {
                     condition_list: []
@@ -46,27 +46,24 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '普通文本',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
-                    control_type: 'input_base',
-                    label_sort: 0,
-                    group_name: '',
-                    validator_config: {
-                        validator_list: []
+                    control_config: {
+                        control_type: 'input_base',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'clearable', value: true },
+                            { key: 'readonly', value: false }
+                        ]
                     },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
                     database_config: null,
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'placeholder', value: '' },
-                        { key: 'clearable', value: true },
-                        { key: 'readonly', value: false }
-                    ]
+                    format_config: null
                 }
             },
             {
@@ -75,28 +72,25 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '搜索文本',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
-                    control_type: 'input_autocomplete',
-                    label_sort: 0,
-                    group_name: '',
-                    validator_config: {
-                        validator_list: []
+                    control_config: {
+                        control_type: 'input_autocomplete',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'clearable', value: true },
+                            { key: 'readonly', value: false },
+                            { key: 'trigger-on-focus', value: true }
+                        ]
                     },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
                     database_config: null,
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'placeholder', value: '' },
-                        { key: 'clearable', value: true },
-                        { key: 'readonly', value: false },
-                        { key: 'trigger-on-focus', value: true }
-                    ]
+                    format_config: null
                 }
             },
             {
@@ -105,28 +99,25 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '下拉选择',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
-                    control_type: 'select',
-                    label_sort: 0,
-                    group_name: '',
-                    validator_config: {
-                        validator_list: []
+                    control_config: {
+                        control_type: 'select',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'clearable', value: true },
+                            { key: 'readonly', value: false },
+                            { key: 'filterable', value: false }
+                        ]
                     },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
                     database_config: null,
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'placeholder', value: '' },
-                        { key: 'clearable', value: true },
-                        { key: 'readonly', value: false },
-                        { key: 'filterable', value: false }
-                    ]
+                    format_config: null
                 }
             },
             {
@@ -135,29 +126,26 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '多行文本',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
-                    control_type: 'input_textarea',
-                    label_sort: 0,
-                    group_name: '',
-                    validator_config: {
-                        validator_list: []
+                    control_config: {
+                        control_type: 'input_textarea',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'autosize', value: [2, 5] },
+                            { key: 'resize', value: 'none' },
+                            { key: 'clearable', value: true },
+                            { key: 'readonly', value: false }
+                        ]
                     },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
                     database_config: null,
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'placeholder', value: '' },
-                        { key: 'autosize', value: [2,5] },
-                        { key: 'resize', value: 'none' },
-                        { key: 'clearable', value: true },
-                        { key: 'readonly', value: false }
-                    ]
+                    format_config: null
                 }
             },
             {
@@ -166,26 +154,23 @@ var FormComponents = [
                 data_type: DataType.String,
                 label_name_chs: '单选框',
                 form: null,
-                inner_value: '',
+                default_value: '',
                 label_type: LabelType.control,
                 label_config: {
-                    control_type: 'radio',
-                    label_sort: 0,
-                    group_name: '',
-                    validator_config: {
-                        validator_list: []
+                    control_config: {
+                        control_type: 'radio',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'readonly', value: false },
+                            { key: 'border', value: false }
+                        ]
                     },
-                    data_source_config: null,
-                    relate_config: {
-                        relate_list: []
-                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
                     database_config: null,
-                    format_config: null,
-                    map_config: null,
-                    control_options: [
-                        { key: 'readonly', value: false },
-                        { key: 'border', value: false }
-                    ]
+                    format_config: null
                 }
             },
             {
@@ -193,77 +178,191 @@ var FormComponents = [
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '复选框',
-                control_type: 'checkbox',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'checkbox',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'readonly', value: false },
+                            { key: 'border', value: false }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
+
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '时间选择',
-                control_type: 'time',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'time',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'readonly', value: false },
+                            { key: 'clearable', value: false }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '日期选择',
-                control_type: 'date',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'date',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'readonly', value: false },
+                            { key: 'clearable', value: false }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '是非选项',
-                control_type: 'switch',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'switch',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'readonly', value: false },
+                            { key: 'active-text', value: '' },
+                            { key: 'inactive-text', value: '' }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '数字框',
-                control_type: 'input_number',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'input_number',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'placeholder', value: '' },
+                            { key: 'readonly', value: false },
+                            { key: 'controls-position', value: 'normal' },
+                            { key: 'precision', value: 0 },
+                            { key: 'min', value: 0 },
+                            { key: 'max', value: 10 },
+                            { key: 'step', value: 1 }
+                            
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '滑块',
-                control_type: 'slider',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'slider',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'readonly', value: false },
+                            { key: 'min', value: 0 },
+                            { key: 'max', value: 10 },
+                            { key: 'step', value: 1 },
+                            { key: 'show-stops', value: true },
+                            { key: 'show-tooltip', value: true },
+                            { key: 'format-tooltip', value: '' }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             },
             {
                 label_id: 0,
                 form_id: 0,
                 data_type: DataType.String,
                 label_name_chs: '评分',
-                control_type: 'rate',
+                form: null,
                 default_value: '',
-                label_sort: 0,
-                group_name: '',
-                label_config: {}
+                label_type: LabelType.control,
+                label_config: {
+                    control_config: {
+                        control_type: 'rate',
+                        label_sort: 0,
+                        group_name: '',
+                        control_options: [
+                            { key: 'readonly', value: false },
+                            { key: 'allow-half', value: false },
+                            { key: 'max', value: 5 }
+                        ]
+                    },
+                    validator_list: [],
+                    data_source: null,
+                    relate_list: [],
+                    database_config: null,
+                    format_config: null
+                }
             }
         ]
     },

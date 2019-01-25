@@ -137,17 +137,17 @@
             <div class="form-config-right" id="FormRight">
                 <div v-if="labelEditChange">
                     <div v-if="currentLabelData.label_type===LabelType.control">
-                        <el-tabs v-model="tabActiveName" v-if="currentLabelData.label_config.control_type==='input_base'">
+                        <el-tabs v-model="tabActiveName" v-if="currentLabelData.label_config.control_config.control_type==='input_base'">
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
                                         <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
-                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
                                     </el-form-item>
                                     <el-form-item label="默认值">
-                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
@@ -173,7 +173,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator">
-
                             </el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate">
@@ -236,19 +235,18 @@
                                 </el-dialog>
                             </el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='input_autocomplete'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='input_autocomplete'">
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
                                         <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
-                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
                                     </el-form-item>
                                     <el-form-item label="默认值">
-                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
@@ -360,19 +358,18 @@
                             </el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='input_textarea'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='input_textarea'">
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
                                         <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
-                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
                                     </el-form-item>
                                     <el-form-item label="默认值">
-                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
@@ -409,7 +406,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator">
-
                             </el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate">
@@ -472,19 +468,18 @@
                                 </el-dialog>
                             </el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='select'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='select'">
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
                                         <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
-                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
                                     </el-form-item>
                                     <el-form-item label="默认值">
-                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
@@ -596,19 +591,18 @@
                             </el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='radio'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='radio'">
                             <el-tab-pane label="常规" name="normal">
                                 <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
                                     <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
                                         <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
                                     </el-form-item>
                                     <el-form-item label="分组名称">
-                                        <el-input v-model="currentLabelData.label_config.group_name" placeholder="请输入分组名称"></el-input>
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
                                     </el-form-item>
                                     <el-form-item label="默认值">
-                                        <el-input v-model="currentLabelData.inner_value" placeholder="请输入默认值"></el-input>
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
@@ -711,88 +705,406 @@
                             </el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='checkbox'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='checkbox'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否有边框">
+                                        <el-radio-group v-model="getLableConfigItem('border').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data">
+                                <div>
+                                    <span>数据源类型</span>
+                                    <el-select v-model="tempDataSourceConfig.data_source_type" v-on:change="handledDataTypeChange" clearable placeholder="请选择">
+                                        <el-option v-for="(value,key) in DataSourceType" :key="value"
+                                                   :label="key"
+                                                   :value="value">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                                <div v-if="tempDataSourceConfig.data_source_type===DataSourceType.Dict" class="f-label-config-data-type">
+                                    <div>
+                                        <span>字典类型</span>
+                                        <el-select v-model="tempDataSourceConfig.dic_type_id" v-on:change="handledDictTypeChange" clearable placeholder="请选择">
+                                            <el-option v-for="(dict,index) in DictTest" :key="index"
+                                                       :label="dict.dic_type_name"
+                                                       :value="dict.dic_type_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.dic_type_id!==''" style="margin-top:10px;">
+                                        <el-checkbox :indeterminate="dictIndeterminate" v-model="dictIndeterminateCheckAll" v-on:change="handleDictIndeterminateCheckAll">全选</el-checkbox>
+                                    </div>
+                                    <div class="f-label-config-data-dic-checkbox">
+                                        <el-checkbox-group v-model="dictChecked" v-on:change="handledDictCheckedChange">
+                                            <el-checkbox v-for="par in dictPars" :label="par.dic_par_id" :key="par.dic_par_id">{{par.dic_par_name}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.Custom" class="f-label-config-data-type">
+                                    <el-form :model="tempDataSourceConfig" ref="dynamicValidateForm" label-width="80px">
+                                        <el-form-item prop="value"
+                                                      label="数据值"
+                                                      :rules="[{ required: true, message: '请输入数据值', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.value" type="textarea" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
+                                        </el-form-item>
+                                        <el-form-item prop="separtor"
+                                                      label="分割符"
+                                                      :rules="[{ required: true, message: '请输入分割符', trigger: 'blur' }]">
+                                            <el-input v-model="tempDataSourceConfig.separtor"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="结果预览">
+                                            <span v-text="getDataSourceConfigCustomResult()"></span>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                                <div v-else-if="tempDataSourceConfig.data_source_type===DataSourceType.DataApi" class="f-label-config-data-type">
+                                    <div>
+                                        <span>数据源</span>
+                                        <el-select v-model="tempDataSourceConfig.api_id" v-on:change="handledDataApiChange" clearable placeholder="请选择">
+                                            <el-option v-for="(api,index) in dataApis" :key="index"
+                                                       :label="api.api_name"
+                                                       :value="api.api_id">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div v-if="tempDataSourceConfig.api_id!==''" style="margin-top:10px;">
+                                        <el-row v-for="(param,index) in tempDataApiParam" :key="index">
+                                            <el-col :span="8" style="text-align:right;height:40px;line-height:40px;">
+                                                <span v-text="param.parameter_name_chs+' ('+(param.is_required?'必填':'选填')+')'"></span>
+                                            </el-col>
+                                            <el-col :span="4" style="text-align:center;height:40px;line-height:40px;">
+                                                <i class="iconfont icon-zhixiang" style="font-size:24px;"></i>
+                                            </el-col>
+                                            <el-col :span="8">
+                                                <el-select v-model="param.parameter_value" :clearable="!param.is_required" filterable placeholder="请选择">
+                                                    <el-option label="变量1" value="变量1"></el-option>
+                                                    <el-option label="变量2" value="变量2"></el-option>
+                                                    <el-option label="变量3" value="变量3"></el-option>
+                                                    <el-option label="变量4" value="变量4"></el-option>
+                                                    <el-option label="变量5" value="变量5"></el-option>
+                                                </el-select>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='time'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="占位文本">
+                                        <el-input v-model="getLableConfigItem('placeholder').value" placeholder="请输入占位文本"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="是否可清空">
+                                        <el-radio-group v-model="getLableConfigItem('clearable').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='date'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="占位文本">
+                                        <el-input v-model="getLableConfigItem('placeholder').value" placeholder="请输入占位文本"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="是否可清空">
+                                        <el-radio-group v-model="getLableConfigItem('clearable').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='switch'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="打开文字">
+                                        <el-input v-model="getLableConfigItem('active-text').value" placeholder="请输入打开时的文字"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="关闭文字">
+                                        <el-input v-model="getLableConfigItem('inactive-text').value" placeholder="请输入关闭时的文字"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='input_number'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="占位文本">
+                                        <el-input v-model="getLableConfigItem('placeholder').value" placeholder="请输入占位文本"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="按钮位置">
+                                        <el-radio-group v-model="getLableConfigItem('controls-position').value">
+                                            <el-radio label="normal">常规</el-radio>
+                                            <el-radio label="right">靠右</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="数值精度">
+                                        <el-input v-model="getLableConfigItem('precision').value" placeholder="请输入数值精度"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="最小值">
+                                        <el-input v-model="getLableConfigItem('min').value" placeholder="请输入最小值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="最大值">
+                                        <el-input v-model="getLableConfigItem('max').value" placeholder="请输入最大值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="步长">
+                                        <el-input v-model="getLableConfigItem('step').value" placeholder="请输入步长"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='slider'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="最小值">
+                                        <el-input v-model="getLableConfigItem('min').value" placeholder="请输入最小值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="最大值">
+                                        <el-input v-model="getLableConfigItem('max').value" placeholder="请输入最大值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="步长">
+                                        <el-input v-model="getLableConfigItem('step').value" placeholder="请输入步长"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="是否显示断点">
+                                        <el-radio-group v-model="getLableConfigItem('show-stops').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否显示提示">
+                                        <el-radio-group v-model="getLableConfigItem('show-tooltip').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="格式化提示">
+                                        <el-input v-model="getLableConfigItem('format-tooltip').value" placeholder="请输入格式化提示"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='rate'">
+                            <el-tab-pane label="常规" name="normal">
+                                <el-form :ref="'Form'+currentLabelData.label_id" :model="currentLabelData" label-width="120px">
+                                    <el-form-item label="标签中文名" prop="label_name_chs" :rules="[{ required: true, message: '请输入标签中文名', trigger: 'blur' }]">
+                                        <el-input v-model="currentLabelData.label_name_chs" placeholder="请输入标签中文名"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="分组名称">
+                                        <el-input v-model="currentLabelData.label_config.control_config.group_name" placeholder="请输入分组名称"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="默认值">
+                                        <el-input v-model="currentLabelData.default_value" placeholder="请输入默认值"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="数据类型">
+                                        <el-select v-model="currentLabelData.data_type" placeholder="请选择数据类型">
+                                            <el-option v-for="(value,key) in DataType" :key="value"
+                                                       :label="key" :value="value"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="是否只读">
+                                        <el-radio-group v-model="getLableConfigItem('readonly').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="是否可半选">
+                                        <el-radio-group v-model="getLableConfigItem('allow-half').value">
+                                            <el-radio :label="false">否</el-radio>
+                                            <el-radio :label="true">是</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="最大值">
+                                        <el-input v-model="getLableConfigItem('max').value" placeholder="请输入最大值"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
+                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
+                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
+                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
+                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='map_baidu'">
                             <el-tab-pane label="常规" name="normal"></el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='time'">
+                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='map_gis'">
                             <el-tab-pane label="常规" name="normal"></el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='date'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='switch'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='input_number'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='slider'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='rate'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='map_baidu'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
-                        </el-tabs>
-                        <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_type==='map_gis'">
-                            <el-tab-pane label="常规" name="normal"></el-tab-pane>
-                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
-                            <el-tab-pane label="数据源" name="data"></el-tab-pane>
-                            <el-tab-pane label="关联" name="relate"></el-tab-pane>
-                            <el-tab-pane label="格式化" name="format"></el-tab-pane>
-                            <el-tab-pane label="地图" name="map"></el-tab-pane>
                         </el-tabs>
                     </div>
                     <div v-else-if="currentLabelData.label_type===LabelType.variable">
@@ -820,11 +1132,11 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="值" v-if="currentLabelData.label_config.value_method===ValueMethod.Const">
-                                <el-input v-model="currentLabelData.inner_value" placeholder="请输入内容" clearable></el-input>
+                                <el-input v-model="currentLabelData.default_value" placeholder="请输入内容" clearable></el-input>
                             </el-form-item>
                             <el-form-item label="值" v-else>
                                 <el-input placeholder="请输入内容"
-                                          v-model="currentLabelData.inner_value"
+                                          v-model="currentLabelData.default_value"
                                           v-on:focus="formulaDataVisible=true"
                                           clearable
                                           style="width:270px;"></el-input>
@@ -882,7 +1194,7 @@
                                               resize="none"
                                               placeholder="请输入公式"
                                               v-on:change="formulaDataChange"
-                                              v-model="currentLabelData.inner_value">
+                                              v-model="currentLabelData.default_value">
                                     </el-input>
                                 </div>
                             </div>

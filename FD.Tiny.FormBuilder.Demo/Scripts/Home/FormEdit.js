@@ -136,6 +136,7 @@ var dfFormEditVm = new Vue({
         },
         //保存Label
         saveLabel(label) {
+            debugger
             post('/Api/Form/SaveLabel', label).then(
                 res => {
                     console.log('保存Label', res)
@@ -176,9 +177,9 @@ var dfFormEditVm = new Vue({
         },
         //初始化DataSourceConfig
         initDataSourceConfig() {
-            if (this.currentLabelData.label_config.data_source_config) {
-                for (var pro in this.currentLabelData.label_config.data_source_config) {
-                    this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source_config[pro]
+            if (this.currentLabelData.label_config.data_source) {
+                for (var pro in this.currentLabelData.label_config.data_source) {
+                    this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
                 }
             }
         },
@@ -246,7 +247,7 @@ var dfFormEditVm = new Vue({
         //获取标签项
         getLableConfigItem(attr) {
             var option = null
-            this.currentLabelData.label_config.control_options.forEach(item => {
+            this.currentLabelData.label_config.control_config.control_options.forEach(item => {
                 if (item.key === attr) {
                     option = item
                 }
@@ -257,16 +258,16 @@ var dfFormEditVm = new Vue({
         saveLabelConfig() {
             this.$refs['Form' + this.currentLabelData.label_id].validate((valid) => {
                 if (valid) {
-                    this.currentLabelData.label_config.data_source_config = null
+                    this.currentLabelData.label_config.data_source = null
                     if (this.tempDataSourceConfig.data_source_type === DataSourceType.Custom) {
-                        this.currentLabelData.label_config.data_source_config = {
+                        this.currentLabelData.label_config.data_source = {
                             data_source_type: this.tempDataSourceConfig.data_source_type,
                             separtor: this.tempDataSourceConfig.separtor,
                             value: this.tempDataSourceConfig.value
 
                         }
                     } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.Dict) {
-                        this.currentLabelData.label_config.data_source_config = {
+                        this.currentLabelData.label_config.data_source = {
                             data_source_type: this.tempDataSourceConfig.data_source_type,
                             dic_type_id: this.tempDataSourceConfig.dic_type_id,
                             dic_par_ids: this.dictChecked.join(',')
@@ -280,7 +281,7 @@ var dfFormEditVm = new Vue({
                                 parameter_list.push(obj)
                             }
                         })
-                        this.currentLabelData.label_config.data_source_config = {
+                        this.currentLabelData.label_config.data_source = {
                             data_source_type: this.tempDataSourceConfig.data_source_type,
                             api_id: this.tempDataSourceConfig.api_id,
                             parameter_list: parameter_list
