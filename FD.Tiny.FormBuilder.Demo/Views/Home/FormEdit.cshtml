@@ -172,8 +172,7 @@
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
-                            <el-tab-pane label="验证" name="validator">
-                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate">
                                 <el-table :data="currentLabelData.label_config.relate_config?currentLabelData.label_config.relate_config.relate_list:[]" style="width: 100%">
@@ -278,7 +277,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data">
                                 <div>
                                     <span>数据源类型</span>
@@ -405,8 +403,7 @@
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
-                            <el-tab-pane label="验证" name="validator">
-                            </el-tab-pane>
+                            <el-tab-pane label="验证" name="validator"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate">
                                 <el-table :data="currentLabelData.label_config.relate_config?currentLabelData.label_config.relate_config.relate_list:[]" style="width: 100%">
@@ -511,7 +508,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data">
                                 <div>
                                     <span>数据源类型</span>
@@ -625,7 +621,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data">
                                 <div>
                                     <span>数据源类型</span>
@@ -739,7 +734,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data">
                                 <div>
                                     <span>数据源类型</span>
@@ -856,7 +850,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -897,7 +890,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -935,7 +927,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -988,7 +979,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -1044,7 +1034,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -1085,7 +1074,6 @@
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -1093,7 +1081,6 @@
                         <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='map_baidu'">
                             <el-tab-pane label="常规" name="normal"></el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
@@ -1101,7 +1088,6 @@
                         <el-tabs v-model="tabActiveName" v-else-if="currentLabelData.label_config.control_config.control_type==='map_gis'">
                             <el-tab-pane label="常规" name="normal"></el-tab-pane>
                             <el-tab-pane label="验证" name="validator"></el-tab-pane>
-                            <el-tab-pane label="条件" name="condition"></el-tab-pane>
                             <el-tab-pane label="数据源" name="data"></el-tab-pane>
                             <el-tab-pane label="关联" name="relate"></el-tab-pane>
                             <el-tab-pane label="格式化" name="format"></el-tab-pane>
