@@ -42,6 +42,12 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
         public List<Dict> GetDictList(int dicTypeId)
         {
             return _dictService.GetDictList(dicTypeId);
-        }               
+        }      
+        
+        [HttpGet]
+        public List<Dict> GetDictTypeList()
+        {
+            return _dictService.GetDictTypeList();
+        }
     }
 }

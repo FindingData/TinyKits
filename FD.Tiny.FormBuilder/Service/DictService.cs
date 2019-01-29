@@ -43,6 +43,10 @@ namespace FD.Tiny.FormBuilder {
             return GetCacheDictList().Where(d => d.dic_type_id == dicTypeId).ToList();
         }
 
+        public List<Dict> GetDictTypeList()
+        {
+            return GetAllDictList().Where(d => d.dic_type_id < 100 && d.dic_type_id > 0).ToList();
+        }
 
         public List<Dict> GetCacheDictList()
         {

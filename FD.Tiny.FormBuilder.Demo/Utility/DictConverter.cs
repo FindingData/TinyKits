@@ -7,11 +7,11 @@ using System.Web;
 
 namespace FD.Tiny.FormBuilder.Demo.Utility
 {
-    class DictConverter : CustomCreationConverter<IDictionary<string, object>>
+    class DictConverter : CustomCreationConverter<IDictionary<string, string>>
     {
-        public override IDictionary<string, object> Create(Type objectType)
+        public override IDictionary<string, string> Create(Type objectType)
         {
-            return new Dictionary<string, object>();
+            return new Dictionary<string, string>();
         }
 
         public override bool CanConvert(Type objectType)
