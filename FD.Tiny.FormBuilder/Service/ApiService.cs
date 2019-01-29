@@ -135,7 +135,7 @@ namespace FD.Tiny.FormBuilder {
         ///         
         public List<Api> QueryApi(string name)
         {
-            var apis = Repository.Find(a => a.API_NAME.Contains(name)).ToList();
+            var apis = Repository.Find(a => string.IsNullOrEmpty(name) || a.API_NAME.Contains(name)).ToList();
             var list = Mapper.Map<List<ApiPO>, List<Api>>(apis);
             return list;
         }

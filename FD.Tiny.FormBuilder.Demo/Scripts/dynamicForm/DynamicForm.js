@@ -81,10 +81,18 @@ var dynamicForm = {
             }
         },
         //初始化LableValueOptions
-        initLabelValueOptions() {
+        initLabelValueOptions()  {
             this.labelData.forEach((item, index) => {
-                if (item.label_type === 'select' || item.label_type === 'radio' || item.label_type === 'checkbox') {
-                    if (item.label_option.dataSourceType === 'custom') {
+                if (item.label_config.control_type === 'select' || item.label_config.control_type === 'radio' || item.label_config.control_type === 'checkbox') {
+                    if (item.label_config.data_source.data_source_type === 0) {
+                        var dataSource = this.getDicSource(item.label_option.dicDataSource)
+                        if (dataSource) {
+                            this.LabelValueOptions.push({
+                                index: index,
+                                data: dataSource.items
+                            })
+                        }
+                    } else if (item.label_config.data_source.data_source_type === 1) {
                         var data = []
                         var dataSource = item.label_option.customDataSource.split(',')
                         dataSource.forEach(item => {
@@ -97,14 +105,6 @@ var dynamicForm = {
                             index: index,
                             data: data
                         })
-                    } else if (item.label_option.dataSourceType === 'dic') {
-                        var dataSource = this.getDicSource(item.label_option.dicDataSource)
-                        if (dataSource) {
-                            this.LabelValueOptions.push({
-                                index: index,
-                                data: dataSource.items
-                            })
-                        }
                     } else {
                         var dataSource = this.getDataSource(item.label_option.apiDataSource)
                         if (dataSource) {

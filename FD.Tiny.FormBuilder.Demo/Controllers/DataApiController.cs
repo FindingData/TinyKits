@@ -37,7 +37,7 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public IHttpActionResult ParseSql(string sql)
         {
             var parsedSql = _apiService.ParseSql(sql);
