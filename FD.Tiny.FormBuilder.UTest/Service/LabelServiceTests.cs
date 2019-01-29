@@ -33,6 +33,22 @@ namespace FD.Tiny.FormBuilder.Tests
             }
         }
 
+        [TestMethod]
+        public void DictConvertTest()
+        {
+            string json = @"{
+  'data_source_type': '2',
+  'api_id': '81',
+  'request_parameter_map': 
+    {
+      'customer_id': '561',
+       'pca_code':'12'
+    }  
+}";
+            var dataSource = JsonHelper.Instance.Deserialize<ApiDataSource>(json);
+            Assert.IsNotNull(dataSource.data_source_type);
+        }
+
 
         [TestMethod()]
         public void LabelPropertyTest()
@@ -121,13 +137,13 @@ namespace FD.Tiny.FormBuilder.Tests
                     data_source = new ApiDataSource()
                     {
                         //api_id = 21,
-                        request_parameter_map = new Dictionary<string, string>()
+                        request_parameter_map = new Dictionary<string, object>()
                            {
                                { "customer_id","客户ID" },
                                { "pca_code","区域代码" },
                                { "new_purpose_id","楼盘用途" }
                            },
-                        response_parameter_map = new Dictionary<string, string>()
+                        response_parameter_map = new Dictionary<string, object>()
                            {
                                { "construction_name","楼盘名称" },
                                { "construction_code","楼盘编码" },
@@ -158,14 +174,14 @@ namespace FD.Tiny.FormBuilder.Tests
                     data_source = new ApiDataSource()
                     {
                         //api_id = 61,
-                        request_parameter_map = new Dictionary<string, string>()
+                        request_parameter_map = new Dictionary<string, object>()
                            {
                                { "construction_code","楼盘编码" },
                                { "customer_id","客户ID" },
                                { "pca_code","区域代码" },
                                { "new_purpose_id","楼盘用途" }
                            },
-                        response_parameter_map = new Dictionary<string, string>()
+                        response_parameter_map = new Dictionary<string, object>()
                            {
                                { "building_name","楼栋名称" },
                                { "building_code","楼栋编码" },
