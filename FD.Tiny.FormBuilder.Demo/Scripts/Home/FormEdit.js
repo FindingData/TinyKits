@@ -62,8 +62,9 @@ var dfFormEditVm = new Vue({
                 value: '',
                 api_id: '',
                 api_name: '',
-                parameter_list: []
+                request_parameter_map: []
             },
+            tempApiIdBak:'',
             dictIndeterminate: false,
             dictIndeterminateCheckAll: false,
             dictChecked: [],
@@ -185,6 +186,9 @@ var dfFormEditVm = new Vue({
                         this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
                     }
                 }
+                if (this.tempDataSourceConfig.api_id) {
+                    this.handledDataApiChange(this.tempDataSourceConfig.api_id)
+                }
             } else {
                 this.tempDataSourceConfig = {
                     data_source_type: '',
@@ -206,8 +210,9 @@ var dfFormEditVm = new Vue({
                 dic_par_ids: '',
                 separtor: '',
                 value: '',
+                api_id: '',
                 api_name: '',
-                parameter_list: []
+                request_parameter_map: []
             }
             this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
         },
@@ -248,14 +253,25 @@ var dfFormEditVm = new Vue({
             this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
             this.dataApis.forEach(item => {
                 if (item.api_id === val) {
-                    item.request_parameter_list.forEach(_item => {
-                        this.tempDataApiParam.push({
-                            parameter_name: _item.parameter_name,
-                            parameter_name_chs: _item.parameter_name_chs,
-                            is_required: _item.is_required,
-                            parameter_value: ''
+                    if (this.currentLabelData.label_config.data_source.api_id === val) {
+                        item.request_parameter_list.forEach(_item => {
+                            this.tempDataApiParam.push({
+                                parameter_name: _item.parameter_name,
+                                parameter_name_chs: _item.parameter_name_chs,
+                                is_required: _item.is_required,
+                                parameter_value: this.currentLabelData.label_config.data_source.request_parameter_map[_item.parameter_name]
+                            })
                         })
-                    })
+                    } else {
+                        item.request_parameter_list.forEach(_item => {
+                            this.tempDataApiParam.push({
+                                parameter_name: _item.parameter_name,
+                                parameter_name_chs: _item.parameter_name_chs,
+                                is_required: _item.is_required,
+                                parameter_value: ''
+                            })
+                        })
+                    }
                 }
             })
         },
@@ -288,15 +304,10 @@ var dfFormEditVm = new Vue({
                             dic_par_ids: this.dictChecked.join(',')
                         }
                     } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.DataApi) {
-                        var parameter_list=[]
+                        var parameter_list = {}
                         this.tempDataApiParam.forEach(item => {
                             if (item.parameter_value !== '') {
-                                var obj = {
-                                    key: item.parameter_name,
-                                    value: item.parameter_value + ''
-                                }
-                                //obj[item.parameter_name] = item.parameter_value+''
-                                parameter_list.push(obj)
+                                parameter_list[item.parameter_name] = item.parameter_value
                             }
                         })
                         this.currentLabelData.label_config.data_source = {
@@ -514,6 +525,15 @@ var dfFormEditVm = new Vue({
         formulaDataChange(value) {
             this.formulaDataBak.push(this.currentLabelData.inner_value)
         },
+        //获取字典
+        getDictList() {
+            get('/Api/Data/GetDictListAll').then(
+                res => {
+                    console.log('DictList', res)
+                    //this.dataApis = res
+                }
+            )
+        },
         //初始化界面样式
         initStyle() {
             document.getElementById('DfFormEedit').style.display='block'
@@ -529,6 +549,7 @@ var dfFormEditVm = new Vue({
         //this.getRetrieve()
         this.initStyle()
         this.getDataApi()
+        this.getDictList()
     }
 })
 
