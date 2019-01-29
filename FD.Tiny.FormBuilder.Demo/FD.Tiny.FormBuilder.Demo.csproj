@@ -267,6 +267,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\AutomapperConfig.cs" />
+    <Compile Include="Utility\DictConverter.cs" />
     <Compile Include="Utility\DataSourceConvert.cs" />
     <Compile Include="Utility\LabelConverter.cs" />
   </ItemGroup>

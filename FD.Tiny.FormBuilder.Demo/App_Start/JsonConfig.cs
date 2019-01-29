@@ -14,6 +14,7 @@ namespace FD.Tiny.FormBuilder.Demo
         {
             JsonHelper.Setting.Converters.Add(new DataSourceConvert());
             JsonHelper.Setting.Converters.Add(new LabelConverter());
+            JsonHelper.Setting.Converters.Add(new DictConverter());            
         }
     }
 }
