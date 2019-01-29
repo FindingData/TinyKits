@@ -156,7 +156,6 @@ var dfFormEditVm = new Vue({
                     this.setLableList[this.oldIndex] = this.oldLabelData
                     this.currentLabelindex = index
                     this.currentLabelData = this.setLableList[index]
-                    this.initDataSourceConfig()
                     this.oldIndex = index
                     this.oldLabelData = clone(this.currentLabelData)
                     this.tabActiveName='normal'
@@ -167,19 +166,35 @@ var dfFormEditVm = new Vue({
             } else {
                 this.currentLabelindex = index
                 this.currentLabelData = this.setLableList[index]
-                this.initDataSourceConfig()
                 this.oldIndex = index
                 this.oldLabelData = clone(this.currentLabelData)
                 this.labelEditChange = false
                 this.tabActiveName = 'normal'
                 setTimeout(() => { this.labelEditChange = true }, 0)
             }
+            this.initDataSourceConfig()
         },
         //初始化DataSourceConfig
         initDataSourceConfig() {
             if (this.currentLabelData.label_config.data_source) {
                 for (var pro in this.currentLabelData.label_config.data_source) {
-                    this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
+                    if (pro === 'dic_par_ids') {
+                        this.dictChecked = this.currentLabelData.label_config.data_source[pro].split(',').map(Number)
+                        this.dictIndeterminateCheckAll = this.dictChecked.length === this.dictPars.length
+                    } else {
+                        this.tempDataSourceConfig[pro] = this.currentLabelData.label_config.data_source[pro]
+                    }
+                }
+            } else {
+                this.tempDataSourceConfig = {
+                    data_source_type: '',
+                    dic_type_id: '',
+                    dic_par_ids: '',
+                    separtor: '',
+                    value: '',
+                    api_id: '',
+                    api_name: '',
+                    parameter_list: []
                 }
             }
         },
@@ -238,7 +253,7 @@ var dfFormEditVm = new Vue({
                             parameter_name: _item.parameter_name,
                             parameter_name_chs: _item.parameter_name_chs,
                             is_required: _item.is_required,
-                            parameter_value: _item.is_required?'变量1':''
+                            parameter_value: ''
                         })
                     })
                 }
@@ -276,15 +291,18 @@ var dfFormEditVm = new Vue({
                         var parameter_list=[]
                         this.tempDataApiParam.forEach(item => {
                             if (item.parameter_value !== '') {
-                                var obj = {}
-                                obj[item.parameter_name] = item.parameter_value
+                                var obj = {
+                                    key: item.parameter_name,
+                                    value: item.parameter_value + ''
+                                }
+                                //obj[item.parameter_name] = item.parameter_value+''
                                 parameter_list.push(obj)
                             }
                         })
                         this.currentLabelData.label_config.data_source = {
                             data_source_type: this.tempDataSourceConfig.data_source_type,
                             api_id: this.tempDataSourceConfig.api_id,
-                            parameter_list: parameter_list
+                            request_parameter_map: parameter_list
                         }
                     }
                     this.saveLabel(this.currentLabelData)
@@ -427,6 +445,7 @@ var dfFormEditVm = new Vue({
         getRelateRuleProp(val) {
             return getPropByValue(RelateRule, val)
         },
+        //获取数据源
         getDataApi() {
             var param = { name: '' }
             get('/Api/DataApi/Index', param).then(
@@ -447,8 +466,8 @@ var dfFormEditVm = new Vue({
             }
                 
         },
+        //变量公式取值-公式按钮
         formulaDataOperation(operation) {
-            debugger
             var str=''
             switch (operation) {
                 case Operation.Plus:
@@ -477,6 +496,7 @@ var dfFormEditVm = new Vue({
             }
             this.formulaDataBak.push(this.currentLabelData.inner_value)
         },
+        //变量公式取值-变量
         formulaDataLabelClick(item) {
             if (this.currentLabelData.inner_value) {
                 this.currentLabelData.inner_value += ' @' + item.label_name_chs + ' '
@@ -485,10 +505,12 @@ var dfFormEditVm = new Vue({
             }
             this.formulaDataBak.push(this.currentLabelData.inner_value)
         },
+        //变量公式取值-清除
         formulaDataClear() {
             this.currentLabelData.inner_value = ''
             this.formulaDataBak.splice(0,this.formulaDataBak.length)
         },
+        //变量公式取值-更新
         formulaDataChange(value) {
             this.formulaDataBak.push(this.currentLabelData.inner_value)
         },

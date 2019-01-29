@@ -28,7 +28,7 @@ var dataApiVm = new Vue({
             var param = {
                 name: ''
             }
-            get('/DataApi/Index', param).then(
+            get('/Api/DataApi/Index', param).then(
                 res => {
                     console.log('数据源列表', res)
                     this.dataApiList = res
@@ -57,7 +57,7 @@ var dataApiVm = new Vue({
                 var param = {
                     sql: this.customerForm.sql_content.replace(/\r/g, '').replace(/\n/g, '').replace(/\t/g, '')
                 }
-                post('/DataApi/ParseSql', param).then(
+                get('/Api/DataApi/ParseSql', param).then(
                     res => {
                         console.log('SQL格式化', res)
                         this.customerForm.request_parameter_list = res.requestList
@@ -81,11 +81,8 @@ var dataApiVm = new Vue({
         addDataApi() {
             this.$refs.CustomerForm.validate(valid => {
                 if (valid) {
-                    var param = {
-                        api: this.customerForm
-                    }
                     if (this.edit) {
-                        post('/DataApi/Save', param).then(
+                        post('/Api/DataApi/Save', this.customerForm).then(
                             res => {
                                 console.log('更新数据源', res)
                                 this.dataApiAddVisible = false
@@ -94,7 +91,7 @@ var dataApiVm = new Vue({
                             }
                         )
                     } else {
-                        post('/DataApi/Add', param).then(
+                        post('/Api/DataApi/Add', this.customerForm).then(
                             res => {
                                 console.log('新增数据源', res)
                                 this.dataApiAddVisible = false
