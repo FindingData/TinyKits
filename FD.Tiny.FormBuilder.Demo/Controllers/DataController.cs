@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FD.Tiny.Common.Utility.PageHeler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -39,7 +40,14 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
         }
 
         [HttpGet]
-        public List<Dict> GetDictList(int dicTypeId)
+        public IHttpActionResult GetDictListAll()
+        {
+            var result = _dictService.GetCacheDictList();
+            return Json(new OkResponse(result));
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetDictList(int dicTypeId)
         {
             return _dictService.GetDictList(dicTypeId);
         }      

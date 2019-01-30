@@ -23,11 +23,18 @@ namespace FD.Tiny.FormBuilder {
 
 			this.data_source_type = DataSourceType.DataApi;
 		}
+        /// <summary>
+        /// 接口ID
+        /// </summary>
+        public int api_id
+        {
+            get; set;
+        }
 
-		/// <summary>
-		/// 接口名称
-		/// </summary>
-		public string api_name{
+        /// <summary>
+        /// 接口名称
+        /// </summary>
+        public string api_name{
 			get;  set;
 		}		 
 

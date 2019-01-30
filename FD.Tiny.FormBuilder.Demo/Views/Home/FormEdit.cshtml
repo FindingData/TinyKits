@@ -344,7 +344,7 @@
                                             <el-col :span="8">
                                                 <el-select v-model="param.parameter_value" clearable filterable placeholder="请选择">
                                                     <el-option v-for="(label,index) in getLabelsExceptSelf()" :key="index"
-                                                               :label="label.label_name_chs" :value="label.label_id"></el-option>
+                                                               :label="label.label_name_chs" :value="label.label_id+''"></el-option>
                                                 </el-select>
                                             </el-col>
                                             <el-col :span="2" style="text-align:center;height:40px;line-height:40px;">
