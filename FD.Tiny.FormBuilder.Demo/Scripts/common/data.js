@@ -8,8 +8,24 @@ var ValueMethod = { Const: 0, Formula: 1 }
 var RelateRule = { 赋值: 'assignment', 加载地图: 'loadmap', 加载子下拉框: 'loadsubselect' }
 //数据源类型
 var DataSourceType = { Dict: 0, Custom: 1, DataApi: 2 }
+//关联类型
+var RelateType = { combine: 0, visibility: 1, address: 2, location:3}
 //运算符
-var Operation = { Plus: 0, Minus: 1, Multiply: 2, Divide: 3, LeftParentheses: 4, RightParentheses: 5,}
+var Operation = { Plus: 0, Minus: 1, Multiply: 2, Divide: 3, LeftParentheses: 4, RightParentheses: 5, }
+//验证类型
+var ValidatorType = {
+    不为空: 'required',
+    数字: 'number',
+    电话号码: 'tel',
+    Url地址: 'url',
+    邮箱: 'email',
+    身份证: 'ID',
+    数字大小: 'numberSize',
+    字符长度: 'lengthSize',
+    比较: 'compare',
+    正则: 'regular'
+}
+
 //标签库
 var FormComponents = [
     {

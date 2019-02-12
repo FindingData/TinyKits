@@ -26,7 +26,12 @@ namespace FD.Tiny.FormBuilder.Tests
         public void GetApiDataTest()
         {
             List<ApiData> request = new List<ApiData>();
-            var list = _apiService.GetApiListData(21, request);
+            request.Add(new ApiData()
+            {
+                 parameter_name = "CUSTOMER_ID",
+                  value = "3",
+            });
+            var list = _apiService.GetApiListData(81, request);
             Assert.IsNotNull(list);
         }
 

@@ -646,7 +646,8 @@ exports.default = {
       type: Number,
       default: 53
       },
-      onScroll: Function,
+    onScroll: Function,
+    endScroll: Function,
     onMaxScroll: Function
   },
 
@@ -669,7 +670,8 @@ exports.default = {
       dragging: false,
       start: { y: 0, x: 0 },
         allowBodyScroll: false,
-        otop:0,
+        otop: 0,
+      scrollTime:0,
     };
   },
 
@@ -761,14 +763,57 @@ exports.default = {
     },
     scrollToY: function scrollToY(y) {
       this.normalizeVertical(y);
-    },
+      },
+    //----add function with no hook   zxl:2018-12-16-----//
+      scrollToTop: function scrollToTop() {
+
+          var next = 0;
+
+          //surveyDiaologVm.$refs.mySelect.handleClose()
+          var elementSize = this.getSize();
+
+          // Vertical Scrolling
+          var lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
+
+          // Max Scroll Down
+          var maxBottom = next > lowerEnd;
+          if (maxBottom) next = lowerEnd;
+
+          // Max Scroll Up
+          var maxTop = next < 0;
+          if (maxTop) next = 0;
+
+          // Update the Vertical Value if it's needed
+          var shouldScroll = this.top !== next;
+          this.allowBodyScroll = !shouldScroll;
+          if (shouldScroll) {
+              var _this = this;
+              this.top = next, this.vMovement = next / elementSize.scrollAreaHeight * 100;
+
+              if (this.onMaxScroll && (maxTop || maxBottom)) {
+                  this.onMaxScroll({ top: maxTop, bottom: maxBottom, right: false, left: false });
+              }
+          }
+      },
+      //----add function with no hook   zxl:2018-12-16-----//
     scrollToX: function scrollToX(x) {
       this.normalizeHorizontal(x);
     },
-    normalizeVertical: function normalizeVertical(next) {
-        if (this.onScroll) {
-            this.onScroll()
-        }
+      normalizeVertical: function normalizeVertical(next) {
+          //----add scroll event hook   zxl:2018-12-16-----//
+          if (this.onScroll) {
+              this.onScroll()
+          }
+          this.scrollTime = new Date().getTime()
+          setTimeout(() => {
+              if (new Date().getTime() - this.scrollTime > 299 && this.endScroll) {
+                  this.endScroll()
+              }
+          }, 300)
+          
+         //----add scroll event hook   zxl:2018-12-16-----//
+
+
       var elementSize = this.getSize();
 
       // Vertical Scrolling
@@ -788,17 +833,22 @@ exports.default = {
         if (shouldScroll) {
           var _this = this;
             this.top = next, this.vMovement = next / elementSize.scrollAreaHeight * 100;
-          
+
             if (this.onMaxScroll && (maxTop || maxBottom)) {
               this.onMaxScroll({ top: maxTop, bottom: maxBottom, right: false, left: false });
         }
       }
     },
     normalizeHorizontal: function normalizeHorizontal(next) {
-
         if (this.onScroll) {
             this.onScroll()
         }
+        this.scrollTime = new Date().getTime()
+        setTimeout(() => {
+            if (new Date().getTime() - this.scrollTime > 499 && this.endScroll) {
+                this.endScroll()
+            }
+        }, 500)
       var elementSize = this.getSize();
 
       // Horizontal Scrolling

@@ -78,7 +78,7 @@ namespace FD.Tiny.FormBuilder {
             {
                 foreach (var piece in segments.BodyPieces)
                 {
-                    var match = Regex.Match(piece, @"(?<=@)[\w\W]+?(?=[\W])");
+                    var match = Regex.Match(piece, @"(?<=:)[\w\W]+?(?=[\W])");
                     if (match.Success)
                     {
                         ApiParameter param = new ApiParameter()
@@ -106,10 +106,10 @@ namespace FD.Tiny.FormBuilder {
                 foreach (var piece in segments.BodyPieces)
                 {
                     string[] keyValue = Regex.Split(piece, "\\.");
-                    string parameterName = keyValue[0].Trim(',');
+                    string parameterName = keyValue[0].Trim(',').Trim();
                     if (keyValue.Length == 2)
                     {
-                        parameterName = keyValue[1].Trim(',');
+                        parameterName = keyValue[1].Trim(',').Trim();
                     }
                     ApiParameter param = new ApiParameter()
                     {

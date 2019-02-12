@@ -17,7 +17,8 @@ var dfFormEditVm = new Vue({
             RelateRule: RelateRule,
             ValueMethod: ValueMethod,
             DataSourceType: DataSourceType,
-            DictTest: DictTest,
+            RelateType: RelateType,
+            ValidatorType: ValidatorType,
             Operation: Operation,
             activeComponentsName: '表单标签',
             setLableList: [],
@@ -50,8 +51,29 @@ var dfFormEditVm = new Vue({
             //添加关联form
             relateAddForm: {
                 relateName: '',
-                operatorStr: '',
-                label: ''
+                relate_type: RelateType.combine,
+                condition: {
+                    condition_expr: '',
+                    condition_item: {
+                        value_method: '',
+                        inner_value:''
+                    }
+                }
+            },
+            //添加验证dialog
+            validatorAddDialog: false,
+            //添加验证form
+            validatorAddForm: {
+                validatorName: '',
+                validatorType: '',
+                numberMin: '',
+                numberMax: '',
+                lengthMin: '',
+                lengthMax: '',
+                compareTarget: '',
+                compareType: '',
+                regular: '',
+                errorMessage:''
             },
             //临时的数据源设置
             tempDataSourceConfig: {
@@ -68,7 +90,10 @@ var dfFormEditVm = new Vue({
             dictIndeterminate: false,
             dictIndeterminateCheckAll: false,
             dictChecked: [],
-            //数据源
+            //Dict数据源
+            dictList: [],
+            dictPars:[],
+            //Api数据源
             dataApis: [],
             //临时的数据源api参数设置
             tempDataApiParam: [],
@@ -80,15 +105,6 @@ var dfFormEditVm = new Vue({
         }
     },
     computed: {
-        dictPars() {
-            var result = []
-            this.DictTest.forEach(item => {
-                if (this.tempDataSourceConfig.dic_type_id === item.dic_type_id) {
-                    result = item.child
-                }
-            })
-            return result
-        },
         dictParIds() {
             var result = []
             this.dictPars.forEach(item => {
@@ -177,6 +193,7 @@ var dfFormEditVm = new Vue({
         },
         //初始化DataSourceConfig
         initDataSourceConfig() {
+            this.dictPars.splice(0, this.dictPars.length)
             if (this.currentLabelData.label_config.data_source) {
                 for (var pro in this.currentLabelData.label_config.data_source) {
                     if (pro === 'dic_par_ids') {
@@ -188,6 +205,9 @@ var dfFormEditVm = new Vue({
                 }
                 if (this.tempDataSourceConfig.api_id) {
                     this.handledDataApiChange(this.tempDataSourceConfig.api_id)
+                }
+                if (this.tempDataSourceConfig.dic_type_id) {
+                    this.getDictPars()
                 }
             } else {
                 this.tempDataSourceConfig = {
@@ -217,9 +237,14 @@ var dfFormEditVm = new Vue({
             this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
         },
         //数据源类型-字典类型更改回调
-        handledDictTypeChange() {
-            this.dictChecked = []
-            this.dictIndeterminate = false
+        handledDictTypeChange(val) {
+            this.getDictPars(() => {
+                this.dictChecked.splice(0, this.dictChecked.length)
+                if (this.currentLabelData.label_config.data_source.dic_type_id === val) {
+                    this.dictChecked = this.currentLabelData.label_config.data_source.dic_par_ids.split(',').map(Number)
+                }
+                this.dictIndeterminateCheckAll = this.dictChecked.length === this.dictPars.length
+            })
         },
         //数据源类型-字典类型-全选点击
         handleDictIndeterminateCheckAll(val) {
@@ -253,7 +278,9 @@ var dfFormEditVm = new Vue({
             this.tempDataApiParam.splice(0, this.tempDataApiParam.length)
             this.dataApis.forEach(item => {
                 if (item.api_id === val) {
-                    if (this.currentLabelData.label_config.data_source.api_id === val) {
+                    if (this.currentLabelData.label_config.data_source &&
+                        this.currentLabelData.label_config.data_source.api_id &&
+                        this.currentLabelData.label_config.data_source.api_id === val) {
                         item.request_parameter_list.forEach(_item => {
                             this.tempDataApiParam.push({
                                 parameter_name: _item.parameter_name,
@@ -275,6 +302,15 @@ var dfFormEditVm = new Vue({
                 }
             })
         },
+        getApiName(api_id) {
+            var result=''
+            this.dataApis.forEach(item => {
+                if (item.api_id === api_id) {
+                    result=item.api_name
+                }
+            })
+            return result
+        },
         //获取标签项
         getLableConfigItem(attr) {
             var option = null
@@ -290,33 +326,59 @@ var dfFormEditVm = new Vue({
             this.$refs['Form' + this.currentLabelData.label_id].validate((valid) => {
                 if (valid) {
                     this.currentLabelData.label_config.data_source = null
+                    var errMessage=''
                     if (this.tempDataSourceConfig.data_source_type === DataSourceType.Custom) {
-                        this.currentLabelData.label_config.data_source = {
-                            data_source_type: this.tempDataSourceConfig.data_source_type,
-                            separtor: this.tempDataSourceConfig.separtor,
-                            value: this.tempDataSourceConfig.value
-
-                        }
-                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.Dict) {
-                        this.currentLabelData.label_config.data_source = {
-                            data_source_type: this.tempDataSourceConfig.data_source_type,
-                            dic_type_id: this.tempDataSourceConfig.dic_type_id,
-                            dic_par_ids: this.dictChecked.join(',')
-                        }
-                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.DataApi) {
-                        var parameter_list = {}
-                        this.tempDataApiParam.forEach(item => {
-                            if (item.parameter_value !== '') {
-                                parameter_list[item.parameter_name] = item.parameter_value
+                        this.$refs.dynamicValidateForm.validate(valid => {
+                            if (valid) {
+                                this.currentLabelData.label_config.data_source = {
+                                    data_source_type: this.tempDataSourceConfig.data_source_type,
+                                    separtor: this.tempDataSourceConfig.separtor,
+                                    value: this.tempDataSourceConfig.value
+                                }
+                            } else {
+                                errMessage='自定义数据源配置错误！'
                             }
                         })
-                        this.currentLabelData.label_config.data_source = {
-                            data_source_type: this.tempDataSourceConfig.data_source_type,
-                            api_id: this.tempDataSourceConfig.api_id,
-                            request_parameter_map: parameter_list
+                        
+                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.Dict) {
+                        if (this.tempDataSourceConfig.dic_type_id !== '' && this.dictChecked.length > 0) {
+                            this.currentLabelData.label_config.data_source = {
+                                data_source_type: this.tempDataSourceConfig.data_source_type,
+                                dic_type_id: this.tempDataSourceConfig.dic_type_id,
+                                dic_par_ids: this.dictChecked.join(',')
+                            }
+                        } else {
+                            errMessage = '字典数据源配置错误！'
+                        }
+                    } else if (this.tempDataSourceConfig.data_source_type === DataSourceType.DataApi) {
+                        if (this.tempDataSourceConfig.api_id !== '') {
+                            var flag = true
+                            var parameter_list = {}
+                            this.tempDataApiParam.forEach(item => {
+                                if (item.is_required && item.parameter_value === '') {
+                                    flag = false
+                                }
+                                parameter_list[item.parameter_name] = item.parameter_value
+                            })
+                            if (!flag) {
+                                errMessage = 'Api数据源配置错误！'
+                            } else {
+                                this.currentLabelData.label_config.data_source = {
+                                    data_source_type: this.tempDataSourceConfig.data_source_type,
+                                    api_id: this.tempDataSourceConfig.api_id,
+                                    api_name: this.getApiName(this.tempDataSourceConfig.api_id),
+                                    request_parameter_map: parameter_list
+                                }
+                            }
+                        } else {
+                            errMessage = 'Api数据源配置错误！'
                         }
                     }
-                    this.saveLabel(this.currentLabelData)
+                    if (errMessage !== '') {
+                        WarningMsg(errMessage)
+                    } else {
+                        this.saveLabel(this.currentLabelData)
+                    }
                 }
             })
         },
@@ -368,7 +430,7 @@ var dfFormEditVm = new Vue({
         //测试取回
         getRetrieve() {
             var param = {
-                storeId: 147
+                storeId: 161
             }
             get('/Api/Form/Retrieve', param).then(
                 res => {
@@ -423,6 +485,18 @@ var dfFormEditVm = new Vue({
             })
             return result
         },
+        //添加验证dialog关闭回调
+        validatorAddDialogClose() {
+            this.$refs.ValidatorAddForm.resetFields()
+        },
+        //新增验证关联
+        validatorAdd() {
+            this.$refs.ValidatorAddForm.validate(valid => {
+                if (valid) {
+
+                }
+            })
+        },
         //添加关联dialog关闭回调
         relateAddDialogClose() {
             this.$refs.RelateAddForm.resetFields()
@@ -468,12 +542,12 @@ var dfFormEditVm = new Vue({
         },
         //变量公式取值-公式撤回
         formulaDataReturnBack() {
-            this.currentLabelData.inner_value = ''
+            this.currentLabelData.default_value = ''
             if (this.formulaDataBak.length > 0) {
                 this.formulaDataBak.splice(this.formulaDataBak.length - 1, 1)
             }
             if (this.formulaDataBak.length > 0) {
-                this.currentLabelData.inner_value = this.formulaDataBak[this.formulaDataBak.length - 1]
+                this.currentLabelData.default_value = this.formulaDataBak[this.formulaDataBak.length - 1]
             }
                 
         },
@@ -500,37 +574,50 @@ var dfFormEditVm = new Vue({
                     str = ')'
                     break;
             }
-            if (this.currentLabelData.inner_value) {
-                this.currentLabelData.inner_value += str
+            if (this.currentLabelData.default_value) {
+                this.currentLabelData.default_value += str
             } else {
-                this.currentLabelData.inner_value = str
+                this.currentLabelData.default_value = str
             }
-            this.formulaDataBak.push(this.currentLabelData.inner_value)
+            this.formulaDataBak.push(this.currentLabelData.default_value)
         },
         //变量公式取值-变量
         formulaDataLabelClick(item) {
-            if (this.currentLabelData.inner_value) {
-                this.currentLabelData.inner_value += ' @' + item.label_name_chs + ' '
+            if (this.currentLabelData.default_value) {
+                this.currentLabelData.default_value += ' @' + item.label_name_chs + ' '
             } else {
-                this.currentLabelData.inner_value = ' @' + item.label_name_chs + ' '
+                this.currentLabelData.default_value = ' @' + item.label_name_chs + ' '
             }
-            this.formulaDataBak.push(this.currentLabelData.inner_value)
+            this.formulaDataBak.push(this.currentLabelData.default_value)
         },
         //变量公式取值-清除
         formulaDataClear() {
-            this.currentLabelData.inner_value = ''
+            this.currentLabelData.default_value = ''
             this.formulaDataBak.splice(0,this.formulaDataBak.length)
         },
         //变量公式取值-更新
         formulaDataChange(value) {
-            this.formulaDataBak.push(this.currentLabelData.inner_value)
+            this.formulaDataBak.push(this.currentLabelData.default_value)
         },
         //获取字典
         getDictList() {
-            get('/Api/Data/GetDictListAll').then(
+            get('/Api/Data/GetDictTypeList').then(
                 res => {
-                    console.log('DictList', res)
-                    //this.dataApis = res
+                    this.dictList=res
+                    console.log('dictList', res)
+                }
+            )
+        },
+        getDictPars(callBack) {
+            var param = {
+                dicTypeId: this.tempDataSourceConfig.dic_type_id
+            }
+            get('/Api/Data/GetDictList',param).then(
+                res => {
+                    this.dictPars = res
+                    console.log('dictPars', res)
+                    if (callBack)
+                        callBack()
                 }
             )
         },
@@ -541,6 +628,9 @@ var dfFormEditVm = new Vue({
             document.getElementById('FormContent').style.height = (height - 86) + 'px'
             document.getElementById('FormLabelContent').style.maxHeight = (height - 106) + 'px'
             document.getElementById('FormRight').style.height = (height - 20) + 'px'
+        },
+        onScroll() {
+            this.$refs.DynamicForm.dropMenuClose()
         },
     },
     mounted() {

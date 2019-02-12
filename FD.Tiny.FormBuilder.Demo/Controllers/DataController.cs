@@ -26,17 +26,25 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
             return "api访问正常";
         }
 
-        [HttpGet]
-        public dynamic SingleData(int apiId,List<ApiData> request)
-        {            
-            return _apiService.GetApiData(apiId, request);
+        public class PostModel {
+            public int apiId { get; set; }
+
+            public List<ApiData> request { get; set; }
+        }
+
+        [HttpPost]
+        public IHttpActionResult SingleData(PostModel postModel)
+        {
+            var result = _apiService.GetApiData(postModel.apiId, postModel.request);
+            return Json(new OkResponse(result));
         }
 
 
-        [HttpGet]
-        public dynamic ListData(int apiId, List<ApiData> request)
+        [HttpPost]
+        public IHttpActionResult ListData(PostModel postModel)
         {
-            return _apiService.GetApiListData(apiId, request);
+            var result = _apiService.GetApiListData(postModel.apiId, postModel.request);
+            return Json(new OkResponse(result));
         }
 
         [HttpGet]
@@ -49,13 +57,15 @@ namespace FD.Tiny.FormBuilder.Demo.APIs
         [HttpGet]
         public IHttpActionResult GetDictList(int dicTypeId)
         {
-            return _dictService.GetDictList(dicTypeId);
+            var result = _dictService.GetDictList(dicTypeId);
+            return Json(new OkResponse(result));
         }      
         
         [HttpGet]
-        public List<Dict> GetDictTypeList()
+        public IHttpActionResult GetDictTypeList()
         {
-            return _dictService.GetDictTypeList();
+            var result = _dictService.GetDictTypeList();
+            return Json(new OkResponse(result));
         }
     }
 }
