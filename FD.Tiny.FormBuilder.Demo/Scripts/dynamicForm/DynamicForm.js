@@ -434,6 +434,7 @@ var dynamicForm = {
         //关闭所有下拉
         dropMenuClose() {
             for (ref in this.$refs) {
+                debugger
                 if (ref.indexOf('Select') !== -1 || ref.indexOf('Time') !== -1 || ref.indexOf('Date') !== -1) {
                     this.$refs[ref][0].handleClose()
                 }
@@ -479,14 +480,14 @@ var dynamicForm = {
     
         <el-form ref="ElForm" :model="formModel" :label-width="labelWidth+'px'" :label-position="labelAlign" :inline="true">
                 <div v-for="(item,index) in labelData" :key="index" v-if="item.label.label_type === 0">
-                        <gis-map :ref="'GisMap'+index" v-if="item.label.label_config.control_config.control_type==='map_gis'"
+                        <gis-map :ref="'GisMap_'+index" v-if="item.label.label_config.control_config.control_type==='map_gis'"
                             ref="GisMap"
                             :base-map-url="baseMapUrl" 
                             :center-x="CenterX" 
                             :center-y="CenterY" 
                             :pca-code="pcaCode">
                         </gis-map>
-                        <baidu-map :ref="'BaiDuMap'+index" v-else-if="item.label.label_config.control_config.control_type==='map_baidu'"
+                        <baidu-map :ref="'BaiDuMap_'+index" v-else-if="item.label.label_config.control_config.control_type==='map_baidu'"
                                 ref="BaiduMap"
                                 :scale-level="item.label.label_option.scaleLevel"
                                 :enable-scroll-wheel="item.label.label_option.enableScrollWheel"
@@ -496,7 +497,7 @@ var dynamicForm = {
                                 :enable-location="item.label.label_option.enableLocation"
                                 :default-point="item.label.label_option.defaultPoint">
                         </baidu-map>
-                        <quill-rtf :ref="'Rtf'+index" v-else-if="item.label.label_config.control_config.control_type==='rtf'"
+                        <quill-rtf :ref="'Rtf_'+index" v-else-if="item.label.label_config.control_config.control_type==='rtf'"
                                    :eidt-enabled="false"
                                    :contents="item.label.contents" >
                         </quill-rtf>
@@ -505,14 +506,14 @@ var dynamicForm = {
                                       :style="{width:getFormItemWidth()+'px'}"
                                       :prop="item.label_id+''"
                                       :rules="rules[index]">
-                            <el-input :ref="'Input'+index" v-if="item.label.label_config.control_config.control_type==='input_base'"
+                            <el-input :ref="'Input_'+index" v-if="item.label.label_config.control_config.control_type==='input_base'"
                                       v-model="item.label.default_value"
                                       :placeholder="getLabelControlOptions(index,'placeholder')"
                                       :clearable="getLabelControlOptions(index,'clearable')"
                                       :readonly="getLabelControlOptions(index,'readonly')"
                                       :style="{width:getFormItemInputWidth()+'px'}">
                             </el-input>
-                            <el-autocomplete :ref="'Auto'+index" v-if="item.label.label_config.control_config.control_type==='input_autocomplete'"
+                            <el-autocomplete :ref="'Auto_'+index" v-if="item.label.label_config.control_config.control_type==='input_autocomplete'"
                                              v-model="item.label.default_value"
                                              :placeholder="getLabelControlOptions(index,'placeholder')"
                                              :clearable="getLabelControlOptions(index,'clearable')"
@@ -521,7 +522,7 @@ var dynamicForm = {
                                              :fetch-suggestions="autocompleteSearch(index)"
                                              :style="{width:getFormItemInputWidth()+'px'}"> 
                             </el-autocomplete>
-                            <el-input :ref="'TextArea'+index" v-if="item.label.label_config.control_config.control_type==='input_textarea'"
+                            <el-input :ref="'TextArea_'+index" v-if="item.label.label_config.control_config.control_type==='input_textarea'"
                                       type="textarea"
                                       v-model="item.label.default_value"
                                       :placeholder="getLabelControlOptions(index,'placeholder')"
@@ -530,7 +531,7 @@ var dynamicForm = {
                                       :readonly="getLabelControlOptions(index,'readonly')"
                                       :style="{width:getFormItemInputWidth()+'px'}">
                             </el-input>
-                            <el-select :ref="'Select'+index" v-if="item.label.label_config.control_config.control_type==='select'"
+                            <el-select :ref="'Select_'+index" v-if="item.label.label_config.control_config.control_type==='select'"
                                       v-model="item.label.default_value"
                                       :placeholder="getLabelControlOptions(index,'placeholder')"
                                       :filterable="getLabelControlOptions(index,'filterable')"
@@ -543,7 +544,7 @@ var dynamicForm = {
                                               :value="item.value">
                                     </el-option>
                             </el-select>
-                            <el-radio-group :ref="'Radio'+index" v-if="item.label.label_config.control_config.control_type==='radio'"
+                            <el-radio-group :ref="'Radio_'+index" v-if="item.label.label_config.control_config.control_type==='radio'"
                                             v-model="item.label.default_value"
                                             :readonly="item.label.label_option.readonly"
                                             :style="{width:getFormItemInputWidth()+'px'}">
@@ -553,7 +554,7 @@ var dynamicForm = {
                                     {{item.label}}
                                 </el-radio>
                             </el-radio-group>
-                           <el-checkbox-group :ref="'CheckBox'+index" v-if="item.label.label_config.control_config.control_type==='checkbox'"
+                           <el-checkbox-group :ref="'CheckBox_'+index" v-if="item.label.label_config.control_config.control_type==='checkbox'"
                                             v-model="item.label.default_value"
                                             :readonly="item.label.label_option.readonly"
                                             :style="{width:getFormItemInputWidth()+'px'}">
@@ -563,7 +564,7 @@ var dynamicForm = {
                                     {{item.label}}
                                 </el-checkbox>
                            </el-checkbox-group>
-                            <el-switch :ref="'Switch'+index" v-if="item.label.label_config.control_config.control_type==='switch'"
+                            <el-switch :ref="'Switch_'+index" v-if="item.label.label_config.control_config.control_type==='switch'"
                                        v-model="item.label.default_value"
                                        :readonly="item.label.label_option.readonly"
                                        :active-color="item.label.label_option.activeColor"
@@ -572,7 +573,7 @@ var dynamicForm = {
                                        :inactive-text="item.label.label_option.inactiveText"
                                        :style="{width:getFormItemInputWidth()+'px'}">
                             </el-switch>
-                            <el-rate :ref="'Rate'+index" v-if="item.label.label_config.control_config.control_type==='rate'"
+                            <el-rate :ref="'Rate_'+index" v-if="item.label.label_config.control_config.control_type==='rate'"
                                        v-model="item.label.default_value"
                                        :disabled="item.label.label_option.disabled"
                                        :max="item.label.label_option.max"
@@ -584,7 +585,7 @@ var dynamicForm = {
                                        :texts="getRateTexts(index)"
                                        :style="{width:getFormItemInputWidth()+'px'}">
                             </el-rate>
-                            <el-slider :ref="'Slider'+index" v-if="item.label.label_config.control_config.control_type==='slider'"
+                            <el-slider :ref="'Slider_'+index" v-if="item.label.label_config.control_config.control_type==='slider'"
                                        v-model="item.label.default_value"
                                        :disabled="item.label.label_option.disabled"
                                        :min="item.label.label_option.min"
@@ -596,7 +597,7 @@ var dynamicForm = {
                                        :format-tooltip="getFormatTooltipFn(index)"
                                        :style="{width:getFormItemInputWidth()+'px'}">
                             </el-slider>
-                            <el-input-number :ref="'Number'+index" v-if="item.label.label_config.control_config.control_type==='input_number'"
+                            <el-input-number :ref="'Number_'+index" v-if="item.label.label_config.control_config.control_type==='input_number'"
                                             v-model="item.label.default_value"
                                             :disabled="item.label.label_option.disabled"
                                             :min="item.label.label_option.min"
@@ -607,7 +608,7 @@ var dynamicForm = {
                                             :controls-position="item.label.label_option.controlsPosition"
                                             :style="{width:getFormItemInputWidth()>300?300:getFormItemInputWidth()+'px'}">
                             </el-input-number>
-                            <el-time-picker :ref="'Time'+index" v-if="item.label.label_config.control_config.control_type==='time'"
+                            <el-time-picker :ref="'Time_'+index" v-if="item.label.label_config.control_config.control_type==='time'"
                                             v-on:change="timeChange"
                                             v-model="item.label.default_value"
                                             :placeholder="item.label.label_option.placeholder"
@@ -624,7 +625,7 @@ var dynamicForm = {
                                             :end-placeholder="item.label.label_option.endPlaceholder"
                                             :style="{width:getFormItemInputWidth()>300?300:getFormItemInputWidth()+'px'}">
                             </el-time-picker>
-                            <el-date-picker :ref="'Date'+index" v-if="item.label.label_config.control_config.control_type==='date'"
+                            <el-date-picker :ref="'Date_'+index" v-if="item.label.label_config.control_config.control_type==='date'"
                                             v-on:change="timeChange"
                                             v-model="item.label.default_value"
                                             :placeholder="item.label.label_option.placeholder"

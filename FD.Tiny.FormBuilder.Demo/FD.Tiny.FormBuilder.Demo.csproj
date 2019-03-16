@@ -338,6 +338,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\FormEdit.cshtml" />
     <Content Include="Views\Home\DataApi.cshtml" />
+    <Content Include="Views\Home\FormPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FD.Tiny.Common.Utility\FD.Tiny.Common.Utility.csproj">
