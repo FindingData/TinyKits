@@ -279,11 +279,18 @@
     <Content Include="Content\image\map21.png" />
     <Content Include="Content\image\map7.png" />
     <Content Include="Content\image\rtf.png" />
+    <Content Include="css\app.43d0621c.css" />
+    <Content Include="css\chunk-vendors.ef2a2ae9.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\iconfont.244093e8.svg" />
+    <Content Include="img\logo.3d1a29ff.png" />
+    <Content Include="index.html" />
+    <Content Include="js\app.a102885a.js" />
+    <Content Include="js\chunk-vendors.656ab492.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\common\Config.js" />
     <Content Include="Scripts\common\data.js" />
@@ -324,7 +331,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="fonts\" />
     <Folder Include="Models\" />
     <Folder Include="Views\DataBase\" />
     <Folder Include="Views\DataSource\" />
@@ -334,6 +340,13 @@
     <Content Include="Config\log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="js\app.a102885a.js.map" />
+    <Content Include="js\chunk-vendors.656ab492.js.map" />
+    <Content Include="fonts\element-icons.2fad952a.woff" />
+    <Content Include="fonts\element-icons.6f0a7632.ttf" />
+    <Content Include="fonts\iconfont.4d3158d6.eot" />
+    <Content Include="fonts\iconfont.60925a9a.ttf" />
+    <Content Include="fonts\iconfont.ab29ecec.woff" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\FormEdit.cshtml" />
