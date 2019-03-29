@@ -35,7 +35,12 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
             
             return Json(new OkResponse(list));
         }
-
+        [HttpGet]
+        public IHttpActionResult GetApi(int apiId)
+        {
+            var result = _apiService.GetApi(apiId);
+            return Json(new OkResponse(result));
+        }
 
         [HttpGet]
         public IHttpActionResult ParseSql(string sql)
