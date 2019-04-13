@@ -16,18 +16,32 @@ using System.IO;
 using System.Text.RegularExpressions;
 using FD.Tiny.Common.Utility.Calc;
 using FD.Tiny.FormBuilder;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace FD.Tiny.FormBuilder {
 	/// <summary>
 	/// 表单标签
 	/// </summary>
-	public abstract class Label {
+	public abstract class Label 
+    {
 
 		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
 
-		/// <summary>
-		/// 标签Id
-		/// </summary>
-		public int label_id{
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        {
+            if (this.PropertyChanged!=null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// 标签Id
+        /// </summary>
+        public int label_id{
 			get;  set;
 		}
 
@@ -116,11 +130,11 @@ namespace FD.Tiny.FormBuilder {
 			bool.TryParse(expr, out var result);
 			return result;
 		}
-
-		public string inner_value{
-			get;
-						set;
-		}
+       
+		public string inner_value
+        {
+            get;set;
+        }
 
 	}//end Label
 

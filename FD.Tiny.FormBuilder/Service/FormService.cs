@@ -115,7 +115,13 @@ namespace FD.Tiny.FormBuilder {
         public Form GetForm(int formId)
         {
             var formPo = Repository.FindSingle(r => r.FORM_ID == formId);
-            return Mapper.Map<FormPO, Form>(formPo); ;
+            return Mapper.Map<FormPO, Form>(formPo);
+        }
+
+        public Form GetForm(string formName)
+        {
+            var formPo = Repository.FindSingle(r => r.FORM_NAME == formName);
+            return Mapper.Map<FormPO, Form>(formPo); 
         }
 
         public List<Form> QueryForm(string name)

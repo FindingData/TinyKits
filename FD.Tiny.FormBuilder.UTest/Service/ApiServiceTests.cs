@@ -76,6 +76,18 @@ namespace FD.Tiny.FormBuilder.Tests
             _apiService.SaveApi(api, 0);            
         }
 
+
+        [TestMethod]
+        public void AddDictApiTest()
+        {
+            var api = new Api();
+            api.api_name = "获取字典";
+            api.sql_content = "SELECT d.dic_par_id, d.dic_par_name FROM ompd.t_dictionary d WHERE d.dic_type_id = :dic_type_id ";
+            api.request_parameter_list = _apiService.GetRequestParamsFromSql(api.sql_content);
+            api.response_parameter_list = _apiService.GetResponseParamsFromSql(api.sql_content);
+            _apiService.AddApi(api, 0);            
+        }
+
         [TestMethod()]
         public void DelApiTest()
         {

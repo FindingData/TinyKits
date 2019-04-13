@@ -1,137 +1,98 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FD.Tiny.FormBuilder;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FD.Tiny.FormBuilder.UTest;
+using AutoMapper;
 using FD.Tiny.FormBuilder.Demo;
-using FD.Tiny.Common.Utility.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FD.Tiny.FormBuilder.Tests
+namespace FD.Tiny.FormBuilder.UTest
 {
-    [TestClass()]
-    public class LabelServiceTests : BaseTest
+    [TestClass]
+    public class Label_Base_Test:BaseTest
     {
+        protected string FormName { get; set; }
+        protected int FormID { get; set; }
 
-        private LabelService _labelService;
+        protected IList<Label> LabelList { get; set; }
+        protected FormService _formService { get; set; }
+        protected LabelService _labelService { get; set; }
 
 
-        public LabelServiceTests()
+
+        #region 附加测试特性
+        public Label_Base_Test(string formName)
         {
+            this.FormName = formName;
+            _formService = AutofacExt.GetFromFac<FormService>();
             _labelService = AutofacExt.GetFromFac<LabelService>();
         }
-
-        [TestMethod]
-        public void GetLabelList()
+        //
+        // 编写测试时，可以使用以下附加特性: 
+        //
+        // 在运行类中的第一个测试之前使用 ClassInitialize 运行代码
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext) { }
+        //
+        // 在类中的所有测试都已运行之后使用 ClassCleanup 运行代码
+        // [ClassCleanup()]
+        // public static void MyClassCleanup() { }
+        //
+        //在运行每个测试之前，使用 TestInitialize 来运行代码
+        [TestInitialize()]
+        public void LabelInitialize()
         {
-            var ls = _labelService.GetLabelList(81);
-            foreach (var l in ls)
-            {
-                Assert.IsNotNull(l);
-            }
+            var form = _formService.GetForm(FormName);
+            FormID = form.form_id;
+            if (form == null)
+                FormID = _formService.AddForm(new Form() { form_name = FormName }, 0);                                  
         }
 
-        [TestMethod]
-        public void DictConvertTest()
+        protected void InitResidentialLabels()
         {
-            string json = @"{
-  'data_source_type': '2',
-  'api_id': '81',
-  'request_parameter_map': 
-    {
-      'customer_id': '561',
-       'pca_code':'12'
-    }  
-}";
-            var dataSource = JsonHelper.Instance.Deserialize<ApiDataSource>(json);
-           
-        }
-
-
-        [TestMethod()]
-        public void LabelPropertyTest()
-        {
-            var lb = new ControlLabel()
-            {
-                form_id = 8,
-                label_name_chs = "文本测试",
-                data_type = DataType.String,
-                form = null,
-                inner_value = "",
-                label_type = LabelType.condition,
-                label_config = new LabelConfig()
-                {
-                    control_config = new ControlConfig()
-                    {
-                        control_type = "input",
-                        control_sort = 1,
-                        group_name = "基础",
-                        control_options = new List<Option>()
-                       {
-                            new Option(){ key = "placeholder",value= "你好"},
-                            new Option(){ key="readonly", value = false},
-                       }
-                    },
-                    database_config = null,
-                },
-            };
-            Console.WriteLine(JsonHelper.Instance.Serialize(lb));
-            _labelService.AddLabel(lb, 0);
-        }
-      
-
-        [TestMethod()]
-        public void AddLabelTest()
-        {
-            var formId = 81;
-
             var lb1 = new VariableLabel()
             {
-                form_id = formId,
-                label_name_chs = "楼盘编码",
+                form_id = FormID,
+                label_name_chs = "物业类型",
                 data_type = DataType.String,
-                label_config = new LabelConfig() {
-                      
-                }
+                default_value = "40002001",
+               
             };
-            _labelService.AddLabel(lb1, 0);
+            AddLabel(lb1);
 
-            var lb2 = new VariableLabel()
+            var lb2 = new ControlLabel()
             {
-                form_id = formId,
-                label_name_chs = "楼栋编码",
+                form_id = FormID,
+                label_name_chs = "物业子类型",
                 data_type = DataType.String,
-                label_config = new LabelConfig() {
-                  
+                label_config = new LabelConfig()
+                {
+                    data_source = new ApiDataSource()
+                    {
+                        api_id = 101,
+                        api_name = "获取字典",
+                        request_parameter_map = new Dictionary<string, string>() { { "dic_type_id", "物业类型" } },
+                        response_parameter_map = new Dictionary<string, string>() { { "dic_par_id", "dic_par_id" }, { "dic_par_name", "dic_par_name" } },
+                        map_option = new Option() { key = "dic_par_name", value = "dic_par_id" }
+                    },
+                    control_config = new ControlConfig()
+                    {
+                        control_type = "input_autocomplete",
+                    }
                 }
             };
-            _labelService.AddLabel(lb2, 0);
-
-            var lb3 = new VariableLabel()
-            {
-                form_id = formId,
-                label_name_chs = "房号编码",
-                data_type = DataType.String,
-                label_config = new LabelConfig() {
-                    
-                }
-            };
-            _labelService.AddLabel(lb3, 0);
+            AddLabel(lb2);
 
 
             var lb4 = new ControlLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "楼盘名称",
                 label_config = new LabelConfig()
                 {
                     control_config = new ControlConfig()
                     {
                         group_name = "区位",
-                        control_type = "autocomplete",
+                        control_type = "input_autocomplete",
                     },
                     data_source = new ApiDataSource()
                     {
@@ -155,23 +116,22 @@ namespace FD.Tiny.FormBuilder.Tests
                      }
                 }
             };
-            _labelService.AddLabel(lb4, 0);
+            AddLabel(lb4);
 
             var lb5 = new ControlLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "楼栋名称",
                 label_config = new LabelConfig()
                 {
                     control_config = new ControlConfig()
                     {
                         group_name = "区位",
-                        control_type = "autocomplete",
+                        control_type = "input_autocomplete",
                     },
                     data_source = new ApiDataSource()
                     {
-                        //api_id = 61,
                         request_parameter_map = new Dictionary<string, string>()
                            {
                                { "construction_code","楼盘编码" },
@@ -185,50 +145,51 @@ namespace FD.Tiny.FormBuilder.Tests
                                { "building_code","楼栋编码" },
                            }
                     },
-
                     relate_list = new List<Relate>()
                         {
                         new Relate(){ relate_label_name="房号名称"}
                         }
                 }
             };
-            _labelService.AddLabel(lb5, 0);
+            AddLabel(lb5);
 
             var lb6 = new ControlLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "房号名称",
                 label_config = new LabelConfig()
                 {
-                   control_config = new ControlConfig() {
-                       group_name = "区位",
-                   }
+                    control_config = new ControlConfig()
+                    {
+                        group_name = "区位",
+                       control_type = "input_base"
+                    },
+                    
                 }
             };
-            _labelService.AddLabel(lb6, 0);
+            AddLabel(lb6);
 
             var lb7 = new VariableLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "标的名称",
                 inner_value = "'@楼盘名称' + '@楼栋名称' + '@房号名称'",
                 label_config = new LabelConfig()
-               {
-                   value_method = ValueMethod.Formula,                 
+                {
+                    value_method = ValueMethod.Formula,
                 },
-               
-            };
-            _labelService.AddLabel(lb7, 0);
 
+            };
+            AddLabel(lb7);
 
             var lb8 = new ConditionLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "标的编码",
-              
+
                 label_config = new LabelConfig()
                 {
                     condition_list = new List<Condition>()
@@ -249,16 +210,16 @@ namespace FD.Tiny.FormBuilder.Tests
                                   value_method = ValueMethod.Formula,
                             }
                           },
-                     
+
                         }
                 },
             };
-            _labelService.AddLabel(lb8, 0);
+            AddLabel(lb8);
 
             var lb9 = new VariableLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "客户ID",
                 label_config = new LabelConfig()
                 {
@@ -266,12 +227,12 @@ namespace FD.Tiny.FormBuilder.Tests
                 },
             };
 
-            _labelService.AddLabel(lb9, 0);
+            AddLabel(lb9);
 
             var lb10 = new VariableLabel()
             {
                 data_type = DataType.String,
-                form_id = formId,
+                form_id = FormID,
                 label_name_chs = "区域代码",
                 label_config = new LabelConfig()
                 {
@@ -279,25 +240,63 @@ namespace FD.Tiny.FormBuilder.Tests
                 },
             };
 
-            _labelService.AddLabel(lb10, 0);
-
+            AddLabel(lb10);
 
             var lb11 = new VariableLabel()
             {
+                form_id = FormID,
+                label_name_chs = "楼盘编码",
                 data_type = DataType.String,
-                form_id = formId,
-                label_name_chs = "楼盘用途",
                 label_config = new LabelConfig()
                 {
-                    is_parameter = true,
-                },
+
+                }
             };
+            AddLabel(lb11);
 
-            _labelService.AddLabel(lb11, 0);
-        }       
-        
+            var lb12 = new VariableLabel()
+            {
+                form_id = FormID,
+                label_name_chs = "楼栋编码",
+                data_type = DataType.String,
+                label_config = new LabelConfig()
+                {
 
+                }
+            };
+            AddLabel(lb12);
 
+            var lb3 = new VariableLabel()
+            {
+                form_id = FormID,
+                label_name_chs = "房号编码",
+                data_type = DataType.String,
+                label_config = new LabelConfig()
+                {
 
+                }
+            };
+            AddLabel(lb3);
+
+        }
+
+        public int AddLabel(Label label)
+        {
+            if (_labelService.IsExistlabel(FormID, label.label_name_chs))
+            {
+                var dbLabel = _labelService.GetLabel(label.label_name_chs);
+                 label.label_id = dbLabel.label_id;                
+                _labelService.SaveLabel(label, 0);
+
+                return label.label_id;
+            }
+            return _labelService.AddLabel(label, 0);
+        }
+        //
+        // 在每个测试运行完之后，使用 TestCleanup 来运行代码
+        // [TestCleanup()]
+        // public void MyTestCleanup() { }
+        //
+        #endregion
     }
 }

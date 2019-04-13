@@ -17,7 +17,7 @@ namespace FD.Tiny.FormBuilder
         /// <param name="label"></param>
         /// <param name="userId"></param>
         public int AddLabel(Label label, int userId)
-        {
+        {           
             var labelPo = Mapper.Map<Label, LabelPO>(label);
             Repository.Add(labelPo, userId);
             return (int)labelPo.LABEL_ID;
@@ -28,7 +28,7 @@ namespace FD.Tiny.FormBuilder
         /// <param name="userId"></param>
         public void SaveLabel(Label label, int userId)
         {
-            var labelPo = Mapper.Map<Label, LabelPO>(label);
+            var labelPo = Mapper.Map<Label, LabelPO>(label);            
             Repository.Update(labelPo, userId);
         }
 
@@ -46,6 +46,23 @@ namespace FD.Tiny.FormBuilder
         {
             var list = Repository.Find(r => r.FORM_ID == formId && r.IS_DELETED != 1).ToList();
             return Mapper.Map<List<LabelPO>, List<Label>>(list); ;
+        }
+
+        public bool IsExistlabel(int formId, string labelName)
+        {
+            var labelPo = Repository.FindSingle(r => r.FORM_ID == formId && r.LABEL_NAME_CHS == labelName);
+            return labelPo != null;
+        }
+
+        public Label GetLabel(int labelId)
+        {
+            var labelPo = Repository.FindSingle(r => r.LABEL_ID == labelId);
+            return Mapper.Map<LabelPO, Label>(labelPo);
+        }
+        public Label GetLabel(string labelName)
+        {
+            var labelPo = Repository.FindSingle(r => r.LABEL_NAME_CHS == labelName);
+            return Mapper.Map<LabelPO, Label>(labelPo);
         }
     }
 }

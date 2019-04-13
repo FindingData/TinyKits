@@ -65,8 +65,9 @@ namespace FD.Tiny.FormBuilder {
 			get;
 			set;
 		}
+        
 
-		public int table_id{
+        public int table_id{
 			get;
 			set;
 		}

@@ -310,7 +310,9 @@
     <Content Include="Scripts\plug\vue2-scrollbar\style\vue2-scrollbar.css" />
     <Content Include="Scripts\plug\vue2-scrollbar\vue2-scrollbar.js" />
     <Content Include="Scripts\plug\vue\vue.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
