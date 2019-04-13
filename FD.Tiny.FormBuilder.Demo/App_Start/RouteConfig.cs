@@ -13,6 +13,7 @@ namespace FD.Tiny.FormBuilder.Demo
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("");
 
             routes.MapRoute(
                 name: "Default",

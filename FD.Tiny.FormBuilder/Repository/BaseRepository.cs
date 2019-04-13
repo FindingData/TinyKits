@@ -15,7 +15,7 @@ namespace FD.Tiny.FormBuilder
 {
     public class BaseRepository<T> : IRepository<T> where T : EntityBase
     {
-        protected FormBuilderContent Context;
+        public FormBuilderContent Context;
 
         public BaseRepository()
         {
@@ -95,13 +95,12 @@ namespace FD.Tiny.FormBuilder
             entity.MODIFIED_TIME = DateTime.Now;
             var entry = this.Context.Entry(entity);
             entry.State = EntityState.Modified;
-
+            
             //如果数据没有发生变化
             if (!this.Context.ChangeTracker.HasChanges())
             {
                 return;
             }
-
             Save();
         }
 

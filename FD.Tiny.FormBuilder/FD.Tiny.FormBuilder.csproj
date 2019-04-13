@@ -81,6 +81,7 @@
     <Compile Include="Config\LabelConfig.cs" />
     <Compile Include="Constants\DataSourceType.cs" />
     <Compile Include="Constants\DataType.cs" />
+    <Compile Include="Constants\DirectionType.cs" />
     <Compile Include="Constants\FormatNumberMode.cs" />
     <Compile Include="Constants\FormatType.cs" />
     <Compile Include="Constants\LabelType.cs" />
