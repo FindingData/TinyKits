@@ -349,22 +349,25 @@ var dynamicForm = {
         },
         //获取Api数据
         getDataSource(api_id, param, callBack) {
+            debugger
             var param = {
                 apiId: api_id,
                 request: param
             }
             post('/Api/Data/ListData', param).then(
                 res => {
+                    debugger
                     callBack(res)
                 }
             )
         },
         //获取参数值
-        getParamValue(label_id) {
+        getParamValue(label_name) {
+            debugger
             var result=''
             this.labelData.forEach(item => {
                 var _label = item.label
-                if (_label.label_id === parseInt(label_id)) {
+                if (_label.label_name_chs === label_name) {
                     result = _label.default_value
                 }
             })
