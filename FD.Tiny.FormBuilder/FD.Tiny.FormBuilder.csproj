@@ -138,7 +138,6 @@
     <Compile Include="Service\FormService.cs" />
     <Compile Include="Service\FormStoreService.cs" />
     <Compile Include="Service\LabelService.cs" />
-    <Compile Include="Store\FormData.cs" />
     <Compile Include="Store\FormStore.cs" />
     <Compile Include="Store\LabelData.cs" />
     <Compile Include="Validation\BaseValidator.cs" />

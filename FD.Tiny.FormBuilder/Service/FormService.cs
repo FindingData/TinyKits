@@ -79,6 +79,24 @@ namespace FD.Tiny.FormBuilder {
             var store = _formStoreService.GetFormStore(storeId);
             if (store == null)
                 return null;
+            var labelList = _labelService.GetLabelList(store.form_id);
+            foreach (var label in labelList.Where(f=>f.label_config.database_config!=null))
+            {
+                var val = store.label_data_list.FirstOrDefault(d=>d.label_id == label.label_id);
+                dataList.Add(new DbData()
+                {
+                    column_name = label.label_config.database_config.column_name,
+                    column_value = val?.label_value,
+                    table_name = label.label_config.database_config.table_name,
+                });
+            }
+            return dataList;
+        }
+
+        public List<LabelData> CopyFormData(int formId,int storeId)
+        {
+            List<LabelData> dataList = new List<LabelData>();
+            var formList = _labelService.GetLabelList(formId);
             return dataList;
         }
 

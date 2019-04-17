@@ -26,7 +26,7 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void RetriveDbDataTest()
         {
-            var dbDataList = _formService.RetriveDbData(21);
+            var dbDataList = _formService.RetriveDbData(125);
             foreach (var dbData in dbDataList)
             {
                 Console.WriteLine($"t:{dbData.table_name}---c:{dbData.column_name}----v:{dbData.column_value}");
