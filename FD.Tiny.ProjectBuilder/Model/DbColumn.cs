@@ -20,19 +20,21 @@ namespace FD.Tiny.ProjectBuilder {
 
 		}
 
-		/// <summary>
-		/// 名称
-		/// </summary>
-		public string name{
-			get;  set;
-		}
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string name
+        {
+            get; set;
+        }
 
-		/// <summary>
-		/// 备注
-		/// </summary>
-		public string comment{
-			get;  set;
-		}
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string comment
+        {
+            get; set;
+        }
 
 		/// <summary>
 		/// 数据类型

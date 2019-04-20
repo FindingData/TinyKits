@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FD.Tiny.ProjectBuilder.UTest
 {
+
     public class BaseTest
     {
         private TestContext testContextInstance;
@@ -20,7 +21,7 @@ namespace FD.Tiny.ProjectBuilder.UTest
             {
                 ConnectionString = conn_str,
                 DBType = DBType.Oracle,
-            }, "bas");
+            });
             return db;
         }
 

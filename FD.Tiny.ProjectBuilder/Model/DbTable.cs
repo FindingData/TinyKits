@@ -24,19 +24,21 @@ namespace FD.Tiny.ProjectBuilder {
 			this.name = name;
 		}
 
-		/// <summary>
-		/// 名称
-		/// </summary>
-		public string name{
-			get;  set;
-		}
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string name
+        {
+            get; set;
+        }
 
-		/// <summary>
-		/// 备注
-		/// </summary>
-		public string comment{
-			get;  set;
-		}
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string comment
+        {
+            get; set;
+        }
 
 		public List<DbColumn> columns{
 			get;  set;

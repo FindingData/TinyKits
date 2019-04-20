@@ -26,6 +26,19 @@ namespace FD.Tiny.ProjectBuilder
             return result;
         }
 
+        public static IDbBind GetDbBind(DBSetting dBSetting)
+        {
+            if (dBSetting.DBType == DBType.Oracle)
+            {
+                return new OracleDbBind();
+            }
+            else
+            {
+                IDbBind result = CreateInstance<IDbBind>(GetClassName(dBSetting.DBType.ToString(), "DbBind"));
+                return result;
+            }
+        }
+
         public static T CreateInstance<T>(string className)
         {
             Type type;

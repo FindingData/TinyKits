@@ -11,12 +11,12 @@ namespace FD.Tiny.ProjectBuilder
     {       
         protected IDbSchema _DbSchem;
 
-        protected string Aliase;      
+        protected DBSetting CurrentDbSetting;      
 
-        public DbClient(DBSetting dbSetting,string aliase)
+        public DbClient(DBSetting dbSetting)
         {
-            this.Aliase = aliase;
-            ConnectionFactory.ConfigRegist(dbSetting, aliase);
+            CurrentDbSetting = dbSetting;
+            ConnectionFactory.ConfigRegist(dbSetting);         
         }
 
         public virtual IDbSchema DbSchema {
@@ -24,7 +24,7 @@ namespace FD.Tiny.ProjectBuilder
             {
                 if (this._DbSchem == null)
                 {
-                    var result = InstanceFactory.GetDbSchema(ConnectionFactory.GetDBSetting(Aliase));
+                    var result = InstanceFactory.GetDbSchema(CurrentDbSetting);
                     this._DbSchem = result;
                     result.Context = this;
                     return result;
@@ -33,11 +33,20 @@ namespace FD.Tiny.ProjectBuilder
             }
         }
 
+        public virtual IDbBind DbBind
+        {
+            get
+            {
+                IDbBind dbBind = InstanceFactory.GetDbBind(CurrentDbSetting);
+                return dbBind;
+            }
+        }
+
         public virtual IDbConnection DbConnection
         {
             get
             {
-                return ConnectionFactory.GetDbConnection(Aliase);
+                return ConnectionFactory.GetDbConnection();
             }
         } 
 
