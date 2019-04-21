@@ -105,11 +105,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API_Base_Test.cs" />
+    <Compile Include="API_Test.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="Calc\CalcStringExpressionTests.cs" />
     <Compile Include="Controllers\DataBaseControllerTests.cs" />
     <Compile Include="Controllers\FormControllerTests.cs" />
     <Compile Include="FormContextTests.cs" />
+    <Compile Include="Form_Test_Residential.cs" />
     <Compile Include="Label_Base_Test.cs" />
     <Compile Include="Form_Test_Business.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

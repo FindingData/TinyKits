@@ -65,6 +65,13 @@ namespace FD.Tiny.FormBuilder {
             Repository.Update(apiPo, userId);
         }
 
+        public bool IsExistApi(string apiName)
+        {
+            var apiPo = Repository.FindSingle(r => r.API_NAME == apiName);
+            return apiPo != null;
+        }
+
+
         public string ParseSql(string sql)
         {
             return SqlParserUtil.GetParsedSql(sql);
@@ -145,6 +152,13 @@ namespace FD.Tiny.FormBuilder {
         public Api GetApi(int apiId)
         {
             var apiPo = Repository.FindSingle(r => r.API_ID == apiId);
+            var api = Mapper.Map<ApiPO, Api>(apiPo);
+            return api;
+        }
+
+        public Api GetApi(string apiName)
+        {
+            var apiPo = Repository.FindSingle(r => r.API_NAME == apiName);
             var api = Mapper.Map<ApiPO, Api>(apiPo);
             return api;
         }

@@ -11,37 +11,7 @@ namespace FD.Tiny.ProjectBuilder
     public abstract class DbSchemaProvider : IDbSchema
     {
 
-        public DbClient Context { get; set; }
-
-        //private IDbConnection _dbConnection;
-        /// <summary>
-        /// IDbConnection
-        /// </summary>
-        //public IDbConnection DBConnection
-        //{
-        //    get
-        //    {
-        //        if (_dbConnection == null)
-        //        {
-        //            _dbConnection = ConnectionFactory.GetDbConnection(dbAliase);
-        //        }
-        //        if (_dbConnection.State == ConnectionState.Closed && _dbConnection.State != ConnectionState.Connecting)
-        //        {
-        //            _dbConnection.Open();
-        //        }
-        //        return _dbConnection;
-        //    }
-        //    private set { this._dbConnection = value; }
-        //}
-
-        //private string dbAliase;
-
-        /// <summary>
-        /// CurrentDB Setting
-        /// </summary>
-        //public DBSetting CurrentDBSetting => ConnectionFactory.GetDBSetting(dbAliase);
-
-
+        public DbClient Context { get; set; }      
 
         public virtual List<DbColumn> GetColumnInfosByTableName(string tableName)
         {

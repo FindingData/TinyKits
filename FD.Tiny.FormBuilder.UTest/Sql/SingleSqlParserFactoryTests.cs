@@ -15,7 +15,9 @@ namespace FD.Tiny.FormBuilder.Tests
         [TestMethod()]
         public void GenerateParserTest()
         {
-            var sql = @"select c.construction_code, c.construction_name, c.pca_code from redas.v_construction c where rownum < 10;";
+            var sql = @"select p.pca_code, p.pca_name
+  from ompd.t_pca p
+ where p.pca_code like substr(':pca_code', 0, 4) || '%';";
             
             //Console.WriteLine(SqlParserUtil.GetParsedSql(sql));
             //Console.WriteLine("---------------");

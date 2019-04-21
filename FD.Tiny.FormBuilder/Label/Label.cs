@@ -26,17 +26,7 @@ namespace FD.Tiny.FormBuilder {
 	public abstract class Label 
     {
 
-		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
-        {
-            if (this.PropertyChanged!=null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+		protected const string EXPR_PATTERN = @"(?<=@)[\w\W]+?(?=[\W])";       
 
         /// <summary>
         /// ±Í«©Id
