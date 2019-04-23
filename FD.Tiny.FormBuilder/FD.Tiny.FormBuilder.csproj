@@ -79,6 +79,7 @@
     <Compile Include="Config\ControlConfig.cs" />
     <Compile Include="Config\DatabaseConfig.cs" />
     <Compile Include="Config\LabelConfig.cs" />
+    <Compile Include="Constants\ControlType.cs" />
     <Compile Include="Constants\DataSourceType.cs" />
     <Compile Include="Constants\DataType.cs" />
     <Compile Include="Constants\DirectionType.cs" />
@@ -90,7 +91,20 @@
     <Compile Include="Constants\ValidatorType.cs" />
     <Compile Include="Constants\ValueMethod.cs" />
     <Compile Include="Constants\VariableType.cs" />
+    <Compile Include="Control\Autocomplete.cs" />
+    <Compile Include="Control\BaseControl.cs" />
+    <Compile Include="Control\CheckBox.cs" />
+    <Compile Include="Control\Date.cs" />
+    <Compile Include="Control\Input.cs" />
+    <Compile Include="Control\InputNumber.cs" />
     <Compile Include="Control\Option.cs" />
+    <Compile Include="Control\Radio.cs" />
+    <Compile Include="Control\Rate.cs" />
+    <Compile Include="Control\Select.cs" />
+    <Compile Include="Control\Slider.cs" />
+    <Compile Include="Control\Switch.cs" />
+    <Compile Include="Control\TextArea.cs" />
+    <Compile Include="Control\Time.cs" />
     <Compile Include="Database\DbData.cs" />
     <Compile Include="Dict\Dict.cs" />
     <Compile Include="Entities\T_DICTIONARY.cs" />
@@ -150,10 +164,6 @@
     <ProjectReference Include="..\FD.Tiny.Common.Utility\FD.Tiny.Common.Utility.csproj">
       <Project>{a0dc1551-5b6d-4e9e-ad5c-f622eab67fda}</Project>
       <Name>FD.Tiny.Common.Utility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FD.Tiny.UI.Controls\FD.Tiny.UI.Controls.csproj">
-      <Project>{f6458f9a-6009-4269-a926-4951f9ddab3e}</Project>
-      <Name>FD.Tiny.UI.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
