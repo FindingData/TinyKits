@@ -15,6 +15,7 @@ using System.IO;
 
 using FD.Tiny.FormBuilder;
 using System.Linq;
+using AutoMapper;
 
 namespace FD.Tiny.FormBuilder {
 	public class DataService:BaseService<DataPO>
@@ -24,8 +25,54 @@ namespace FD.Tiny.FormBuilder {
 
         }
 
+        public int AddData(Data data, int userId)
+        {
+            var dataPo = Mapper.Map<Data, DataPO>(data);
+            Repository.Add(dataPo, userId);
+            return dataPo.DATA_ID;
+        }
 
-        
+        /// 
+        /// <param name="form"></param>
+        /// <param name="userId"></param>
+        public void SaveData(Data data, int userId)
+        {
+            var dataPo = Mapper.Map<Data, DataPO>(data);
+            Repository.Update(dataPo, userId);
+        }
+
+        /// 
+        /// <param name="formId"></param>
+        /// <param name="userId"></param>
+        public void DelData(int dataId, int userId)
+        {
+            var formPo = Repository.FindSingle(r => r.DATA_ID == dataId);
+            Repository.SoftDelete(formPo, userId);
+        }
+
+        /// 
+        /// <param name="formId"></param>
+        public Data GetData(int dataId)
+        {
+            var dataPo = Repository.FindSingle(r => r.DATA_ID == dataId);
+            return Mapper.Map<DataPO, Data>(dataPo);
+        }
+
+
+        /// 
+        /// <param name="formId"></param>
+        public Data GetData(string dataName)
+        {
+            var dataPo = Repository.FindSingle(r => r.DATA_NAME == dataName);
+            return Mapper.Map<DataPO, Data>(dataPo);
+        }
+
+        public bool IsExistData(string dataName)
+        {
+            var apiPo = Repository.FindSingle(r => r.DATA_NAME == dataName);
+            return apiPo != null;
+        }
+
 
     }//end DataService
 

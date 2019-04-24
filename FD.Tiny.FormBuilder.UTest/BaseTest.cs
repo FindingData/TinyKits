@@ -1,4 +1,4 @@
-﻿using FD.Tiny.FormBuilder.Demo;
+﻿using FD.Tiny.FormBuilder.UTest.Init;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -10,12 +10,27 @@ namespace FD.Tiny.FormBuilder.UTest
 {
     public class BaseTest
     {
+        public Api_Init ApiInit { get; set; }
+
+        public Data_Init DataInit { get; set; }
+
+        public Database_Init DatabaseInit { get; set; }
+
+        public Form_Init FormInit { get; set; }
+
         public BaseTest()
         {
-            AutomapperConfig.Config();
-            AutofacExt.InitAutofac();
-           // JsonConfig.Config();
+            AutomapperExt.Config();
+            AutofacExt.InitAutofac();          
+        }      
 
+        [TestInitialize]
+        public void Init()
+        {
+            ApiInit.Inits();
+            DataInit.Inits();
+            DatabaseInit.Inits();
+            FormInit.Inits();
         }
 
         private TestContext testContextInstance;

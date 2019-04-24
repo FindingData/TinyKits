@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FD.Tiny.FormBuilder.UTest;
-using FD.Tiny.FormBuilder.Demo;
 
 namespace FD.Tiny.FormBuilder.Tests
 {
@@ -20,31 +19,6 @@ namespace FD.Tiny.FormBuilder.Tests
             _formStoreService = AutofacExt.GetFromFac<FormStoreService>();
         }
 
-        [TestMethod]
-        public void AddFormStoreTest()
-        {
-            var formStore = new FormStore()
-            {
-                customer_id = 1,
-                form_id = 1,
-            };
-            
-           
-            formStore.label_data_list = new List<LabelData>()
-            {
-                new LabelData()
-                {
-                     label_id = 32,
-                      label_value = "123",
-                },
-                new LabelData()
-                {
-                    label_id = 33,
-                     label_value = "456"
-                }
-            };
-
-            _formStoreService.AddFormStore(formStore, 0);
-        }
+        
     }
 }

@@ -67,7 +67,10 @@ namespace FD.Tiny.FormBuilder
                 .ForMember(dest => dest.label_data_list, opt =>
                 {
                     opt.MapFrom(src => JsonHelper.Instance.Deserialize<List<LabelData>>(src.DATA_STORE_CONTENT));
-                });              
+                });
+
+            CreateMap<DataPO, Data>();            
+
 
             //form to formPo
             //CreateMap<Category, CategoryPO>();
@@ -151,6 +154,9 @@ namespace FD.Tiny.FormBuilder
             //dict mapper
             CreateMap<DictionaryPO, Dict>();
             CreateMap<Dict, DictionaryPO>();
+
+            //data to dataPo
+            CreateMap<Data, DataPO>();
         }
     }
 }

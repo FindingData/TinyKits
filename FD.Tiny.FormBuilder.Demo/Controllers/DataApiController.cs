@@ -46,8 +46,8 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         public IHttpActionResult ParseSql(string sql)
         {
             var parsedSql = _apiService.ParseSql(sql);
-            var requestList = _apiService.GetRequestParamsFromSql(sql);
-            var respList = _apiService.GetResponseParamsFromSql(sql);
+            var requestList = ApiService.GetRequestParamsFromSql(sql);
+            var respList = ApiService.GetResponseParamsFromSql(sql);
             return Json(new OkResponse(new
             {
                 parsedSql,

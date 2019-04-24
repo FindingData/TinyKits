@@ -106,6 +106,7 @@
     <Compile Include="Control\TextArea.cs" />
     <Compile Include="Control\Time.cs" />
     <Compile Include="Database\DbData.cs" />
+    <Compile Include="Data\Data.cs" />
     <Compile Include="Dict\Dict.cs" />
     <Compile Include="Entities\T_DATA.cs" />
     <Compile Include="Entities\T_DICTIONARY.cs" />

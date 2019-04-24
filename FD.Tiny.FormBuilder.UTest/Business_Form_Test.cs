@@ -7,9 +7,9 @@ using System.Linq;
 namespace FD.Tiny.FormBuilder.UTest
 {
     [TestClass]
-    public class Form_Test_Residential : Label_Base_Test
+    public class Business_Form_Test : Form_Base_Test
     {         
-        public Form_Test_Residential() : base("测试表单_住宅询价表单")
+        public Business_Form_Test()
         {
 
         }
@@ -18,28 +18,20 @@ namespace FD.Tiny.FormBuilder.UTest
         //初始化标签
         [TestInitialize]
         public void FormInit()
-        {
-            this.Inquiry_Residential_Init();          
+        {            
+             
         }
 
-        [TestMethod]
-        public void DatabaseSqlTest()
-        {
-            var dbDataList = _formService.RetriveDbData(StoreId);
-            foreach (var dbData in dbDataList)
-            {
-                 Console.WriteLine($"t:{dbData.table_name}---c:{dbData.column_name}----v:{dbData.column_value}");
-            }
-        }
+        //[TestMethod]
+        //public void DatabaseSqlTest()
+        //{
+        //    var dbDataList = _formService.RetriveDbData(StoreId);
+        //    foreach (var dbData in dbDataList)
+        //    {
+        //         Console.WriteLine($"t:{dbData.table_name}---c:{dbData.column_name}----v:{dbData.column_value}");
+        //    }
 
-        [TestMethod]
-        public void Test()
-        {
-            var form = _formService.GetForm(FormId);
-            Console.WriteLine(form.form_id);
-
-            Assert.IsNotNull(form);
-        }
+        //}
 
         //private void FormStoreInit()
         //{
