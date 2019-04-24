@@ -1,4 +1,4 @@
-﻿using System; 
+using System; 
 using System.Text;
 using System.Collections.Generic; 
 using System.Data;
@@ -6,88 +6,100 @@ using System.Data;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-
-namespace FD.Tiny.FormBuilder 
+namespace FD.Tiny.FormBuilder  
 {
-	//数据库字段描述表
+    // //数据库字段描述表
     [Table("T_DB_COLUMN")]
 	public partial class DbColumnPO :EntityBase
-	{		 
-
-      					
-		/// <summary>
+	{		      
+         	        		
+                               
+         /// <summary>
 		/// 列Id
-        /// </summary>        
-				
+        /// </summary>    
+            
 		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]		
-        public decimal COLUMN_ID
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]	
+				
+        public int  COLUMN_ID
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 表Id
-        /// </summary>        
-				
-        public decimal? TABLE_ID
+        /// </summary>    
+        		
+        public int ? TABLE_ID
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 列名称
-        /// </summary>        
-				
-        public string COLUMN_NAME
+        /// </summary>    
+        		
+        public string  COLUMN_NAME
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 列中文名
-        /// </summary>        
-				
-        public string COLUMN_NAME_CHS
+        /// </summary>    
+        		
+        public string  COLUMN_NAME_CHS
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 数据类型
-        /// </summary>        
-				
-        public decimal? DATA_TYPE
+        /// </summary>    
+        		
+        public int ? DATA_TYPE
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 长度
-        /// </summary>        
-				
-        public decimal? LENGTH
+        /// </summary>    
+        		
+        public int ? LENGTH
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 精度
-        /// </summary>        
-				
-        public decimal? PRECISION
+        /// </summary>    
+        		
+        public int ? PRECISION
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 位数
-        /// </summary>        
-				
-        public decimal? SCALE
+        /// </summary>    
+        		
+        public int ? SCALE
         {
             get;set;
-        }
-												 
-	}
+        }			
+     	        		
+                 	        		
+                 	        		
+                 	        		
+                 	        		
+                					 
+    }
 }

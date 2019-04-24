@@ -17,18 +17,15 @@ using FD.Tiny.FormBuilder;
 using System.Linq;
 
 namespace FD.Tiny.FormBuilder {
-	public class DataService
+	public class DataService:BaseService<DataPO>
     {
-
-        private LabelService _labelService;
-
-        /// 
-		/// <param name="dbContext"></param>
-		public DataService(LabelService labelService)
+        public DataService(IRepository<DataPO> repository) : base(repository)
         {
-            _labelService = labelService;
+
         }
-                
+
+
+        
 
     }//end DataService
 

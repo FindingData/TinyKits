@@ -1,4 +1,4 @@
-﻿using System; 
+using System; 
 using System.Text;
 using System.Collections.Generic; 
 using System.Data;
@@ -6,52 +6,60 @@ using System.Data;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-
-namespace FD.Tiny.FormBuilder 
+namespace FD.Tiny.FormBuilder  
 {
-	//数据库表描述表
+    // //数据库表描述表
     [Table("T_DB_TABLE")]
 	public partial class DbTablePO :EntityBase
-	{		 
-
-      					
-		/// <summary>
+	{		      
+         	        		
+                               
+         /// <summary>
 		/// 表ID
-        /// </summary>        
-				
+        /// </summary>    
+            
 		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]		
-        public decimal TABLE_ID
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]	
+				
+        public int  TABLE_ID
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 表名称
-        /// </summary>        
-				
-        public string TABLE_NAME
+        /// </summary>    
+        		
+        public string  TABLE_NAME
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 表中文名
-        /// </summary>        
-				
-        public string TABLE_NAME_CHS
+        /// </summary>    
+        		
+        public string  TABLE_NAME_CHS
         {
             get;set;
-        }
-						
-		/// <summary>
+        }			
+     	        		
+                               
+         /// <summary>
 		/// 表用户名称
-        /// </summary>        
-				
-        public string SCHEMA_NAME
+        /// </summary>    
+        		
+        public string  SCHEMA_NAME
         {
             get;set;
-        }
-												 
-	}
+        }			
+     	        		
+                 	        		
+                 	        		
+                 	        		
+                 	        		
+                					 
+    }
 }

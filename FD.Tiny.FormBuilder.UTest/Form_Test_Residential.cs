@@ -19,7 +19,7 @@ namespace FD.Tiny.FormBuilder.UTest
         [TestInitialize]
         public void FormInit()
         {
-            this.InitResidentialLabels();          
+            this.Inquiry_Residential_Init();          
         }
 
         [TestMethod]

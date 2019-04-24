@@ -20,7 +20,7 @@ namespace FD.Tiny.FormBuilder
         {           
             var labelPo = Mapper.Map<Label, LabelPO>(label);
             Repository.Add(labelPo, userId);
-            return (int)labelPo.LABEL_ID;
+            return labelPo.LABEL_ID;
         }
 
         /// 

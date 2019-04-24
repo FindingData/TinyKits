@@ -34,7 +34,7 @@ namespace FD.Tiny.FormBuilder {
 
 			var tablePo = Mapper.Map<DbTable, DbTablePO>(table);
             Repository.Add(tablePo, userId);
-			return (int)tablePo.TABLE_ID;
+			return tablePo.TABLE_ID;
 		}
 
 

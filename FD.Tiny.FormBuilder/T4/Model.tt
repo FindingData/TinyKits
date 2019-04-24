@@ -1,0 +1,75 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+
+<#@ include file="$(ProjectDir)\T4\MultiManager.ttinclude" #>
+<#@ include file="$(ProjectDir)\T4\DBHelper.ttinclude" #>
+
+
+<#    
+
+var manager = new Manager(Host,GenerationEnvironment,true){
+            OutputPath = Path.GetDirectoryName(Host.ResolveAssemblyReference("$(ProjectDir)")+"\\Entities\\")};
+ #>
+<#
+    var dbClient = GetDbInstance();
+    var tableList= dbClient.DbSchema.GetTableInfoList();
+    foreach(var table in tableList){
+       manager.StartBlock(table.name+".cs");       
+       table.columns = dbClient.DbSchema.GetColumnInfosByTableName(table.name);
+ #>
+using System; 
+using System.Text;
+using System.Collections.Generic; 
+using System.Data;
+
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace FD.Tiny.FormBuilder  
+{
+    // //<#=table.comment== null ?"" : table.comment #>
+    [Table("<#= table.name #>")]
+	public partial class <#= TransTableToClass(table.name) #>PO :EntityBase
+	{		      
+        <#  foreach (var column in table.columns) { #> 	        		
+                <#            if(column.name == "CREATED_TIME" || column.name == "CREATED_BY" || column.name == "MODIFIED_TIME" ||column.name == "MODIFIED_BY" || column.name == "IS_DELETED" ) {
+                continue;
+            }#>               
+         /// <summary>
+		/// <#=                column.comment == null?"":column.comment #>
+        /// </summary>    
+        <#            if(column.is_primary) { #>    
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]	
+		<#            } #>		
+        public <#=dbClient.DbBind.GetPropertyTypeName(column.data_type) #> <#if(column.is_nullable && dbClient.DbBind.GetPropertyTypeName(column.data_type)!="string"){ #>?<# } #>
+ <#=                column.name #>
+        {
+            get;set;
+        }			
+    <#        } #>					 
+    }
+}
+<# 
+        manager.EndBlock();
+}
+    manager.Process(true);
+ #> 
+
+
+
+<#+
+    public string TransTableToClass(string name)
+    {
+        string[] words = name.ToLower().Split('_');
+        string cName = string.Empty;
+        for( int i = 1; i < words.Length; i++ )
+        {
+            cName += words[i].Substring(0, 1).ToUpper() + words[i].Substring(1,words[i].Length - 1);
+        }
+        return cName;
+    }
+
+ #>

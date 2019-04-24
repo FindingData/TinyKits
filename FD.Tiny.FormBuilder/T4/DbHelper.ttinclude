@@ -1,0 +1,43 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
+<#@ assembly name="System.Core"#>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.xml" #>
+<#@ assembly name="System.Configuration" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\Oracle.ManagedDataAccess.dll" #>
+<#@ import namespace="System"#>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.Data"#>
+<#@ import namespace="System.Data.SqlClient"#>
+<#@ import namespace="System.Configuration" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\FD.Tiny.ProjectBuilder.dll" #>
+<#@ import namespace="FD.Tiny.ProjectBuilder" #>
+
+<#+     
+         public DbClient GetDbInstance()
+        {
+            
+            DbClient db = new DbClient(new DBSetting()
+            {
+                ConnectionString = GetConnStr("FormDB",false),
+                DBType = DBType.Oracle,
+            });
+            return db;
+        }
+
+
+         public string GetConnStr(string alais,bool isWebApp)
+         {
+            var configFile = "App.config";
+            if(isWebApp)
+                configFile = "Web.config";
+            var path = Host.ResolveAssemblyReference("$(ProjectDir)"+configFile);
+            var map = new ExeConfigurationFileMap { ExeConfigFilename = path };           
+            var config =  ConfigurationManager.OpenMappedExeConfiguration(
+                                            map,ConfigurationUserLevel.None);  
+            var appSettings = config.AppSettings;  
+            var connectionStrings = config.ConnectionStrings.ConnectionStrings;
+ 
+            return connectionStrings[alais].ConnectionString;            
+        } 
+ #>

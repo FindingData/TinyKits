@@ -8,50 +8,50 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FD.Tiny.FormBuilder  
 {
-    // //表单存储表
-    [Table("T_FORM_STORE")]
-	public partial class FormStorePO :EntityBase
+    // //数据表
+    [Table("T_DATA")]
+	public partial class DataPO :EntityBase
 	{		      
          	        		
                                
          /// <summary>
-		/// 存储ID
+		/// 数据ID
         /// </summary>    
             
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]	
 				
-        public int  STORE_ID
+        public int  DATA_ID
         {
             get;set;
         }			
      	        		
                                
          /// <summary>
-		/// 表单ID
+		/// 数据名称
         /// </summary>    
         		
-        public int ? FORM_ID
+        public string  DATA_NAME
         {
             get;set;
         }			
      	        		
                                
          /// <summary>
-		/// 表单数据
+		/// 同义词ID
         /// </summary>    
         		
-        public string  DATA_STORE_CONTENT
+        public int ? SYN_DATA_ID
         {
             get;set;
         }			
      	        		
                                
          /// <summary>
-		/// 公司ID
+		/// 分组名称
         /// </summary>    
         		
-        public int ? CUSTOMER_ID
+        public string  GROUP_NAME
         {
             get;set;
         }			

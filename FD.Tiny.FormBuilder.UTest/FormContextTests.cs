@@ -51,7 +51,7 @@ namespace FD.Tiny.FormBuilder.UTest
             col.COLUMN_NAME = "table_name";
             col.COLUMN_NAME_CHS = "表名称";
             col.CREATED_BY = 1;
-            col.DATA_TYPE = (decimal)DataType.String;
+            col.DATA_TYPE = (int)DataType.String;
             col.LENGTH = 100;
             dbContext.Columns.Add(col);
             dbContext.SaveChanges();
@@ -74,7 +74,7 @@ namespace FD.Tiny.FormBuilder.UTest
             var form = new FormPO();
           
             form.FORM_NAME = "查勘表";
-            form.VERSION_NO = 0.1m;            
+            form.VERSION_NO = 1;            
             form.CREATED_BY = 1;
             dbContext.Forms.Add(form);
             dbContext.SaveChanges();
@@ -100,7 +100,7 @@ namespace FD.Tiny.FormBuilder.UTest
             label.LABEL_NAME_CHS = "楼盘名称";
           
             label.CREATED_BY = 1;
-            label.DATA_TYPE = (decimal)DataType.String;
+            label.DATA_TYPE = (int)DataType.String;
             
             dbContext.Labels.Add(label);
             dbContext.SaveChanges();

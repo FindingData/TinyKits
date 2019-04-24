@@ -31,7 +31,7 @@ namespace FD.Tiny.FormBuilder {
 
 			var formStorePo = Mapper.Map<FormStore, FormStorePO>(store);
 			Repository.Add(formStorePo, userId);
-			return (int)formStorePo.STORE_ID;
+			return formStorePo.STORE_ID;
 		}
 
 		/// 
@@ -57,7 +57,7 @@ namespace FD.Tiny.FormBuilder {
 
 			var formStorePo = Repository.FindSingle(r => r.STORE_ID == storeId);
 			return Mapper.Map<FormStorePO, FormStore>(formStorePo);
-		}
+		}        
 
 	}//end FormStoreService
 

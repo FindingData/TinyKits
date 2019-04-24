@@ -93,10 +93,16 @@ namespace FD.Tiny.FormBuilder {
             return dataList;
         }
 
+     
+
+
         public List<LabelData> CopyFormData(int formId,int storeId)
         {
             List<LabelData> dataList = new List<LabelData>();
+            
             var formList = _labelService.GetLabelList(formId);
+
+
             return dataList;
         }
 
@@ -107,7 +113,7 @@ namespace FD.Tiny.FormBuilder {
         {
             var formPo = Mapper.Map<Form, FormPO>(form);
             Repository.Add(formPo, userId);
-            return (int)formPo.FORM_ID;
+            return formPo.FORM_ID;
         }
 
         /// 

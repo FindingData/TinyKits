@@ -38,7 +38,7 @@ namespace FD.Tiny.FormBuilder.UTest.Service
         [TestInitialize]
         public void LabelInit()
         {
-            InitResidentialLabels();                       
+                             
         }
     }
 }

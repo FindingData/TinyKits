@@ -20,7 +20,7 @@ namespace FD.Tiny.FormBuilder
         {
             var columnPo = Mapper.Map<DbColumn, DbColumnPO>(column);
             Repository.Add(columnPo, userId);
-            return (int)columnPo.COLUMN_ID;
+            return columnPo.COLUMN_ID;
         }
 
         /// 

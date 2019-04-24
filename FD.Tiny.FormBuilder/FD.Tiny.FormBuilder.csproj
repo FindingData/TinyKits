@@ -107,6 +107,7 @@
     <Compile Include="Control\Time.cs" />
     <Compile Include="Database\DbData.cs" />
     <Compile Include="Dict\Dict.cs" />
+    <Compile Include="Entities\T_DATA.cs" />
     <Compile Include="Entities\T_DICTIONARY.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="EntityFramework\DbContextConfiguration.cs" />
@@ -154,6 +155,11 @@
     <Compile Include="Service\LabelService.cs" />
     <Compile Include="Store\FormStore.cs" />
     <Compile Include="Store\LabelData.cs" />
+    <Compile Include="T4\Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Validation\BaseValidator.cs" />
     <Compile Include="Validation\InputValidator.cs" />
     <Compile Include="Validation\RegexValiator.cs" />
@@ -165,13 +171,28 @@
       <Project>{a0dc1551-5b6d-4e9e-ad5c-f622eab67fda}</Project>
       <Name>FD.Tiny.Common.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FD.Tiny.ProjectBuilder\FD.Tiny.ProjectBuilder.csproj">
+      <Project>{76e13842-48d1-4cd8-b1a5-3e4370adcd53}</Project>
+      <Name>FD.Tiny.ProjectBuilder</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="T4\DbHelper.ttinclude" />
+    <None Include="T4\MultiManager.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Autofac\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="T4\Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

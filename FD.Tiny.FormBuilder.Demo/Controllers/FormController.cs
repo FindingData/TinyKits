@@ -17,36 +17,36 @@ using FD.Tiny.Common.Utility.PageHeler;
 using System.Web.Http;
 
 namespace FD.Tiny.FormBuilder.Demo.Controllers {
-	public class FormController : ApiController {
+    public class FormController : ApiController {
 
-		private FD.Tiny.FormBuilder.FormService _formService;
-		private FD.Tiny.FormBuilder.FormStoreService _StoreService;
-		//private FD.Tiny.FormBuilder.FormVariableService _VariableService;
-		private FD.Tiny.FormBuilder.LabelService _labelService;
+        private FD.Tiny.FormBuilder.FormService _formService;
+        private FD.Tiny.FormBuilder.FormStoreService _StoreService;
+        //private FD.Tiny.FormBuilder.FormVariableService _VariableService;
+        private FD.Tiny.FormBuilder.LabelService _labelService;
 
-		/// 
-		/// <param name="formService"></param>
-		/// <param name="storeService"></param>
-		/// <param name="variableService"></param>
-		/// <param name="labelService"></param>
-		public FormController(FormService formService, FormStoreService storeService,
+        /// 
+        /// <param name="formService"></param>
+        /// <param name="storeService"></param>
+        /// <param name="variableService"></param>
+        /// <param name="labelService"></param>
+        public FormController(FormService formService, FormStoreService storeService,
             //FormVariableService variableService,
-            LabelService labelService){
+            LabelService labelService) {
 
-			_formService = formService;
-			_StoreService = storeService;
-			//_VariableService = variableService;
-			_labelService = labelService;
-		}
+            _formService = formService;
+            _StoreService = storeService;
+            //_VariableService = variableService;
+            _labelService = labelService;
+        }
 
         /// 
         /// <param name="name"></param>
         [HttpGet]
-        public IHttpActionResult Index(string name){
+        public IHttpActionResult Index(string name) {
 
-			var list = _formService.QueryForm(name);
-			return Json(new OkResponse(list));
-		}
+            var list = _formService.QueryForm(name);
+            return Json(new OkResponse(list));
+        }
 
         /// 
         /// <param name="form"></param>
@@ -79,10 +79,10 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
             return Json(new OkResponse());
         }
 
-		public IHttpActionResult Validate(){
+        public IHttpActionResult Validate() {
 
-			return null;
-		}
+            return null;
+        }
 
         /// 
         /// <param name="store"></param>
@@ -97,11 +97,11 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
         /// 
         /// <param name="storeId"></param>
         [HttpGet]
-        public IHttpActionResult Retrieve(int storeId){
+        public IHttpActionResult Retrieve(int storeId) {
 
-			var result = _StoreService.GetFormStore(storeId);
-			return Json(new OkResponse(result));
-		}
+            var result = _StoreService.GetFormStore(storeId);
+            return Json(new OkResponse(result));
+        }
 
         [HttpGet]
         public IHttpActionResult RetrieveDbData(int storeId)
@@ -110,7 +110,11 @@ namespace FD.Tiny.FormBuilder.Demo.Controllers {
             return Json(new OkResponse(result));
         }
 
-       
+        [HttpGet]
+        public IHttpActionResult CopyFormStore(int formId,int storeId)
+        {
+            throw new NotImplementedException();
+        }
 
 		/// 
 		/// <param name="label"></param>
