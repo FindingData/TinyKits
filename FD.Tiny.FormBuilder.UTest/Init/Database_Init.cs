@@ -14,7 +14,7 @@ namespace FD.Tiny.FormBuilder.UTest.Init
 
         public Database_Init()
         {
-            Inits();
+             
         }
 
         public void Inits()

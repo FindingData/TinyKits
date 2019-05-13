@@ -13,17 +13,17 @@ namespace FD.Tiny.FormBuilder.UTest
     [TestClass]
     public class API_Test:BaseTest
     {
-        public ApiService _apiService { get; set; }        
+         public ApiService _apiService { get; set; }        
+   
 
         public API_Test()
         {
-            //
-            //TODO:  在此处添加构造函数逻辑
-            //
-        }            
+            this._apiService = AutofacExt.GetFromFac<ApiService>();
+        }
 
 
-      
+
+
         [TestMethod]
         public void GetConstructionApiTest()
         {
@@ -44,8 +44,18 @@ namespace FD.Tiny.FormBuilder.UTest
                 parameter_name = "NEW_PURPOSE_ID",
                 value = "40002001"
             });
+            request.Add(new ApiData()
+            {
+                parameter_name = "CUSTOMER_NAME",
+                value =  "顺天",
+            });
             var list = _apiService.GetApiListData(api.api_id, request);
+            list.ForEach(l =>
+               TestContext.WriteLine(l.CONSTRUCTION_NAME)
+            );
             Assert.IsNotNull(list);
         }
+
+
     }
 }

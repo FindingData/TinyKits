@@ -11,8 +11,8 @@ namespace FD.Tiny.FormBuilder.UTest.Init
         protected ApiService _apiService { get; set; }
 
         public Api_Init()
-        {           
-            Inits();
+        {
+            _apiService = AutofacExt.GetFromFac<ApiService>();
         }
 
         public void Inits()

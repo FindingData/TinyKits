@@ -14,7 +14,8 @@ namespace FD.Tiny.FormBuilder.UTest.Init
 
         public Form_Init()
         {
-            Inits();
+            this._formService = AutofacExt.GetFromFac<FormService>();
+            this._labelService = AutofacExt.GetFromFac<LabelService>();
         }
 
         public void Inits()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,5 +62,26 @@ namespace FD.Tiny.ProjectBuilder
                 where c.table_name = '{0}'";
             }
         }
+
+        public override List<DbColumn> GetColumnInfosByTableName(string tableName)
+        {
+            List<DbColumn> result = base.GetColumnInfosByTableName(tableName);
+            //FIXME:remove GetSchemaTable method
+            string sql = "select * from " + tableName + " WHERE 1=2 ";
+            using (var reader = this.Context.DbConnection.ExecuteReader(sql))
+            {              
+                var schemaTable = reader.GetSchemaTable();
+
+                foreach (System.Data.DataRow row in schemaTable.Rows)
+                {
+                    var column = result.FirstOrDefault(r => r.name.Equals(row["ColumnName"]));
+                    if (column != null)
+                    {
+                        column.data_type = row["DataType"].ToString().Replace("System.", "").Trim();
+                    }
+                }
+            }
+            return result;
+        }             
     }
 }

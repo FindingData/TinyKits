@@ -117,6 +117,7 @@
     <Compile Include="CalcStringExpressionTests.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="AutomapperExt.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Residential_Form_test.cs" />
     <Compile Include="Init\Api_Init.cs" />
     <Compile Include="Init\Form_Init.cs" />

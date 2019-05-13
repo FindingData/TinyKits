@@ -13,11 +13,11 @@ namespace FD.Tiny.FormBuilder.Tests
     public class ApiServiceTests : BaseTest
     {
 
-        ApiService _apiService;
+       
 
         public ApiServiceTests()
         {
-            _apiService = AutofacExt.GetFromFac<ApiService>();
+           
 
         }
        

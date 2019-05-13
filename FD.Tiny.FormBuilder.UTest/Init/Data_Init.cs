@@ -12,12 +12,12 @@ namespace FD.Tiny.FormBuilder.UTest.Init
 
         public Data_Init()
         {
-            Inits();
+            _dataService = AutofacExt.GetFromFac<DataService>();
         }
 
         public void Inits()
         {
-            
+            AddAddressData();
         }
 
         private int AddData(Data data)

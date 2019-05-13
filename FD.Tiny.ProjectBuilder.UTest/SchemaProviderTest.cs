@@ -1,6 +1,7 @@
 ﻿using FD.Tiny.ProjectBuilder;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace FD.Tiny.ProjectBuilder.UTest
 {
@@ -12,11 +13,12 @@ namespace FD.Tiny.ProjectBuilder.UTest
         public void GetColumnInfosByTableNameTest()
         {
             var db = GetInstance();
-            var columns =  db.DbSchema.GetColumnInfosByTableName("T_PROJECT");
-            Assert.IsNotNull(columns);
+            var columns =  db.DbSchema.GetColumnInfosByTableName("T_PROPERTY");
+           // Assert.AreEqual(columns.Count(), 18);
             foreach (var item in columns)
             {
-                TestContext.WriteLine(item.name + ":" + item.comment);
+                //var typeName = db.DbBind.GetPropertyTypeName(item.data_type);
+                TestContext.WriteLine(item.name + ":" + item.data_type);
             }            
         }
 

@@ -30,12 +30,17 @@ namespace FD.Tiny.FormBuilder.UTest
               .InterceptedBy(typeof(LoggingAroundAdvice))
               .PropertiesAutowired();
             
-            var utest = Assembly.Load("FD.Tiny.FormBuilder.UTest");
-            builder.RegisterAssemblyTypes(utest).Where(d => d.Name.EndsWith("Init") || d.Name.EndsWith("Test"))
+            var init = Assembly.Load("FD.Tiny.FormBuilder.UTest");
+            builder.RegisterAssemblyTypes(init).Where(d => d.Name.EndsWith("Init"))
                .EnableClassInterceptors()
               .InterceptedBy(typeof(LoggingAroundAdvice))
               .PropertiesAutowired();
 
+            var test = Assembly.Load("FD.Tiny.FormBuilder.UTest");
+            builder.RegisterAssemblyTypes(test).Where(d => d.Name.EndsWith("Test"))
+               .EnableClassInterceptors()
+              .InterceptedBy(typeof(LoggingAroundAdvice))
+              .PropertiesAutowired();            
 
             // Set the dependency resolver to be Autofac.
             _container = builder.Build();

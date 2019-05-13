@@ -20,18 +20,20 @@ namespace FD.Tiny.FormBuilder.UTest
 
         public BaseTest()
         {
-            AutomapperExt.Config();
-            AutofacExt.InitAutofac();          
-        }      
-
-        [TestInitialize]
-        public void Init()
-        {
-            ApiInit.Inits();
-            DataInit.Inits();
-            DatabaseInit.Inits();
-            FormInit.Inits();
+            this.ApiInit = AutofacExt.GetFromFac<Api_Init>();
+            this.DataInit = AutofacExt.GetFromFac<Data_Init>();
+            this.DatabaseInit = AutofacExt.GetFromFac<Database_Init>();
+            this.FormInit = AutofacExt.GetFromFac<Form_Init>();
         }
+    
+       //[TestInitialize]
+       //public void Init()
+       // {
+       //     ApiInit.Inits();
+       //     DataInit.Inits();
+       //     DatabaseInit.Inits();
+       //     FormInit.Inits();
+       // }
 
         private TestContext testContextInstance;
 
